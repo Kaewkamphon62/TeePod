@@ -1,0 +1,13 @@
+rnfes
+
+FrontEnd
+-Step 1: Start Project
+npm start
+
+BackEnd
+-npm init -y
+-npm i express
+-npm install -g nodemon
+npm start
+
+
