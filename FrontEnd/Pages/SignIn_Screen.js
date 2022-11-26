@@ -18,19 +18,34 @@ const SignIn_Screen = ({ navigation }) => {
 
   // const {signIn} = React.useContext(AuthContext);
 
-  const handleSubmit = async () => {
+  // .post("http://10.0.2.2:3000/Token", Test)
+
+  const handleSubmit = async (e) => {
     //Fake SignIn_Screen
+    e.preventDefault();
     console.log("");
     console.log(InputSighIn);
 
     await axios
-      .post("http://localhost:3000/token", { InputSighIn })
+      .post("http://192.168.137.1:3000/Token", { InputSighIn })
       .then((res) => {
-        console.log("res", res);
+        //res.data.token จาก BackEnd
+        const Token = res.data.token;
+
+        if (Token) {
+          console.log("UserToken: ", Token);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
+
+    // await axios
+    //   .post("http://192.168.137.1:3000/Token", { InputSighIn })
+    //   .then((res) => {})
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
     // if (InputSighIn.username == 'Kaewkamphon' && InputSighIn.password == '1') {
     //   navigation.navigate('Home');
@@ -45,8 +60,8 @@ const SignIn_Screen = ({ navigation }) => {
         <Text style={{ color: "black" }}>Usrename</Text>
         <TextInput
           style={styles.input}
-          onChangeText={(e) => {
-            setInputSighIn({
+          onChangeText={async (e) => {
+            await setInputSighIn({
               username: e,
               password: InputSighIn.password,
             });
@@ -59,8 +74,8 @@ const SignIn_Screen = ({ navigation }) => {
         <TextInput
           secureTextEntry={true}
           style={styles.input}
-          onChangeText={(e) => {
-            setInputSighIn({
+          onChangeText={async (e) => {
+            await setInputSighIn({
               username: InputSighIn.username,
               password: e,
             });
