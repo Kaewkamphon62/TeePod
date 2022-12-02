@@ -1,14 +1,9 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Button,
-  View,
-  Text,
-  TextInput,
-  Form,
-  Input,
-} from "react-native";
+import { StyleSheet, Button, View, Text, TextInput } from "react-native";
 import axios from "axios";
+import { useState } from "react";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignIn_Screen = ({ navigation }) => {
   const [InputSighIn, setInputSighIn] = React.useState({
@@ -17,39 +12,33 @@ const SignIn_Screen = ({ navigation }) => {
   });
 
   // const {signIn} = React.useContext(AuthContext);
-
   // .post("http://10.0.2.2:3000/Token", Test)
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("@storage_Key", value);
+    } catch (e) {
+      // saving error
+    }
+  };
 
   const handleSubmit = async (e) => {
     //Fake SignIn_Screen
-    e.preventDefault();
-    console.log("");
-    console.log(InputSighIn);
+    // e.preventDefault();
 
     await axios
       .post("http://192.168.137.1:3000/Token", { InputSighIn })
-      .then((res) => {
+      .then(async (res) => {
         //res.data.token จาก BackEnd
-        const Token = res.data.token;
-
-        if (Token) {
-          console.log("UserToken: ", Token);
+        // console.log(typeof value) //ดู type ของตัวแปรเช่นเป็น object หรือ string
+        if (res.data.token != false) {
+          await storeData(res.data.token);
+          // console.log('ได้รับ Token(SS.js): ', res.data.token)
         }
       })
       .catch((error) => {
         console.log(error);
       });
-
-    // await axios
-    //   .post("http://192.168.137.1:3000/Token", { InputSighIn })
-    //   .then((res) => {})
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
-    // if (InputSighIn.username == 'Kaewkamphon' && InputSighIn.password == '1') {
-    //   navigation.navigate('Home');
-    // }
   };
 
   return (

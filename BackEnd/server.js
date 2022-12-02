@@ -1,15 +1,13 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var app = express();
-var jwt = require('jsonwebtoken');
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+const jwt = require('jsonwebtoken');
 
 const accessTokenSecret = 'TokenSecret';
 
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(bodyParser.json());
-
-
 
 app.get("/", (req, res) => {
   // res.send("Hello World!");
