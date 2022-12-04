@@ -6,55 +6,45 @@ import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
-import { AuthContext } from "../App";
-
 const SignIn_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
-  const { token } = React.useContext(PrivateRoute_Context);
-  console.log("โทเคน", token);
-
-
-  React.useEffect(() => {
-    console.log('test')
-  },  [token])
-
-  // const { signIn } = React.useContext(AuthContext);
+  const { authSign } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
   const [InputSighIn, setInputSighIn] = React.useState({
-    username: "",
-    password: "",
+    username: null,
+    password: null,
   });
 
   // const {signIn} = React.useContext(AuthContext);
   // .post("http://10.0.2.2:3000/Token", Test)
 
-  const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem("@storage_Key", value);
-    } catch (e) {
-      // saving error
-    }
-  };
+  // const storeData = async (value) => {
+  //   try {
+  //     await AsyncStorage.setItem("@storage_Key", value);
+  //   } catch (e) {
+  //     // saving error
+  //   }
+  // };
 
-  const handleSubmit = async (e) => {
-    //Fake SignIn_Screen
-    // e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   //Fake SignIn_Screen
+  //   // e.preventDefault();
 
-    await axios
-      .post("http://192.168.137.1:3000/Token", { InputSighIn })
-      .then(async (res) => {
-        //res.data.token จาก BackEnd
-        // console.log(typeof value) //ดู type ของตัวแปรเช่นเป็น object หรือ string
-        if (res.data.token != false) {
-          await storeData(res.data.token);
-          // console.log('ได้รับ Token(SS.js): ', res.data.token)
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  //   await axios
+  //     .post("http://192.168.137.1:3000/Token", { InputSighIn })
+  //     .then(async (res) => {
+  //       //res.data.token จาก BackEnd
+  //       // console.log(typeof value) //ดู type ของตัวแปรเช่นเป็น object หรือ string
+  //       if (res.data.token != false) {
+  //         await storeData(res.data.token);
+  //         // console.log('ได้รับ Token(SS.js): ', res.data.token)
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <View style={styles.app}>
@@ -89,7 +79,12 @@ const SignIn_Screen = ({ navigation }) => {
 
       <Text></Text>
       <View style={styles.row}>
-        <Button title="Sign IN" onPress={handleSubmit} />
+        <Button
+          title="Sign IN"
+          onPress={async () => {
+            authSign.signIn({ InputSighIn });
+          }}
+        />
         <Button title="Sign UP" onPress={() => navigation.navigate("SignUp")} />
       </View>
     </View>

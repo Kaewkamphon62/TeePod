@@ -2,10 +2,12 @@ import * as React from "react";
 import { StyleSheet, Button, View, Text } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from "../App";
+import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
 const Home_Screen = ({ navigation }) => {
-  // const { signOut } = React.useContext(AuthContext);
+  /////////////////////////////////////////////////////////////////
+  const { authSign } = React.useContext(PrivateRoute_Context);
+  /////////////////////////////////////////////////////////////////
 
   const removeValue = async () => {
     try {
@@ -32,7 +34,8 @@ const Home_Screen = ({ navigation }) => {
         onPress={() => navigation.navigate("Page02")}
       />
 
-      <Button title="Logout" onPress={() => removeValue()} />
+      {/* <Button title="Logout" onPress={() => removeValue()} /> */}
+      <Button title="Logout" onPress={authSign.signOut} />
     </View>
   );
 };

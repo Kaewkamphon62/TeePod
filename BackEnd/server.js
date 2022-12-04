@@ -25,7 +25,8 @@ app.post("/Token", urlencodedParser, (req, res) => {
   // console.log("Hello I'am BackEnd. What do you want for me?");
   // console.log(req.body.InputSighIn);
   const accessToken = jwt.sign(
-    { user: req.body.InputSighIn.username },
+    // { user: req.body.User.username },
+    { user: req.body.username },
     accessTokenSecret,
     { expiresIn: "1h" }
   );
