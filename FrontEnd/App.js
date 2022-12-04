@@ -5,7 +5,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { PrivateRoute } from "./Routers/PrivateRoute";
+import { PrivateRoute, PrivateRoute_Context } from "./Routers/PrivateRoute";
 
 import Home_Screen from "./Pages/Home_Screen";
 import Page01 from "./Pages/Page01";
@@ -18,20 +18,41 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   console.log("");
-  console.log("I'am App.js");
+  console.log("App.js");
+
+  // const [userToken, setUserToken] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
+  // if (loading == true) {
+  //   return <></>;
+  // }
 
   return (
-    <NavigationContainer>
-      <PrivateRoute>
-        <Stack.Navigator>
-          <Stack.Screen name="SignIn" component={SignIn_Screen} />
-          <Stack.Screen name="SignUp" component={SignUp_Screen} />
-          <Stack.Screen name="Home" component={Home_Screen} />
-          <Stack.Screen name="Page01" component={Page01} />
-          <Stack.Screen name="Page02" component={Page02} />
-        </Stack.Navigator>
-      </PrivateRoute>
-    </NavigationContainer>
+    <PrivateRoute>
+      <PrivateRoute_Context.Consumer>
+        {(state) => {
+
+          // console.log("state.token", state.token);
+
+          return (
+            <NavigationContainer>
+              {state.token != null ? (
+                <Stack.Navigator>
+                  <Stack.Screen name="Home" component={Home_Screen} />
+                  <Stack.Screen name="Page01" component={Page01} />
+                  <Stack.Screen name="Page02" component={Page02} />
+                </Stack.Navigator>
+              ) : (
+                <Stack.Navigator>
+                  <Stack.Screen name="SignIn" component={SignIn_Screen} />
+                  <Stack.Screen name="SignUp" component={SignUp_Screen} />
+                </Stack.Navigator>
+              )}
+            </NavigationContainer>
+          );
+        }}
+      </PrivateRoute_Context.Consumer>
+    </PrivateRoute>
   );
 }
 

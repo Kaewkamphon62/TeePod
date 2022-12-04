@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const accessTokenSecret = 'TokenSecret';
+const accessTokenSecret = "TokenSecret";
 
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -17,10 +17,18 @@ app.get("/", (req, res) => {
 app.post("/Token", urlencodedParser, (req, res) => {
   // res.send("Hello This is app.get");
   console.log("");
+  const milliseconds = new Date().getTime();
+  const seconds = Math.floor((milliseconds / 1000) % 60);
+  const minutes = Math.floor((milliseconds / 1000 / 60) % 60);
+  const hours = Math.floor(((milliseconds / 1000 / 60 / 60) % 24) + 7);
+  console.log(`TokenCall-${hours}:${minutes}:${seconds}`);
   // console.log("Hello I'am BackEnd. What do you want for me?");
   // console.log(req.body.InputSighIn);
-
-  const accessToken = jwt.sign({ user: req.body.InputSighIn.username }, accessTokenSecret, { expiresIn: "1h" });
+  const accessToken = jwt.sign(
+    { user: req.body.InputSighIn.username },
+    accessTokenSecret,
+    { expiresIn: "1h" }
+  );
 
   // console.log(
   //   "id_member&Password",

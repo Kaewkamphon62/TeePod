@@ -2,8 +2,11 @@ import * as React from "react";
 import { StyleSheet, Button, View, Text } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../App";
 
 const Home_Screen = ({ navigation }) => {
+  // const { signOut } = React.useContext(AuthContext);
+
   const removeValue = async () => {
     try {
       await AsyncStorage.removeItem("@storage_Key");

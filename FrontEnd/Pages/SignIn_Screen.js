@@ -4,8 +4,23 @@ import axios from "axios";
 import { useState } from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PrivateRoute_Context } from "../Routers/PrivateRoute";
+
+import { AuthContext } from "../App";
 
 const SignIn_Screen = ({ navigation }) => {
+  /////////////////////////////////////////////////////////////////
+  const { token } = React.useContext(PrivateRoute_Context);
+  console.log("โทเคน", token);
+
+
+  React.useEffect(() => {
+    console.log('test')
+  },  [token])
+
+  // const { signIn } = React.useContext(AuthContext);
+  /////////////////////////////////////////////////////////////////
+
   const [InputSighIn, setInputSighIn] = React.useState({
     username: "",
     password: "",
