@@ -94,47 +94,6 @@ export const PrivateRoute = ({ children }) => {
         }
         dispatch({ type: "SIGN_OUT" });
       },
-
-      signUp: async (data) => {
-        console.log("");
-        console.log("PrivateRoute.js: Function authSign.signUp");
-        let email = data.InputSighUp.email;
-        let username = data.InputSighUp.username;
-        let password1 = data.InputSighUp.password1;
-        let password2 = data.InputSighUp.password2;
-        // dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
-
-        console.log(email, username, password1, password2);
-        if (
-          email != null &&
-          username != null &&
-          password1 != null &&
-          password2 != null
-        ) {
-          if (password1 != password2) {
-            alert("รหัสผ่านไม่ตรงกัน");
-          } else {
-            await axios
-              .post("http://192.168.137.1:3000/register", {
-                email,
-                username,
-                password1,
-              })
-              .then(async (res) => {
-                //res.data.token ว่งมาจากจาก BackEnd (res = response)
-                // console.log(typeof value) //ดู type ของตัวแปรเช่นเป็น object หรือ string
-                if (res.data.alert) {
-                  alert(res.data.alert);
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          }
-        } else {
-          alert("กรุณากรอกข้อมูลให้ครบถ้วน");
-        }
-      },
     }),
     []
   );

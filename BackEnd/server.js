@@ -23,9 +23,11 @@ app.post("/register", urlencodedParser, async (req, res) => {
   // console.log("ทดสอบการส่งค่า", req.body.username)
   // const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
-  let email = req.body.email;
-  let username = (req.body.username).toUpperCase();
-  let password = req.body.password1;
+  let email = req.body.InputSighUp.email;
+  let username = (req.body.InputSighUp.username).toUpperCase();
+  let password = req.body.InputSighUp.password1;
+
+  console.log(email, username, password)
 
   try {
     const DB_TeePoT = await mongoose.connect(mongoUrl, config);
