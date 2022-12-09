@@ -1,21 +1,17 @@
 import * as React from "react";
 import { StyleSheet, Button, View, Text, TextInput } from "react-native";
-import axios from "axios";
+import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
 const SignUp_Screen = () => {
+  /////////////////////////////////////////////////////////////////
+  const { authSign } = React.useContext(PrivateRoute_Context);
+  /////////////////////////////////////////////////////////////////
   const [InputSighUp, setInputSighUp] = React.useState({
-    username: "",
-    email: "",
-    password1: "",
-    password2: "",
+    username: null,
+    email: null,
+    password1: null,
+    password2: null,
   });
-
-  const handleSubmit = async (e) => {
-    //Fake SignUp_Screen
-    e.preventDefault();
-    console.log("");
-    console.log(InputSighUp);
-  };
 
   return (
     <View style={styles.app}>
@@ -85,7 +81,12 @@ const SignUp_Screen = () => {
 
       <Text></Text>
       <View style={styles.row}>
-        <Button title="Comfirm" onPress={handleSubmit} />
+        <Button
+          title="Comfirm"
+          onPress={async () => {
+            authSign.signUp({ InputSighUp });
+          }}
+        />
       </View>
     </View>
   );

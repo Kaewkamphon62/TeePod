@@ -9,16 +9,16 @@ const Home_Screen = ({ navigation }) => {
   const { authSign } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
-  const removeValue = async () => {
-    try {
-      await AsyncStorage.removeItem("@storage_Key");
-      // navigation.navigate("SignIn")
-    } catch (e) {
-      // remove error
-    }
+  // const removeValue = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem("@storage_Key");
+  //     // navigation.navigate("SignIn")
+  //   } catch (e) {
+  //     // remove error
+  //   }
 
-    console.log("Done.");
-  };
+  //   console.log("Done.");
+  // };
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

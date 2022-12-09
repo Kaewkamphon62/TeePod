@@ -1,9 +1,5 @@
 import * as React from "react";
 import { StyleSheet, Button, View, Text, TextInput } from "react-native";
-import axios from "axios";
-import { useState } from "react";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
 const SignIn_Screen = ({ navigation }) => {
@@ -15,36 +11,6 @@ const SignIn_Screen = ({ navigation }) => {
     username: null,
     password: null,
   });
-
-  // const {signIn} = React.useContext(AuthContext);
-  // .post("http://10.0.2.2:3000/Token", Test)
-
-  // const storeData = async (value) => {
-  //   try {
-  //     await AsyncStorage.setItem("@storage_Key", value);
-  //   } catch (e) {
-  //     // saving error
-  //   }
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   //Fake SignIn_Screen
-  //   // e.preventDefault();
-
-  //   await axios
-  //     .post("http://192.168.137.1:3000/Token", { InputSighIn })
-  //     .then(async (res) => {
-  //       //res.data.token จาก BackEnd
-  //       // console.log(typeof value) //ดู type ของตัวแปรเช่นเป็น object หรือ string
-  //       if (res.data.token != false) {
-  //         await storeData(res.data.token);
-  //         // console.log('ได้รับ Token(SS.js): ', res.data.token)
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   return (
     <View style={styles.app}>

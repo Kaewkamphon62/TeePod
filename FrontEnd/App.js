@@ -20,10 +20,10 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   console.log("");
-  console.log("App.js");
+  // console.log("App.js");
 
   // const [userToken, setUserToken] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+  // const [loading, setLoading] = React.useState(true);
 
   // if (loading == true) {
   //   return <></>;
@@ -38,21 +38,28 @@ export default function App() {
 
           // console.log("state.authContext", state.authContext.userToken);
           // console.log("state", state.stateToken.userToken)
-          console.log("state", event.state.userToken);
+          // console.log("state", event.state.userToken);
+
+          //ซ่อน Header แบบ Group และ Page
+          // <Stack.Navigator screenOptions={{headerShown: false}}>
+          // <Stack.Screen options={{headerShown: false}} name="route-name" component={ScreenComponent} />
 
           return (
             <NavigationContainer>
-              {event.state.isLoading ? (
-                <Stack.Navigator>
-                  <Stack.Screen name="Loading_Screen" component={Loading_Screen} />
+              {event.state.isLoading == true ? (
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                  <Stack.Screen
+                    name="Loading_Screen"
+                    component={Loading_Screen}
+                  />
                 </Stack.Navigator>
               ) : event.state.userToken == null ? (
-                <Stack.Navigator>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="SignIn" component={SignIn_Screen} />
                   <Stack.Screen name="SignUp" component={SignUp_Screen} />
                 </Stack.Navigator>
               ) : (
-                <Stack.Navigator>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Home" component={Home_Screen} />
                   <Stack.Screen name="Page01" component={Page01} />
                   <Stack.Screen name="Page02" component={Page02} />
