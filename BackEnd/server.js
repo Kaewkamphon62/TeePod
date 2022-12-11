@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const jwt = require("jsonwebtoken");
+const e = require("express");
 
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -19,6 +20,97 @@ const config = {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post("/ctoken", urlencodedParser, async (req, res) => {
+  // console.log("userToken: ", req.body.userToken);
+  jwt.verify(req.body.userToken, accessTokenSecret, (err, User) => {
+    if (err) {
+      // console.log('error token: ', accessTokenSecret)
+      res.json({
+        error: "Token Not Found",
+      });
+      
+    } else {
+      res.json({
+        role: User.role,
+      });
+    }
+  });
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+app.post("/login", urlencodedParser, async (req, res) => {
+  try {
+    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    if (DB_TeePoT) {
+      //Connected
+      const milliseconds = new Date().getTime();
+      const seconds = Math.floor((milliseconds / 1000) % 60);
+      const minutes = Math.floor((milliseconds / 1000 / 60) % 60);
+      const hours = Math.floor(((milliseconds / 1000 / 60 / 60) % 24) + 7);
+      console.log(`TokenCall-${hours}:${minutes}:${seconds}`);
+
+      // console.log(req.body.user);
+      let username = req.body.value.username.toUpperCase();
+      let password = req.body.value.password;
+
+      // console.log("username", username.substring(0, 6));
+      // console.log("usernamesss", username);
+
+      let CollectionWhere = "";
+
+      if (username.substring(0, 6) == "@ADMIN") {
+        CollectionWhere = "Admin";
+      } else {
+        CollectionWhere = "Member";
+      }
+
+      const OldUser = await DB_TeePoT.db("User")
+        .collection(CollectionWhere)
+        .findOne({ username });
+
+      if (OldUser != null) {
+        //เช็ค User ในระบบ DB
+        if (OldUser.password == password) {
+          //ตรวจสอบรหัสผ่าน
+          console.log("เข้าสู่ระบบแล้ว");
+          const accessToken = jwt.sign(
+            { user: username, role: CollectionWhere },
+            accessTokenSecret,
+            {
+              expiresIn: "1h",
+            }
+          );
+
+          res.json({
+            token: accessToken,
+            role: CollectionWhere,
+          });
+        } else {
+          //รหัสผ่านไม่ถูกต้อง
+          res.json({
+            alert: "รหัสผ่านไม่ถูกต้อง",
+          });
+        }
+      } else {
+        //ไม่มีผู้ใช้งานอยู่ในระบบ
+        res.json({
+          alert: "ไม่มีผู้ใช้งานอยู่ในระบบ",
+        });
+      }
+    }
+  } catch (error) {
+    // console.error(error);
+    console.log("NetWork Error");
+
+    res.json({
+      resError: "NetWork Error",
+    });
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 app.post("/register", urlencodedParser, async (req, res) => {
   // console.log("ทดสอบการส่งค่า", req.body.username)
   // const encryptedPassword = await bcrypt.hash(req.body.password, 10);
@@ -66,74 +158,6 @@ app.post("/register", urlencodedParser, async (req, res) => {
     }
   } catch (e) {
     console.log("status", e);
-  }
-});
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-app.post("/login", urlencodedParser, async (req, res) => {
-  try {
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
-    if (DB_TeePoT) {
-      //Connected
-      const milliseconds = new Date().getTime();
-      const seconds = Math.floor((milliseconds / 1000) % 60);
-      const minutes = Math.floor((milliseconds / 1000 / 60) % 60);
-      const hours = Math.floor(((milliseconds / 1000 / 60 / 60) % 24) + 7);
-      console.log(`TokenCall-${hours}:${minutes}:${seconds}`);
-
-      // console.log(req.body.user);
-      let username = req.body.value.username.toUpperCase();
-      let password = req.body.value.password;
-
-      // console.log("username", username.substring(0, 6));
-
-      console.log("usernamesss", username);
-
-      let CollectionWhere = "";
-
-      if (username.substring(0, 6) == "@ADMIN") {
-        CollectionWhere = "Admin";
-      } else {
-        CollectionWhere = "Member";
-      }
-
-      const OldUser = await DB_TeePoT.db("User")
-        .collection(CollectionWhere)
-        .findOne({ username });
-
-      if (OldUser != null) {
-        //เช็ค User ในระบบ DB
-        if (OldUser.password == password) {
-          //ตรวจสอบรหัสผ่าน
-          console.log("เข้าสู่ระบบแล้ว");
-          const accessToken = jwt.sign({ user: username }, accessTokenSecret, {
-            expiresIn: "1h",
-          });
-
-          res.json({
-            token: accessToken,
-            role: CollectionWhere,
-          });
-        } else {
-          //รหัสผ่านไม่ถูกต้อง
-          res.json({
-            alert: "รหัสผ่านไม่ถูกต้อง",
-          });
-        }
-      } else {
-        //ไม่มีผู้ใช้งานอยู่ในระบบ
-        res.json({
-          alert: "ไม่มีผู้ใช้งานอยู่ในระบบ",
-        });
-      }
-    }
-  } catch (error) {
-    // console.error(error);
-    console.log("NetWork Error");
-
-    res.json({
-      resError: "NetWork Error",
-    });
   }
 });
 

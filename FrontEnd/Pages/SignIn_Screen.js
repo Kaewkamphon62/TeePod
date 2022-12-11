@@ -48,7 +48,11 @@ const SignIn_Screen = ({ navigation }) => {
         <Button
           title="Sign IN"
           onPress={async () => {
-            authSign.signIn({ InputSighIn });
+            if (InputSighIn.username == null || InputSighIn.password == null) {
+              alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+            } else {
+              authSign.signIn({ InputSighIn });
+            }
           }}
         />
         <Button title="Sign UP" onPress={() => navigation.navigate("SignUp")} />

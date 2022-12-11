@@ -46,8 +46,7 @@ export default function App() {
           // <Stack.Navigator screenOptions={{headerShown: false}}>
           // <Stack.Screen options={{headerShown: false}} name="route-name" component={ScreenComponent} />
 
-          // console.log("event.state.role", event.state.role);
-
+          // console.log("event.state.role", event.state.userRole);
           return (
             <NavigationContainer>
               {event.state.isLoading == true ? (
@@ -62,7 +61,7 @@ export default function App() {
                   <Stack.Screen name="SignIn" component={SignIn_Screen} />
                   <Stack.Screen name="SignUp" component={SignUp_Screen} />
                 </Stack.Navigator>
-              ) : event.state.role != "Admin" ? (
+              ) : event.state.userRole != "Admin" ? (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Member_Home" component={Home_Screen} />
                   <Stack.Screen name="Page01" component={Page01} />

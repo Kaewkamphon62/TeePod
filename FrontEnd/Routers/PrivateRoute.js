@@ -19,18 +19,33 @@ export const PrivateRoute = ({ children }) => {
     (prevState, action) => {
       switch (action.type) {
         case "RESTORE_TOKEN":
-          return { ...prevState, userToken: action.token, isLoading: false };
+          return {
+            ...prevState,
+            userToken: action.token,
+            userRole: action.role,
+            isLoading: false,
+          };
         case "SIGN_IN":
-          return { ...prevState, isSignout: false, userToken: action.token, role: action.role};
+          return {
+            ...prevState,
+            isSignout: false,
+            userToken: action.token,
+            userRole: action.role,
+          };
         case "SIGN_OUT":
-          return { ...prevState, isSignout: true, userToken: null };
+          return {
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+            userRole: null,
+          };
       }
     },
     {
       isLoading: true,
       isSignout: false,
       userToken: null,
-      role: null
+      userRole: null,
     }
   );
 
@@ -39,11 +54,25 @@ export const PrivateRoute = ({ children }) => {
       let userToken;
       try {
         userToken = await AsyncStorage.getItem("@Token");
-        console.log("userToken", userToken);
-      } catch (e) {}
-      dispatch({ type: "RESTORE_TOKEN", token: userToken });
-    };
 
+        await axios
+          .post("http://192.168.137.1:3000/ctoken", { userToken })
+          .then(async (res) => {
+            if (res.data.error != undefined) {
+              dispatch({
+                type: "RESTORE_TOKEN",
+              });
+            }
+            if (res.data.role != undefined) {
+              dispatch({
+                type: "RESTORE_TOKEN",
+                token: userToken,
+                role: res.data.role,
+              });
+            }
+          });
+      } catch (e) {}
+    };
     Token_Sync();
   }, []);
 
@@ -63,8 +92,8 @@ export const PrivateRoute = ({ children }) => {
             //res.data.token ว่งมาจากจาก BackEnd (res = response)
             // console.log(typeof value) //ดู type ของตัวแปรเช่นเป็น object หรือ string
 
-            if (res.data.resError != undefined){
-              alert(res.data.resError)
+            if (res.data.resError != undefined) {
+              alert(res.data.resError);
             }
 
             if (res.data.alert != undefined) {
@@ -75,13 +104,18 @@ export const PrivateRoute = ({ children }) => {
             if (res.data.token != undefined) {
               // await storeData(res.data.token);
               await AsyncStorage.setItem("@Token", res.data.token);
-              dispatch({ type: "SIGN_IN", token: res.data.token, role: res.data.role});
+
+              dispatch({
+                type: "SIGN_IN",
+                token: res.data.token,
+                role: res.data.role,
+              });
               // console.log('ได้รับ Token(SS.js): ', res.data.token)
             }
           })
           .catch((error) => {
             console.log("authSign `statusError`", error);
-            alert('Network Error')
+            alert("Network Error");
           });
       },
 
