@@ -9,6 +9,8 @@ import { PrivateRoute, PrivateRoute_Context } from "./Routers/PrivateRoute";
 
 import Loading_Screen from "./Pages/Loading_Screen";
 
+import Admin_Screen from "./Pages/Admin_Screen";
+
 import Home_Screen from "./Pages/Home_Screen";
 import Page01 from "./Pages/Page01";
 import Page02 from "./Pages/Page02";
@@ -44,6 +46,8 @@ export default function App() {
           // <Stack.Navigator screenOptions={{headerShown: false}}>
           // <Stack.Screen options={{headerShown: false}} name="route-name" component={ScreenComponent} />
 
+          // console.log("event.state.role", event.state.role);
+
           return (
             <NavigationContainer>
               {event.state.isLoading == true ? (
@@ -58,11 +62,15 @@ export default function App() {
                   <Stack.Screen name="SignIn" component={SignIn_Screen} />
                   <Stack.Screen name="SignUp" component={SignUp_Screen} />
                 </Stack.Navigator>
-              ) : (
+              ) : event.state.role != "Admin" ? (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Home" component={Home_Screen} />
+                  <Stack.Screen name="Member_Home" component={Home_Screen} />
                   <Stack.Screen name="Page01" component={Page01} />
                   <Stack.Screen name="Page02" component={Page02} />
+                </Stack.Navigator>
+              ) : (
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="Admin_Home" component={Admin_Screen} />
                 </Stack.Navigator>
               )}
             </NavigationContainer>

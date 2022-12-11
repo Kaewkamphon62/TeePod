@@ -21,7 +21,7 @@ export const PrivateRoute = ({ children }) => {
         case "RESTORE_TOKEN":
           return { ...prevState, userToken: action.token, isLoading: false };
         case "SIGN_IN":
-          return { ...prevState, isSignout: false, userToken: action.token };
+          return { ...prevState, isSignout: false, userToken: action.token, role: action.role};
         case "SIGN_OUT":
           return { ...prevState, isSignout: true, userToken: null };
       }
@@ -30,6 +30,7 @@ export const PrivateRoute = ({ children }) => {
       isLoading: true,
       isSignout: false,
       userToken: null,
+      role: null
     }
   );
 
@@ -74,7 +75,7 @@ export const PrivateRoute = ({ children }) => {
             if (res.data.token != undefined) {
               // await storeData(res.data.token);
               await AsyncStorage.setItem("@Token", res.data.token);
-              dispatch({ type: "SIGN_IN", token: res.data.token });
+              dispatch({ type: "SIGN_IN", token: res.data.token, role: res.data.role});
               // console.log('ได้รับ Token(SS.js): ', res.data.token)
             }
           })

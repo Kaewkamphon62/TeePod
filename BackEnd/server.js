@@ -24,10 +24,10 @@ app.post("/register", urlencodedParser, async (req, res) => {
   // const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
   let email = req.body.InputSighUp.email;
-  let username = (req.body.InputSighUp.username).toUpperCase();
+  let username = req.body.InputSighUp.username.toUpperCase();
   let password = req.body.InputSighUp.password1;
 
-  console.log(email, username, password)
+  console.log(email, username, password);
 
   try {
     const DB_TeePoT = await mongoose.connect(mongoUrl, config);
@@ -45,9 +45,10 @@ app.post("/register", urlencodedParser, async (req, res) => {
       // const OldUser = await Database.db("User").collection("Member").findOne({$or: [{'username': username}, {'email': email}]})
 
       if (Old_Username == null) {
-
-        console.log("Old_Username", Old_Username)
-        await DB_TeePoT.db("User").collection("Member").insertOne(myobj, function (err, res2) {
+        console.log("Old_Username", Old_Username);
+        await DB_TeePoT.db("User")
+          .collection("Member")
+          .insertOne(myobj, function (err, res2) {
             if (err) throw err;
             console.log("'1' document inserted complete");
             res.json({
@@ -62,7 +63,6 @@ app.post("/register", urlencodedParser, async (req, res) => {
           });
         }
       }
-
     }
   } catch (e) {
     console.log("status", e);
@@ -82,11 +82,23 @@ app.post("/login", urlencodedParser, async (req, res) => {
       console.log(`TokenCall-${hours}:${minutes}:${seconds}`);
 
       // console.log(req.body.user);
-      let username = (req.body.value.username).toUpperCase();
+      let username = req.body.value.username.toUpperCase();
       let password = req.body.value.password;
 
+      // console.log("username", username.substring(0, 6));
+
+      console.log("usernamesss", username);
+
+      let CollectionWhere = "";
+
+      if (username.substring(0, 6) == "@ADMIN") {
+        CollectionWhere = "Admin";
+      } else {
+        CollectionWhere = "Member";
+      }
+
       const OldUser = await DB_TeePoT.db("User")
-        .collection("Member")
+        .collection(CollectionWhere)
         .findOne({ username });
 
       if (OldUser != null) {
@@ -100,6 +112,7 @@ app.post("/login", urlencodedParser, async (req, res) => {
 
           res.json({
             token: accessToken,
+            role: CollectionWhere,
           });
         } else {
           //รหัสผ่านไม่ถูกต้อง
