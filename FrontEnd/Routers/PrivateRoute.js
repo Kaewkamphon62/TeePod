@@ -58,16 +58,15 @@ export const PrivateRoute = ({ children }) => {
         await axios
           .post("http://192.168.137.1:3000/ctoken", { userToken })
           .then(async (res) => {
-            if (res.data.error != undefined) {
-              dispatch({
-                type: "RESTORE_TOKEN",
-              });
-            }
             if (res.data.role != undefined) {
               dispatch({
                 type: "RESTORE_TOKEN",
                 token: userToken,
                 role: res.data.role,
+              });
+            } else {
+              dispatch({
+                type: "RESTORE_TOKEN",
               });
             }
           });

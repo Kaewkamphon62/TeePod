@@ -26,10 +26,6 @@ app.post("/ctoken", urlencodedParser, async (req, res) => {
   jwt.verify(req.body.userToken, accessTokenSecret, (err, User) => {
     if (err) {
       // console.log('error token: ', accessTokenSecret)
-      res.json({
-        error: "Token Not Found",
-      });
-      
     } else {
       res.json({
         role: User.role,
