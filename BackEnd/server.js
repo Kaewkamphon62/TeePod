@@ -26,6 +26,9 @@ app.post("/ctoken", urlencodedParser, async (req, res) => {
   jwt.verify(req.body.userToken, accessTokenSecret, (err, User) => {
     if (err) {
       // console.log('error token: ', accessTokenSecret)
+      res.json({
+        error: "Not Found Token",
+      });
     } else {
       res.json({
         role: User.role,
@@ -65,6 +68,16 @@ app.post("/login", urlencodedParser, async (req, res) => {
         .collection(CollectionWhere)
         .findOne({ username });
 
+      // console.log(OldUser)
+
+      // const { ObjectId } = require('mongodb');
+      // const MyID = ObjectId("63958f3c724f628bb64f7930")
+      // console.log('MyID', MyID)
+      // const OldKey = await DB_TeePoT.db("User")
+      //   .collection("Member")
+      //   .findOne({_id: MyID})
+      // console.log("OldKey", OldKey);
+
       if (OldUser != null) {
         //เช็ค User ในระบบ DB
         if (OldUser.password == password) {
@@ -72,11 +85,10 @@ app.post("/login", urlencodedParser, async (req, res) => {
           console.log("เข้าสู่ระบบแล้ว");
           const accessToken = jwt.sign(
             { user: username, role: CollectionWhere },
-            accessTokenSecret,
-            {
-              expiresIn: "1h",
-            }
+            accessTokenSecret
           );
+
+          // console.log("accessToken", accessToken)
 
           res.json({
             token: accessToken,

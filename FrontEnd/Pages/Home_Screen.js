@@ -1,7 +1,13 @@
 import * as React from "react";
-import { StyleSheet, Button, View, Text } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+} from "react-native";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
 const Home_Screen = ({ navigation }) => {
@@ -16,30 +22,175 @@ const Home_Screen = ({ navigation }) => {
   //   } catch (e) {
   //     // remove error
   //   }
-
   //   console.log("Done.");
   // };
 
+  const [KeyIOT, setKeyIOT] = React.useState("");
+
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen</Text>
+    <View
+      style={{
+        backgroundColor: "#D0F48E",
+        flex: 1,
+        // alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Text style={{ textAlign: "center" }}>
+        {"\n"} Home Screen {"\n"}
+      </Text>
 
-      <Button
-        title="Go to Page01"
-        onPress={() => navigation.navigate("Page01")}
-      />
+      <View style={styles.row}>
+        <Text style={{ color: "black" }}>KeyIOT</Text>
+        <TextInput
+          style={{
+            backgroundColor: "white",
+            height: 35,
+            width: "50%",
+            margin: 8,
+            borderWidth: 1,
+            padding: 10,
+          }}
+          onChangeText={async (e) => {
+            await setKeyIOT(e);
+          }}
+        />
 
-      <Button
-        title="Go to Page02"
-        onPress={() => navigation.navigate("Page02")}
-      />
+        <Button
+          title="SubmitKey"
+          onPress={() => console.log("ส่งค่า KeyIOT: ", KeyIOT)}
+        />
+      </View>
+
+      {/* <View style={{ flexDirection: "row" }}>
+        <View style={{ flex: 1 }}>
+          <Button title="Button 1" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button title="Button 2" />
+        </View>
+      </View> */}
+
+      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
+        <View style={{ flex: 1 }}>
+          <Text>สถานะ:</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text>TextTest</Text>
+        </View>
+      </View>
+
+      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
+        <View style={{ flex: 1 }}>
+          <Text>แบตเตอร์รี่:</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text>TextTest</Text>
+        </View>
+      </View>
+
+      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
+        <View style={{ flex: 1 }}>
+          <Text>อุณหภูมิ:</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text>TextTest</Text>
+        </View>
+      </View>
+
+      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
+        <View style={{ flex: 1 }}>
+          <Text>ความชื้นในดิน:</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text>TextTest</Text>
+        </View>
+      </View>
+
+      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
+        <View style={{ flex: 1 }}>
+          <Text>ความชื้นในอากาศ:</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text>TextTest</Text>
+        </View>
+      </View>
+
+      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
+        <View style={{ flex: 1 }}>
+          <Text>วันนี้อาบแดดไปแล้ว:</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text>TextTest</Text>
+        </View>
+      </View>
+
+      <Text>{"\n"}</Text>
+      <Text>{"\n"}</Text>
+
+      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
+        <View
+          style={{ flex: 2, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text>TextTest</Text>
+        </View>
+        <View style={{ flex: 1, paddingRight: "4%" }}>
+          <Button title="เริ่ม/หยุด" />
+        </View>
+      </View>
+
+      <Text>{"\n"}</Text>
+
+      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text>ชื่อพืช:</Text>
+        </View>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text>TextTest</Text>
+        </View>
+        <View style={{ flex: 1, paddingRight: "4%" }}>
+          <Button title="เลือกพืช" />
+        </View>
+      </View>
+
+      <Text>{"\n"}</Text>
+      <Text>{"\n"}</Text>
 
       {/* <Button title="Logout" onPress={() => removeValue()} /> */}
-      <Button title="Logout" onPress={authSign.signOut} />
+      <Text style={{ textAlign: "center" }}>
+        <Pressable style={styles.button} onPress={authSign.signOut}>
+          <Text style={{ color: "white" }}>Logout</Text>
+        </Pressable>
+      </Text>
     </View>
   );
 };
 
 export default Home_Screen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 2,
+    elevation: 3,
+    backgroundColor: "#2196f3",
+
+    // paddingVertical: 8,
+    // paddingHorizontal: 10,
+    height: 40,
+    width: 100,
+  },
+
+  row: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: "1rem",
+  },
+});

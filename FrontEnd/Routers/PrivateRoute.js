@@ -64,7 +64,9 @@ export const PrivateRoute = ({ children }) => {
                 token: userToken,
                 role: res.data.role,
               });
-            } else {
+            }
+
+            if (res.data.error != undefined) {
               dispatch({
                 type: "RESTORE_TOKEN",
               });
