@@ -10,6 +10,8 @@ import { PrivateRoute, PrivateRoute_Context } from "./Routers/PrivateRoute";
 import Loading_Screen from "./Pages/Loading_Screen";
 
 import Admin_Screen from "./Pages/Admin_Screen";
+import Admin_AddFlowering from "./Pages/Admin_AddFlowering";
+import ExampleUI_Screen from "./Pages/ExampleUI_Screen";
 
 import Home_Screen from "./Pages/Home_Screen";
 import Page01 from "./Pages/Page01";
@@ -70,6 +72,9 @@ export default function App() {
               ) : (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Admin_Home" component={Admin_Screen} />
+                  <Stack.Screen name="Admin_AddFlowering" component={Admin_AddFlowering} />
+
+                  <Stack.Screen name="ExampleUI_Screen" component={ExampleUI_Screen} />
                 </Stack.Navigator>
               )}
             </NavigationContainer>

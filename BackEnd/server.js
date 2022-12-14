@@ -20,6 +20,52 @@ const config = {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+//Admin
+app.post("/NewFlowering", urlencodedParser, async (req, res) => {
+  // console.log("req.body.NewFlowering", req.body.NewFlowering);
+  console.log("req.body.Role: ", req.body.Role)
+  let ResNewFlowering = req.body.NewFlowering
+
+  if (req.body.Role == "Admin") {
+    try {
+      const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+      if (DB_TeePoT) {
+        var myobj = {ResNewFlowering};
+        const Old_name = await DB_TeePoT.db("TeePoT")
+          .collection("Flowering_Plants")
+          .findOne(myobj.name_science);
+
+        if (Old_name == null) {
+          await DB_TeePoT.db("TeePoT")
+            .collection("Flowering_Plants")
+            .insertOne(myobj, function (err, res2) {
+              if (err) throw err;
+              console.log("'1' document inserted complete");
+              res.json({
+                alert: "เพิ่มพืชใหม่แล้ว",
+              });
+              DB_TeePoT.close();
+            });
+        } else {
+          if (Old_name != null) {
+            res.json({
+              alert: "มีชื่อพืชนี้",
+            });
+          }
+        }
+      }
+    } catch (error) {
+      // console.error(error);
+      console.log("NetWork Error");
+
+      res.json({
+        resError: "NetWork Error",
+      });
+    }
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.post("/ctoken", urlencodedParser, async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
