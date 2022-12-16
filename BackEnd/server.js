@@ -23,17 +23,18 @@ const config = {
 //Admin
 app.post("/NewFlowering", urlencodedParser, async (req, res) => {
   // console.log("req.body.NewFlowering", req.body.NewFlowering);
-  console.log("req.body.Role: ", req.body.Role)
-  let ResNewFlowering = req.body.NewFlowering
+  console.log("req.body.Role: ", req.body.Role);
+  let ResNewFlowering = req.body.NewFlowering;
+  let name_science = req.body.NewFlowering.name_science;
 
   if (req.body.Role == "Admin") {
     try {
       const DB_TeePoT = await mongoose.connect(mongoUrl, config);
       if (DB_TeePoT) {
-        var myobj = {ResNewFlowering};
+        var myobj = ResNewFlowering;
         const Old_name = await DB_TeePoT.db("TeePoT")
           .collection("Flowering_Plants")
-          .findOne(myobj.name_science);
+          .findOne({ name_science });
 
         if (Old_name == null) {
           await DB_TeePoT.db("TeePoT")
@@ -198,7 +199,7 @@ app.post("/register", urlencodedParser, async (req, res) => {
             if (err) throw err;
             console.log("'1' document inserted complete");
             res.json({
-              alert: "ลงทะเบียนเสร็จสิ้น",
+              nav: "ลงทะเบียนเสร็จสิ้น",
             });
             DB_TeePoT.close();
           });

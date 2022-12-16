@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 import DropDownPicker from "react-native-dropdown-picker";
-import {useForm, Controller} from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
 const ExampleUI_Screen = () => {
@@ -65,6 +65,9 @@ const ExampleUI_Screen = () => {
 
   return (
     <View style={styles.container}>
+      <Text>{"\n"}</Text>
+      <Text>{"\n"}</Text>
+
       <Text style={styles.label}>Name</Text>
       <Controller
         name="name"
@@ -96,62 +99,61 @@ const ExampleUI_Screen = () => {
         )}
       />
       <View>
+        <Text style={styles.label}>Gender</Text>
+        <Controller
+          name="gender"
+          defaultValue=""
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <View style={styles.dropdownGender}>
+              <DropDownPicker
+                style={styles.dropdown}
+                open={genderOpen}
+                value={genderValue} //genderValue
+                items={gender}
+                setOpen={setGenderOpen}
+                setValue={setGenderValue}
+                setItems={setGender}
+                placeholder="Select Gender"
+                placeholderStyle={styles.placeholderStyles}
+                onOpen={onGenderOpen}
+                onChangeValue={onChange}
+                zIndex={3000}
+                zIndexInverse={1000}
+              />
+            </View>
+          )}
+        />
 
-      <Text style={styles.label}>Gender</Text>
-      <Controller
-        name="gender"
-        defaultValue=""
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <View style={styles.dropdownGender}>
-            <DropDownPicker
-              style={styles.dropdown}
-              open={genderOpen}
-              value={genderValue} //genderValue
-              items={gender}
-              setOpen={setGenderOpen}
-              setValue={setGenderValue}
-              setItems={setGender}
-              placeholder="Select Gender"
-              placeholderStyle={styles.placeholderStyles}
-              onOpen={onGenderOpen}
-              onChangeValue={onChange}
-              zIndex={3000}
-              zIndexInverse={1000}
-            />
-          </View>
-        )}
-      />
-
-      <Text style={styles.label}>Institute/Organization</Text>
-      <Controller
-        name="company"
-        defaultValue=""
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <View style={styles.dropdownCompany}>
-            <DropDownPicker
-              style={styles.dropdown}
-              open={companyOpen}
-              value={companyValue} //companyValue
-              items={company}
-              setOpen={setCompanyOpen}
-              setValue={setCompanyValue}
-              setItems={setComapny}
-              placeholder="Select Company"
-              placeholderStyle={styles.placeholderStyles}
-              loading={loading}
-              activityIndicatorColor="#5188E3"
-              searchable={true}
-              searchPlaceholder="Search your company here..."
-              onOpen={onCompanyOpen}
-              onChangeValue={onChange}
-               zIndex={1000}
-              zIndexInverse={3000}
-            />
-          </View>
-        )}
-      />
+        <Text style={styles.label}>Institute/Organization</Text>
+        <Controller
+          name="company"
+          defaultValue=""
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <View style={styles.dropdownCompany}>
+              <DropDownPicker
+                style={styles.dropdown}
+                open={companyOpen}
+                value={companyValue} //companyValue
+                items={company}
+                setOpen={setCompanyOpen}
+                setValue={setCompanyValue}
+                setItems={setComapny}
+                placeholder="Select Company"
+                placeholderStyle={styles.placeholderStyles}
+                loading={loading}
+                activityIndicatorColor="#5188E3"
+                searchable={true}
+                searchPlaceholder="Search your company here..."
+                onOpen={onCompanyOpen}
+                onChangeValue={onChange}
+                zIndex={1000}
+                zIndexInverse={3000}
+              />
+            </View>
+          )}
+        />
       </View>
       <Text style={styles.label}>Email Address</Text>
       <Controller
@@ -186,7 +188,6 @@ const ExampleUI_Screen = () => {
         <Text style={styles.getStarted}>Get Started</Text>
       </TouchableOpacity>
 
-
       <TouchableOpacity style={styles.logIn}>
         <Text style={styles.links}>I have an account</Text>
       </TouchableOpacity>
@@ -199,6 +200,7 @@ export default ExampleUI_Screen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
   },
   input: {
     borderStyle: "solid",

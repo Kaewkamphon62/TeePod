@@ -153,7 +153,10 @@ const Home_Screen = ({ navigation }) => {
           <Text>TextTest</Text>
         </View>
         <View style={{ flex: 1, paddingRight: "4%" }}>
-          <Button title="เลือกพืช" />
+          <Button
+            title="เลือกพืช"
+            onPress={() => navigation.navigate("Member_SelectFlowerting")}
+          />
         </View>
       </View>
 

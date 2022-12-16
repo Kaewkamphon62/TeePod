@@ -15,70 +15,54 @@ const SignUp_Screen = ({ navigation }) => {
   });
 
   return (
-    <View style={styles.app}>
-      <Text style={{ color: "black" }}>SignUp_Screen Form</Text>
+    <View style={styles.container}>
+      <Text style={{ color: "black", textAlign: "center" }}>SignUp</Text>
 
-      <View style={styles.row}>
-        <Text style={{ color: "black" }}>Usrename</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={async (e) => {
-            await setInputSighUp({
-              username: e,
-              email: InputSighUp.email,
-              password1: InputSighUp.password1,
-              password2: InputSighUp.password2,
-            });
-          }}
-        />
-      </View>
+      <Text style={styles.label}>Username</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          await setInputSighUp({
+            ...InputSighUp,
+            username: e,
+          });
+        }}
+      />
 
-      <View style={styles.row}>
-        <Text style={{ color: "black" }}>Email</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={async (e) => {
-            await setInputSighUp({
-              username: InputSighUp.username,
-              email: e,
-              password1: InputSighUp.password1,
-              password2: InputSighUp.password2,
-            });
-          }}
-        />
-      </View>
+      <Text style={styles.label}>Email Address</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          await setInputSighUp({
+            ...InputSighUp,
+            email: e,
+          });
+        }}
+      />
 
-      <View style={styles.row}>
-        <Text style={{ color: "black" }}>Password1</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          onChangeText={async (e) => {
-            await setInputSighUp({
-              username: InputSighUp.username,
-              email: InputSighUp.email,
-              password1: e,
-              password2: InputSighUp.password2,
-            });
-          }}
-        />
-      </View>
+      <Text style={styles.label}>Password</Text>
+      <TextInput
+        secureTextEntry={true}
+        style={styles.input}
+        onChangeText={async (e) => {
+          await setInputSighUp({
+            ...InputSighUp,
+            password1: e,
+          });
+        }}
+      />
 
-      <View style={styles.row}>
-        <Text style={{ color: "black" }}>Password2</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          onChangeText={async (e) => {
-            await setInputSighUp({
-              username: InputSighUp.username,
-              email: InputSighUp.email,
-              password1: InputSighUp.password1,
-              password2: e,
-            });
-          }}
-        />
-      </View>
+      <Text style={styles.label}>Password Comfirm</Text>
+      <TextInput
+        secureTextEntry={true}
+        style={styles.input}
+        onChangeText={async (e) => {
+          await setInputSighUp({
+            ...InputSighUp,
+            password2: e,
+          });
+        }}
+      />
 
       <Text></Text>
       <View style={styles.row}>
@@ -93,20 +77,20 @@ const SignUp_Screen = ({ navigation }) => {
             ) {
               if (InputSighUp.password1 != InputSighUp.password2) {
                 alert("รหัสผ่านไม่ตรงกัน");
-              }else{
+              } else {
                 await axios
-                .post("http://192.168.137.1:3000/register", {InputSighUp})
-                .then(async (res) => {
-                  //res.data.token ว่งมาจากจาก BackEnd (res = response)
-                  // console.log(typeof value) //ดู type ของตัวแปรเช่นเป็น object หรือ string
-                  if (res.data.alert) {
-                    alert(res.data.alert);
-                    navigation.navigate("SignIn")
-                  }
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
+                  .post("http://192.168.137.1:3000/register", { InputSighUp })
+                  .then(async (res) => {
+                    //res.data.token ว่งมาจากจาก BackEnd (res = response)
+                    // console.log(typeof value) //ดู type ของตัวแปรเช่นเป็น object หรือ string
+                    if (res.data.alert) {
+                      alert(res.data.alert);
+                      navigation.navigate("SignIn");
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
               }
             } else {
               alert("กรุณากรอกข้อมูลให้ครบถ้วน");
@@ -121,10 +105,9 @@ const SignUp_Screen = ({ navigation }) => {
 export default SignUp_Screen;
 
 const styles = StyleSheet.create({
-  app: {
+  container: {
     backgroundColor: "#D0F48E",
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
   },
 
@@ -138,10 +121,19 @@ const styles = StyleSheet.create({
 
   input: {
     backgroundColor: "white",
-    height: 35,
-    width: "65%",
-    margin: 12,
+    borderStyle: "solid",
+    borderColor: "#B7B7B7",
+    borderRadius: 7,
     borderWidth: 1,
-    padding: 10,
+    fontSize: 15,
+    height: 50,
+    marginHorizontal: 10,
+    paddingStart: 10,
+    marginBottom: 15,
+  },
+
+  label: {
+    marginBottom: 7,
+    marginStart: 10,
   },
 });

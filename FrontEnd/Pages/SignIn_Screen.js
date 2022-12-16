@@ -13,37 +13,33 @@ const SignIn_Screen = ({ navigation }) => {
   });
 
   return (
-    <View style={styles.app}>
-      <Text style={{ color: "black" }}>SignIn_Screen Form</Text>
+    <View style={styles.container}>
+      <Text style={{ color: "black", textAlign: "center" }}>SignIn</Text>
 
-      <View style={styles.row}>
-        <Text style={{ color: "black" }}>Usrename</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={async (e) => {
-            await setInputSighIn({
-              username: e,
-              password: InputSighIn.password,
-            });
-          }}
-        />
-      </View>
+      <Text style={styles.label}>Username</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          await setInputSighIn({
+            username: e,
+            password: InputSighIn.password,
+          });
+        }}
+      />
 
-      <View style={styles.row}>
-        <Text style={{ color: "black" }}>Password</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          onChangeText={async (e) => {
-            await setInputSighIn({
-              username: InputSighIn.username,
-              password: e,
-            });
-          }}
-        />
-      </View>
+      <Text style={styles.label}>Password</Text>
+      <TextInput
+        secureTextEntry={true}
+        style={styles.input}
+        onChangeText={async (e) => {
+          await setInputSighIn({
+            username: InputSighIn.username,
+            password: e,
+          });
+        }}
+      />
 
-      <Text></Text>
+      <Text>{"\n"}</Text>
       <View style={styles.row}>
         <Button
           title="Sign IN"
@@ -64,10 +60,9 @@ const SignIn_Screen = ({ navigation }) => {
 export default SignIn_Screen;
 
 const styles = StyleSheet.create({
-  app: {
+  container: {
     backgroundColor: "#D0F48E",
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
   },
 
@@ -78,13 +73,21 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: "1rem",
   },
-
   input: {
     backgroundColor: "white",
-    height: 35,
-    width: "65%",
-    margin: 12,
+    borderStyle: "solid",
+    borderColor: "#B7B7B7",
+    borderRadius: 7,
     borderWidth: 1,
-    padding: 10,
+    fontSize: 15,
+    height: 50,
+    marginHorizontal: 10,
+    paddingStart: 10,
+    marginBottom: 15,
+  },
+
+  label: {
+    marginBottom: 7,
+    marginStart: 10,
   },
 });

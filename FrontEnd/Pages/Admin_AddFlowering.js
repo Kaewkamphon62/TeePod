@@ -12,7 +12,7 @@ import axios from "axios";
 
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
-const Admin_AddFlowering = () => {
+const Admin_AddFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
   const { state } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
@@ -46,14 +46,12 @@ const Admin_AddFlowering = () => {
       >
         <View style={{ alignItems: "center" }}>
           <Text>{"\n"}</Text>
-          <Text>{"\n"}</Text>
-          <Text>{"\n"}</Text>
 
-          <Button
+          {/* <Button
             title="Function"
             onPress={() => console.log("Admin_AddFlowering Call")}
           />
-          {/* <Button title="Logout" onPress={() => removeValue()} /> */}
+          <Button title="Logout" onPress={() => removeValue()} /> */}
         </View>
 
         <Text>{"\n"}</Text>
@@ -196,7 +194,7 @@ const Admin_AddFlowering = () => {
               onChangeText={async (e) => {
                 await setNewFlowering({
                   ...NewFlowering,
-                  sunbathing_time: e
+                  sunbathing_time: e,
                 });
               }}
             />
@@ -247,15 +245,23 @@ const Admin_AddFlowering = () => {
         <View style={{ alignItems: "center" }}>
           <Button
             title="Add New Flower"
-            onPress={
-              async () => {
-                await axios
-                .post("http://192.168.137.1:3000/NewFlowering", {NewFlowering, Role: state.userRole})
-                .then(async (res) => {
-
+            onPress={async () => {
+              await axios
+                .post("http://192.168.137.1:3000/NewFlowering", {
+                  NewFlowering,
+                  Role: state.userRole,
                 })
-              }
-            }
+                .then(async (res) => {
+                  if (res.data.alert != undefined) {
+                    alert(res.data.alert);
+                  }
+
+                  if (res.data.nav != undefined) {
+                    alert(res.data.nav);
+                    navigation.navigate("Admin_Home");
+                  }
+                });
+            }}
           />
         </View>
 

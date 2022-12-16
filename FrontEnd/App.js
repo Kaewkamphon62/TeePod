@@ -10,12 +10,11 @@ import { PrivateRoute, PrivateRoute_Context } from "./Routers/PrivateRoute";
 import Loading_Screen from "./Pages/Loading_Screen";
 
 import Admin_Screen from "./Pages/Admin_Screen";
-import Admin_AddFlowering from "./Pages/Admin_AddFlowering";
+import Admin_AddFlowering_Screen from "./Pages/Admin_AddFlowering";
 import ExampleUI_Screen from "./Pages/ExampleUI_Screen";
 
 import Home_Screen from "./Pages/Home_Screen";
-import Page01 from "./Pages/Page01";
-import Page02 from "./Pages/Page02";
+import SelectFlowerting_Screen from "./Pages/SelectFlowerting_Screen"
 
 import SignIn_Screen from "./Pages/SignIn_Screen";
 import SignUp_Screen from "./Pages/SignUp_Screen";
@@ -66,13 +65,12 @@ export default function App() {
               ) : event.state.userRole != "Admin" ? (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Member_Home" component={Home_Screen} />
-                  <Stack.Screen name="Page01" component={Page01} />
-                  <Stack.Screen name="Page02" component={Page02} />
+                  <Stack.Screen name="Member_SelectFlowerting" component={SelectFlowerting_Screen} />
                 </Stack.Navigator>
               ) : (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Admin_Home" component={Admin_Screen} />
-                  <Stack.Screen name="Admin_AddFlowering" component={Admin_AddFlowering} />
+                  <Stack.Screen name="Admin_AddFlowering_Screen" component={Admin_AddFlowering} />
 
                   <Stack.Screen name="ExampleUI_Screen" component={ExampleUI_Screen} />
                 </Stack.Navigator>

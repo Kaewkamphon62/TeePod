@@ -1,5 +1,12 @@
 import * as React from "react";
-import { StyleSheet, Button, View, Text, Pressable, TextInput} from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  Text,
+  Pressable,
+  TextInput,
+} from "react-native";
 
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
@@ -19,26 +26,26 @@ const Admin_Screen = ({ navigation }) => {
     >
       <Text style={{ textAlign: "center" }}>Admin Screen</Text>
 
-      <View style={styles.row}>
-        <Button
+      {/* <View style={styles.row}> */}
+        {/* <Button
           title="Function"
           onPress={() => console.log("Admin_Page Call")}
-        />
+        /> */}
         {/* <Button title="Logout" onPress={() => removeValue()} /> */}
-      </View>
+      {/* </View> */}
 
-      <View style={styles.row}>
-        <Button
+      {/* <View style={styles.row}> */}
+        {/* <Button
           title="ExampleUI_Screen"
           onPress={() => navigation.navigate("ExampleUI_Screen")}
-        />
+        /> */}
         {/* <Button title="Logout" onPress={() => removeValue()} /> */}
-      </View>
+      {/* </View> */}
 
       <View style={styles.row}>
         <Button
           title="เพิ่มพืช"
-          onPress={() => navigation.navigate("Admin_AddFlowering")}
+          onPress={() => navigation.navigate("Admin_AddFlowering_Screen")}
         />
         {/* <Button title="Logout" onPress={() => removeValue()} /> */}
       </View>
