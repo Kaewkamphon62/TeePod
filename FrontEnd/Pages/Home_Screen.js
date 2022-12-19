@@ -7,8 +7,8 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
-
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
+import axios from "axios";
 
 const Home_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
@@ -25,7 +25,12 @@ const Home_Screen = ({ navigation }) => {
   //   console.log("Done.");
   // };
 
-  const [KeyIOT, setKeyIOT] = React.useState("");
+  const [InputKey, setInputKey] = React.useState(null);
+  const [Key, setKey] = React.useState({
+    tempc: null,
+    humid: null,
+    moisture: null,
+  });
 
   return (
     <View
@@ -41,7 +46,7 @@ const Home_Screen = ({ navigation }) => {
       </Text>
 
       <View style={styles.row}>
-        <Text style={{ color: "black" }}>KeyIOT</Text>
+        <Text style={{ color: "black" }}>InputKey</Text>
         <TextInput
           style={{
             backgroundColor: "white",
@@ -52,13 +57,36 @@ const Home_Screen = ({ navigation }) => {
             padding: 10,
           }}
           onChangeText={async (e) => {
-            await setKeyIOT(e);
+            await setInputKey(e);
           }}
         />
 
         <Button
           title="SubmitKey"
-          onPress={() => console.log("ส่งค่า KeyIOT: ", KeyIOT)}
+          onPress={async () => {
+            if (InputKey != null) {
+              await axios
+                .post("http://192.168.137.1:3000/getDB_IOT", { InputKey })
+                .then(async (res) => {
+                  if (res.data.Key != undefined) {
+                    await setKey({
+                      tempc: res.data.Key.tempc,
+                      humid: res.data.Key.humid,
+                      moisture: res.data.Key.moisture,
+                    });
+                  }
+
+                  if (res.data.resError != undefined) {
+                    alert(res.data.resError);
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else {
+              alert("กรุณากรอกข้อมูลให้ถูกต้อง");
+            }
+          }}
         />
       </View>
 
@@ -94,7 +122,15 @@ const Home_Screen = ({ navigation }) => {
           <Text>อุณหภูมิ:</Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text>TextTest</Text>
+          {Key.tempc != null ? (
+            <>
+              <Text>{Key.tempc}</Text>
+            </>
+          ) : (
+            <>
+              <Text></Text>
+            </>
+          )}
         </View>
       </View>
 
@@ -103,7 +139,15 @@ const Home_Screen = ({ navigation }) => {
           <Text>ความชื้นในดิน:</Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text>TextTest</Text>
+          {Key.humid != null ? (
+            <>
+              <Text>{Key.humid}</Text>
+            </>
+          ) : (
+            <>
+              <Text></Text>
+            </>
+          )}
         </View>
       </View>
 
@@ -112,7 +156,15 @@ const Home_Screen = ({ navigation }) => {
           <Text>ความชื้นในอากาศ:</Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text>TextTest</Text>
+          {Key.moisture != null ? (
+            <>
+              <Text>{Key.moisture}</Text>
+            </>
+          ) : (
+            <>
+              <Text></Text>
+            </>
+          )}
         </View>
       </View>
 

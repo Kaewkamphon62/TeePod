@@ -70,7 +70,7 @@ export default function App() {
               ) : (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Admin_Home" component={Admin_Screen} />
-                  <Stack.Screen name="Admin_AddFlowering_Screen" component={Admin_AddFlowering} />
+                  <Stack.Screen name="Admin_AddFlowering_Screen" component={Admin_AddFlowering_Screen} />
 
                   <Stack.Screen name="ExampleUI_Screen" component={ExampleUI_Screen} />
                 </Stack.Navigator>

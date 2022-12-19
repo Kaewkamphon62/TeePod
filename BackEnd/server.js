@@ -20,6 +20,73 @@ const config = {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post("/getDB_IOT", urlencodedParser, async (req, res) => {
+  try {
+    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+
+    if (DB_TeePoT) {
+      const MyKey = req.body.InputKey;
+
+      // const { ObjectId } = require('mongodb');
+      // const MyKey = ObjectId("63a053a60504451cf44da2cd")
+      // console.log('MyKey typeof: ', typeof MyKey)
+      // const OldKey = await DB_TeePoT.db("TeePoT").collection("IOT").findOne({_id: MyKey})
+      // console.log("OldKey", OldKey);
+
+      const DBKey = await DB_TeePoT.db("TeePoT")
+        .collection("IOT")
+        .find({ keyiot: MyKey })
+        .sort({ timerecord: -1 })
+        .limit(1)
+        .toArray();
+
+      res.json({
+        Key: DBKey[0],
+      });
+    }
+  } catch (error) {
+    res.json({
+      resError: "NetWork Error",
+    });
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post("/loadFloweringlants", urlencodedParser, async (req, res) => {
+  // console.log("userToken: ", req.body.userToken);
+  console.log("");
+  console.log("loadFloweringlants");
+
+  try {
+    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    if (DB_TeePoT) {
+      const getFloweringlants = async () => {
+        let Data = await DB_TeePoT.db("TeePoT")
+          .collection("Flowering_Plants")
+          .find({})
+          .toArray();
+
+        return Data;
+      };
+      // console.log("Floweringlants", await getFloweringlants());
+
+      res.json({
+        fp: await getFloweringlants(),
+      });
+    }
+  } catch (error) {
+    // console.error(error);
+    console.log("NetWork Error");
+
+    res.json({
+      resError: "NetWork Error",
+    });
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 //Admin
 app.post("/NewFlowering", urlencodedParser, async (req, res) => {
   // console.log("req.body.NewFlowering", req.body.NewFlowering);
@@ -116,14 +183,6 @@ app.post("/login", urlencodedParser, async (req, res) => {
         .findOne({ username });
 
       // console.log(OldUser)
-
-      // const { ObjectId } = require('mongodb');
-      // const MyID = ObjectId("63958f3c724f628bb64f7930")
-      // console.log('MyID', MyID)
-      // const OldKey = await DB_TeePoT.db("User")
-      //   .collection("Member")
-      //   .findOne({_id: MyID})
-      // console.log("OldKey", OldKey);
 
       if (OldUser != null) {
         //เช็ค User ในระบบ DB
