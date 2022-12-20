@@ -18,6 +18,7 @@ const Admin_AddFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
 
   const [NewFlowering, setNewFlowering] = React.useState({
+    name_flowring_plants: "", //ชื่อ
     name_science: "", //ชื่อวิทาศาสตร์
     clan: "", //วงศ์
     type: "", //ประเภท
@@ -57,6 +58,20 @@ const Admin_AddFlowering = ({ navigation }) => {
         <Text>{"\n"}</Text>
 
         <View style={{ paddingLeft: "15%" }}>
+
+        <View style={styles.row}>
+            <Text style={{ paddingLeft: "3%" }}>ชื่อ</Text>
+            <TextInput
+              style={styles.textinput}
+              onChangeText={async (e) => {
+                await setNewFlowering({
+                  ...NewFlowering,
+                  name_flowring_plants: e,
+                });
+              }}
+            />
+          </View>
+
           <View style={styles.row}>
             <Text style={{ paddingLeft: "3%" }}>ชื่อวิทยาศาสตร์</Text>
             <TextInput

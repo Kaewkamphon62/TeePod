@@ -44,7 +44,7 @@ const SelectFlowerting = () => {
               }}
             >
               <Text style={{ marginBottom: 20 }}>Picture</Text>
-              <Button title={data.name_science} />
+              <Button title={data.name_flowring_plants} />
             </View>
           );
         })}

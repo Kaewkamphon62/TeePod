@@ -92,7 +92,7 @@ app.post("/NewFlowering", urlencodedParser, async (req, res) => {
   // console.log("req.body.NewFlowering", req.body.NewFlowering);
   console.log("req.body.Role: ", req.body.Role);
   let ResNewFlowering = req.body.NewFlowering;
-  let name_science = req.body.NewFlowering.name_science;
+  let name_flowring_plants = req.body.NewFlowering.name_flowring_plants;
 
   if (req.body.Role == "Admin") {
     try {
@@ -101,7 +101,7 @@ app.post("/NewFlowering", urlencodedParser, async (req, res) => {
         var myobj = ResNewFlowering;
         const Old_name = await DB_TeePoT.db("TeePoT")
           .collection("Flowering_Plants")
-          .findOne({ name_science });
+          .findOne({ name_flowring_plants });
 
         if (Old_name == null) {
           await DB_TeePoT.db("TeePoT")
