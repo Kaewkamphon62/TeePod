@@ -36,10 +36,9 @@ const Admin_AddFlowering = ({ navigation }) => {
   });
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: "#D0F48E"}}>
       <View
         style={{
-          backgroundColor: "#D0F48E",
           flex: 1,
           // alignItems: "center",
           justifyContent: "center",
@@ -58,8 +57,7 @@ const Admin_AddFlowering = ({ navigation }) => {
         <Text>{"\n"}</Text>
 
         <View style={{ paddingLeft: "15%" }}>
-
-        <View style={styles.row}>
+          <View style={styles.row}>
             <Text style={{ paddingLeft: "3%" }}>ชื่อ</Text>
             <TextInput
               style={styles.textinput}

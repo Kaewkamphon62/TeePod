@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import React, { useEffect } from "react";
 import axios from "axios";
 
@@ -24,42 +24,49 @@ const SelectFlowerting = () => {
   }, []);
 
   return (
-    <View
-      style={{
+    <ScrollView
+      contentContainerStyle={{
         backgroundColor: "#D0F48E",
-        flex: 1,
-        // justifyContent: "space-evenly",
+        flexGrow: 1,
         justifyContent: "center",
+        flexDirection: "row",
       }}
     >
-      <View style={styles.row}>
-        {Floweringlants.map((data, key) => {
+      <View style={styles.ContainerMain}>
+        {Floweringlants.filter((a, key) => key % 2 == 0).map((data, key) => {
           return (
-            <View
-              key={key}
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ marginBottom: 20 }}>Picture</Text>
+            <View key={key}>
+              <Text style={styles.marginItems}>Picture</Text>
               <Button title={data.name_flowring_plants} />
             </View>
           );
         })}
       </View>
-    </View>
+
+      <View style={styles.ContainerMain}>
+        {Floweringlants.filter((a, key) => key % 2 == 1).map((data, key) => {
+          return (
+            <View key={key}>
+              <Text style={styles.marginItems}>Picture</Text>
+              <Button title={data.name_flowring_plants} />
+            </View>
+          );
+        })}
+      </View>
+    </ScrollView>
   );
 };
 
 export default SelectFlowerting;
 
 const styles = StyleSheet.create({
-  row: {
+  marginItems: {
+    marginVertical: "20%",
+  },
+
+  ContainerMain: {
     flex: 1,
-    flexDirection: "row",
-    paddingLeft: "4%",
-    // marginHorizontal: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
