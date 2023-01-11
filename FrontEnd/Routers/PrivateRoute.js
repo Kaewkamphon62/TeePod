@@ -150,6 +150,15 @@ export const PrivateRoute = ({ children }) => {
               // await storeData(res.data.token);
               await AsyncStorage.setItem("@Token", res.data.token);
 
+              await otherFunction.getMemberData({
+                username: res.data.member_username,
+              });
+
+              dispatch({
+                type: "RESTORE_TOKEN",
+                name: res.data.member_username,
+              });
+
               dispatch({
                 type: "SIGN_IN",
                 token: res.data.token,
@@ -173,6 +182,17 @@ export const PrivateRoute = ({ children }) => {
           console.log(e);
         }
         dispatch({ type: "SIGN_OUT" });
+        dispatch({
+          type: "MemberDB",
+          nfp: null,
+          st: null,
+        });
+        dispatch({
+          type: "RESTORE_TOKEN",
+          userToken: null,
+          userRole: null,
+          userName: null,
+        });
       },
     }),
     []

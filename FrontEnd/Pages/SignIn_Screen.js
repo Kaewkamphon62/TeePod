@@ -4,7 +4,7 @@ import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
 const SignIn_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
-  const { authSign } = React.useContext(PrivateRoute_Context);
+  const { authSign, otherFunction } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
   const [InputSighIn, setInputSighIn] = React.useState({
@@ -47,11 +47,11 @@ const SignIn_Screen = ({ navigation }) => {
             if (InputSighIn.username == null || InputSighIn.password == null) {
               alert("กรุณากรอกข้อมูลให้ครบถ้วน");
             } else {
-              authSign.signIn({ InputSighIn });
+              await authSign.signIn({ InputSighIn });
             }
           }}
         />
-        <Button title="Sign UP" onPress={() => navigation.navigate("SignUp")} />
+        <Button title="Sign UP" onPress={async () => await navigation.navigate("SignUp")} />
       </View>
     </View>
   );

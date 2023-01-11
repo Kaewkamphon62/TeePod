@@ -278,6 +278,7 @@ app.post("/login", urlencodedParser, async (req, res) => {
           res.json({
             token: accessToken,
             role: CollectionWhere,
+            member_username: username
           });
         } else {
           //รหัสผ่านไม่ถูกต้อง
@@ -331,16 +332,34 @@ app.post("/register", urlencodedParser, async (req, res) => {
 
       if (Old_Username == null) {
         console.log("Old_Username", Old_Username);
-        await DB_TeePoT.db("User")
-          .collection("Member")
-          .insertOne(myobj, function (err, res2) {
-            if (err) throw err;
-            console.log("'1' document inserted complete");
-            res.json({
-              nav: "ลงทะเบียนเสร็จสิ้น",
-            });
-            DB_TeePoT.close();
+
+        // await DB_TeePoT.db("User")
+        //   .collection("Member")
+        //   .insertOne(myobj, function (err, res2) {
+        //     if (err) throw err;
+        //     console.log("'1' document inserted complete");
+        //     res.json({
+        //       nav: "ลงทะเบียนเสร็จสิ้น",
+        //     });
+        //     DB_TeePoT.close();
+        //   });
+
+        const NewMemberData = await DB_TeePoT.db("TeePoT")
+          .collection("Member_Data")
+          .insertOne({
+            username: username,
+            name_flowring_plants: null,
+            sunbathing_time: null,
           });
+        const NewMember = await DB_TeePoT.db("User")
+          .collection("Member")
+          .insertOne(myobj);
+
+        if (NewMemberData && NewMember) {
+          res.json({
+            alert: "ลงทะเบียนเสร็จสิ้น",
+          });
+        }
       } else {
         if (Old_Username != null) {
           res.json({
@@ -350,7 +369,11 @@ app.post("/register", urlencodedParser, async (req, res) => {
       }
     }
   } catch (e) {
-    console.log("status", e);
+    console.log("NetWork Error");
+
+    res.json({
+      resError: "NetWork Error",
+    });
   }
 });
 

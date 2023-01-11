@@ -16,7 +16,6 @@ const Home_Screen = ({ navigation }) => {
     React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
-  
   const [InputKey, setInputKey] = React.useState(null);
   const [Key, setKey] = React.useState({
     tempc: null,
@@ -25,8 +24,8 @@ const Home_Screen = ({ navigation }) => {
   });
 
   React.useEffect(() => {
-    console.log("")
-    otherFunction.getMemberData({username: state.userName});
+    console.log("");
+    otherFunction.getMemberData({ username: state.userName });
   }, []);
 
   // React.useEffect(() => {
@@ -257,9 +256,14 @@ const Home_Screen = ({ navigation }) => {
 
       {/* <Button title="Logout" onPress={() => removeValue()} /> */}
       <Text style={{ textAlign: "center" }}>
-        <Pressable style={styles.button} onPress={authSign.signOut}>
+        <Pressable
+          style={styles.button}
+          onPress={async () => await authSign.signOut()}
+        >
           <Text style={{ color: "white" }}>Logout</Text>
         </Pressable>
+
+        {/* <Button title="Logout" onPress={async () => await authSign.signOut()} /> */}
       </Text>
     </View>
   );

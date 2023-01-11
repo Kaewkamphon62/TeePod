@@ -36,7 +36,7 @@ export default function App() {
     <PrivateRoute>
       <PrivateRoute_Context.Consumer>
         {(event) => {
-          // console.log("CheckUser: ", event.state.userName)
+          console.log("CheckUser: ", event.state.userName)
           // console.log("state.token", state.token);
           // console.log("state.authContext", state.authContext);
 
