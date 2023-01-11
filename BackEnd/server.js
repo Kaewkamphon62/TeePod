@@ -54,6 +54,38 @@ app.post("/getDB_IOT", urlencodedParser, async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+app.post("/loadMemberData", urlencodedParser, async (req, res) => {
+  // console.log("userToken: ", req.body.userToken);
+  console.log("");
+  console.log("loadMemberData");
+  let username = req.body.username;
+
+  try {
+    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    if (DB_TeePoT) {
+      // console.log("Test if loadMemberData");
+      const MemberData = await DB_TeePoT.db("TeePoT")
+        .collection("Member_Data")
+        .findOne({ username });
+
+      if (MemberData != null) {
+        console.log(MemberData);
+
+        res.json({
+          mdata: MemberData,
+        });
+      }
+    }
+  } catch (error) {
+    // console.error(error);
+    console.log("NetWork Error");
+
+    res.json({
+      resError: "NetWork Error",
+    });
+  }
+});
+
 app.post("/loadFloweringlants", urlencodedParser, async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
   console.log("");
@@ -75,6 +107,52 @@ app.post("/loadFloweringlants", urlencodedParser, async (req, res) => {
       res.json({
         fp: await getFloweringlants(),
       });
+    }
+  } catch (error) {
+    // console.error(error);
+    console.log("NetWork Error");
+
+    res.json({
+      resError: "NetWork Error",
+    });
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+//หน้าเลือกพืช
+
+app.post("/SelectFloweringlants", urlencodedParser, async (req, res) => {
+  // console.log("userToken: ", req.body.userToken);
+  console.log("");
+  console.log("SelectFloweringlants");
+
+  // console.log(req.body.UserUsername)
+  // console.log(req.body.name_flowring_plants)
+  // console.log(req.body.sunbathing_time)
+
+  let Username = req.body.UserUsername;
+  let NFP = req.body.name_flowring_plants;
+  let ST = req.body.sunbathing_time;
+
+  try {
+    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    if (DB_TeePoT) {
+      const DataUpdate = await DB_TeePoT.db("TeePoT")
+        .collection("Member_Data")
+        .updateOne(
+          { username: Username },
+          { $set: { name_flowring_plants: NFP, sunbathing_time: ST } }
+        );
+
+      // res.json({
+      //   alert: "อัพเดตเรียบร้อย",
+      // });
+
+      if (DataUpdate) {
+        res.json({
+          alert: "อัพเดตเรียบร้อย",
+        });
+      }
     }
   } catch (error) {
     // console.error(error);
@@ -145,6 +223,7 @@ app.post("/ctoken", urlencodedParser, async (req, res) => {
       });
     } else {
       res.json({
+        name: User.user,
         role: User.role,
       });
     }

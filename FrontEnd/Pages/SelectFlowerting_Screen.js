@@ -1,12 +1,28 @@
-import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  ScrollView,
+} from "react-native";
 import React, { useEffect } from "react";
 import axios from "axios";
+import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
-const SelectFlowerting = () => {
+const SelectFlowerting = ({ navigation }) => {
+  /////////////////////////////////////////////////////////////////
+  const { state, otherFunction } = React.useContext(PrivateRoute_Context);
+  /////////////////////////////////////////////////////////////////
+
   const [Floweringlants, setFloweringlants] = React.useState([]);
+  const [Username, setUsername] = React.useState(null);
 
   React.useEffect(() => {
     setFloweringlants([]);
+    setUsername(null);
+
+    const username = state.userName;
     const getDB = async () => {
       await axios
         .post("http://192.168.137.1:3000/loadFloweringlants")
@@ -14,6 +30,7 @@ const SelectFlowerting = () => {
           if (res.data.fp != undefined) {
             // console.log("res.data.fp", typeof res.data.fp);
             setFloweringlants(res.data.fp);
+            setUsername(username);
           }
         })
         .catch((error) => {
@@ -36,8 +53,31 @@ const SelectFlowerting = () => {
         {Floweringlants.filter((a, key) => key % 2 == 0).map((data, key) => {
           return (
             <View key={key}>
-              <Text style={styles.marginItems}>Picture</Text>
-              <Button title={data.name_flowring_plants} />
+              <Text value="Hello" style={styles.marginItems}>
+                Picture
+              </Text>
+
+              <Button
+                title={data.name_flowring_plants}
+                onPress={async () => {
+                  await axios
+                    .post("http://192.168.137.1:3000/SelectFloweringlants", {
+                      UserUsername: Username,
+                      name_flowring_plants: data.name_flowring_plants,
+                      sunbathing_time: data.sunbathing_time,
+                    })
+                    .then(async (res) => {
+                      if (res.data.alert != undefined) {
+                        // alert(res.data.alert);
+                        await otherFunction.getMemberData({
+                          username: state.userName,
+                        });
+
+                        await navigation.navigate("Member_Home");
+                      }
+                    });
+                }}
+              />
             </View>
           );
         })}
@@ -48,7 +88,28 @@ const SelectFlowerting = () => {
           return (
             <View key={key}>
               <Text style={styles.marginItems}>Picture</Text>
-              <Button title={data.name_flowring_plants} />
+              <Button
+                title={data.name_flowring_plants}
+                onPress={async () => {
+                  await axios
+                    .post("http://192.168.137.1:3000/SelectFloweringlants", {
+                      UserUsername: Username,
+                      name_flowring_plants: data.name_flowring_plants,
+                      sunbathing_time: data.sunbathing_time,
+                    })
+                    .then(async (res) => {
+                      if (res.data.alert != undefined) {
+                        // alert(res.data.alert);
+
+                        await otherFunction.getMemberData({
+                          username: state.userName,
+                        });
+
+                        await navigation.navigate("Member_Home");
+                      }
+                    });
+                }}
+              />
             </View>
           );
         })}

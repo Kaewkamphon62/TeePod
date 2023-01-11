@@ -12,8 +12,50 @@ import axios from "axios";
 
 const Home_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
-  const { authSign } = React.useContext(PrivateRoute_Context);
+  const { authSign, otherFunction, state } =
+    React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
+
+  
+  const [InputKey, setInputKey] = React.useState(null);
+  const [Key, setKey] = React.useState({
+    tempc: null,
+    humid: null,
+    moisture: null,
+  });
+
+  React.useEffect(() => {
+    console.log("")
+    otherFunction.getMemberData({username: state.userName});
+  }, []);
+
+  // React.useEffect(() => {
+  //   if (UserUsername != "") {
+  //     const getDB = async () => {
+  //       const username = state.userName;
+  //       console.log("userename", username);
+
+  //       await axios
+  //         .post("http://192.168.137.1:3000/loadMemberData", { username })
+  //         .then(async (res) => {
+  //           if (res.data.mdata != null) {
+  //             // console.log(res.data.mdata);
+  //             setmemberData({
+  //               username: username,
+  //               name_flowring_plants: res.data.mdata.name_flowring_plants,
+  //               sunbathing_time: res.data.mdata.sunbathing_time,
+  //             });
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //         });
+  //     };
+  //     getDB();
+  //   } else {
+  //     setUserUsername(state.userName);
+  //   }
+  // }, [UserUsername]);
 
   // const removeValue = async () => {
   //   try {
@@ -25,13 +67,6 @@ const Home_Screen = ({ navigation }) => {
   //   console.log("Done.");
   // };
 
-  const [InputKey, setInputKey] = React.useState(null);
-  const [Key, setKey] = React.useState({
-    tempc: null,
-    humid: null,
-    moisture: null,
-  });
-
   return (
     <View
       style={{
@@ -41,8 +76,13 @@ const Home_Screen = ({ navigation }) => {
         justifyContent: "center",
       }}
     >
-      <Text style={{ textAlign: "center" }}>
+      {/* <Text style={{ textAlign: "center" }}>
         {"\n"} Home Screen {"\n"}
+      </Text> */}
+
+      <Text style={{ textAlign: "center" }}>
+        {"\n"} User: {state.userName}
+        {"\n"}
       </Text>
 
       <View style={styles.row}>
@@ -122,7 +162,7 @@ const Home_Screen = ({ navigation }) => {
           <Text>อุณหภูมิ:</Text>
         </View>
         <View style={{ flex: 1 }}>
-          {Key.tempc != null ? (
+          {Key.tempc != undefined ? (
             <>
               <Text>{Key.tempc}</Text>
             </>
@@ -139,15 +179,11 @@ const Home_Screen = ({ navigation }) => {
           <Text>ความชื้นในดิน:</Text>
         </View>
         <View style={{ flex: 1 }}>
-          {Key.humid != null ? (
+          {Key.humid != undefined ? (
             <>
               <Text>{Key.humid}</Text>
             </>
-          ) : (
-            <>
-              <Text></Text>
-            </>
-          )}
+          ) : null}
         </View>
       </View>
 
@@ -160,11 +196,7 @@ const Home_Screen = ({ navigation }) => {
             <>
               <Text>{Key.moisture}</Text>
             </>
-          ) : (
-            <>
-              <Text></Text>
-            </>
-          )}
+          ) : null}
         </View>
       </View>
 
@@ -184,7 +216,11 @@ const Home_Screen = ({ navigation }) => {
         <View
           style={{ flex: 2, alignItems: "center", justifyContent: "center" }}
         >
-          <Text>TextTest</Text>
+          {state.sunbathing_time != null ? (
+            <>
+              <Text>{state.sunbathing_time}</Text>
+            </>
+          ) : null}
         </View>
         <View style={{ flex: 1, paddingRight: "4%" }}>
           <Button title="เริ่ม/หยุด" />
@@ -202,7 +238,11 @@ const Home_Screen = ({ navigation }) => {
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          <Text>TextTest</Text>
+          {state.name_fp != null ? (
+            <>
+              <Text>{state.name_fp}</Text>
+            </>
+          ) : null}
         </View>
         <View style={{ flex: 1, paddingRight: "4%" }}>
           <Button

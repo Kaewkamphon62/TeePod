@@ -18,13 +18,23 @@ export const PrivateRoute = ({ children }) => {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
+        case "MemberDB":
+          return {
+            ...prevState,
+            name_fp: action.nfp,
+            sunbathing_time: action.st,
+            isLoading: false,
+          };
+
         case "RESTORE_TOKEN":
           return {
             ...prevState,
             userToken: action.token,
             userRole: action.role,
+            userName: action.name,
             isLoading: false,
           };
+
         case "SIGN_IN":
           return {
             ...prevState,
@@ -32,6 +42,7 @@ export const PrivateRoute = ({ children }) => {
             userToken: action.token,
             userRole: action.role,
           };
+
         case "SIGN_OUT":
           return {
             ...prevState,
@@ -46,6 +57,9 @@ export const PrivateRoute = ({ children }) => {
       isSignout: false,
       userToken: null,
       userRole: null,
+      userName: null,
+      name_fp: null,
+      sunbathing_time: null,
     }
   );
 
@@ -63,6 +77,7 @@ export const PrivateRoute = ({ children }) => {
                 type: "RESTORE_TOKEN",
                 token: userToken,
                 role: res.data.role,
+                name: res.data.name,
               });
             }
 
@@ -76,6 +91,35 @@ export const PrivateRoute = ({ children }) => {
     };
     Token_Sync();
   }, []);
+
+  const otherFunction = React.useMemo(() => ({
+    getMemberData: async (e) => {
+      // console.log("getMemberData", e.username);
+      let username = e.username;
+
+      await axios
+        .post("http://192.168.137.1:3000/loadMemberData", { username })
+        .then(async (res) => {
+          if (res.data.mdata != null) {
+            // console.log(res.data.mdata);
+            // console.log(
+            //   "name_flowring_plants: ",
+            //   res.data.mdata.name_flowring_plants
+            // );
+            // console.log("sunbathing_time: ", res.data.mdata.sunbathing_time);
+
+            dispatch({
+              type: "MemberDB",
+              nfp: res.data.mdata.name_flowring_plants,
+              st: res.data.mdata.sunbathing_time,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  }));
 
   const authSign = React.useMemo(
     () => ({
@@ -135,7 +179,7 @@ export const PrivateRoute = ({ children }) => {
   );
 
   return (
-    <PrivateRoute_Context.Provider value={{ authSign, state }}>
+    <PrivateRoute_Context.Provider value={{ authSign, otherFunction, state }}>
       {children}
     </PrivateRoute_Context.Provider>
   );
