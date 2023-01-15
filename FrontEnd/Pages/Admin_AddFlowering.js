@@ -36,6 +36,7 @@ const Admin_AddFlowering = ({ navigation }) => {
     propagation: "", //การขยายพันธุ์
     sunbathing_time: "", //แสงที่ต้องการ(เวลา)
     other: "", //อื่นๆ
+    url_image: "", //ลิ้งรูป
   });
 
   const DD_lineage = [
@@ -670,6 +671,17 @@ const Admin_AddFlowering = ({ navigation }) => {
           setNewFlowering({
             ...NewFlowering,
             other: e,
+          });
+        }}
+      />
+
+      <Text style={styles.label}>URL Image</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          setNewFlowering({
+            ...NewFlowering,
+            url_image: e,
           });
         }}
       />

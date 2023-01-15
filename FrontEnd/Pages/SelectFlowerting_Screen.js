@@ -9,6 +9,7 @@ import {
 import React, { useEffect } from "react";
 import axios from "axios";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
+import { Image } from "react-native";
 
 const SelectFlowerting = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
@@ -52,10 +53,18 @@ const SelectFlowerting = ({ navigation }) => {
       <View style={styles.ContainerMain}>
         {Floweringlants.filter((a, key) => key % 2 == 0).map((data, key) => {
           return (
-            <View key={key}>
-              <Text value="Hello" style={styles.marginItems}>
+            <View style={{ alignItems: "center" }} key={key}>
+              {/* <Text value="Hello" style={styles.marginItems}>
                 Picture
-              </Text>
+              </Text> */}
+
+              <Image
+                // style={styles.marginItems}
+                style={styles.images}
+                source={{
+                  uri: data.url_image,
+                }}
+              />
 
               <Button
                 title={data.name_flowring_plants}
@@ -86,8 +95,17 @@ const SelectFlowerting = ({ navigation }) => {
       <View style={styles.ContainerMain}>
         {Floweringlants.filter((a, key) => key % 2 == 1).map((data, key) => {
           return (
-            <View key={key}>
-              <Text style={styles.marginItems}>Picture</Text>
+            <View style={{ alignItems: "center" }} key={key}>
+              {/* <Text style={styles.marginItems}>Picture</Text> */}
+
+              <Image
+                // style={styles.marginItems}
+                style={styles.images}
+                source={{
+                  uri: data.url_image,
+                }}
+              />
+
               <Button
                 title={data.name_flowring_plants}
                 onPress={async () => {
@@ -123,6 +141,17 @@ export default SelectFlowerting;
 const styles = StyleSheet.create({
   marginItems: {
     marginVertical: "20%",
+  },
+
+  images: {
+    marginTop: "20%",
+    marginBottom: "1%",
+    width: 100,
+    height: 100,
+    borderStyle: "solid",
+    borderColor: "black",
+    borderRadius: 5,
+    borderWidth: 1,
   },
 
   ContainerMain: {
