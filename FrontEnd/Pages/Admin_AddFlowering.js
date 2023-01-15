@@ -12,6 +12,9 @@ import axios from "axios";
 
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
+import SelectDropdown from "react-native-select-dropdown";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 const Admin_AddFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
   const { state } = React.useContext(PrivateRoute_Context);
@@ -28,259 +31,675 @@ const Admin_AddFlowering = ({ navigation }) => {
     fruitage: "", //การออกผล
     growth_rate: "", //การเจริญเติบโต
     soil: "", //ดิน
-    sunlight: "", //แสงที่ต้องการ
-    sunbathing_time: "", //แสงที่ต้องการ(เวลา)
     desired_water: "", //น้ำที่ต้องการ
+    sunlight: "", //แสงที่ต้องการ
     propagation: "", //การขยายพันธุ์
+    sunbathing_time: "", //แสงที่ต้องการ(เวลา)
     other: "", //อื่นๆ
   });
 
+  const DD_lineage = [
+    "Asteraceae",
+    "Brassicaceae",
+    "Campanulaceae",
+    "Malvaceae",
+    "Papaveraceae",
+    "Solanaceae",
+    "Lamiaceae",
+  ];
+  const DD_flower_type = ["ไม้ดอก", "ไ้ม้ล้มลุก", "ไม้ดอกและไม้ล้มลุก"];
+  const DD_growth = ["เร็ว", "ปานกลาง", "ช้า"];
+  const DD_soil = [
+    "ดินร่วนระบายน้ำดี",
+    "ดินร่วนปนทราย ระบายน้ำดี",
+    "วัสดุระบายน้ำดี ปลูกในน้ำแทนวัสดุได้",
+  ];
+  const DD_sunlight = [
+    "รำไร ทนร่มได้ดี",
+    "รำไร ชอบอากาศเย็น",
+    "ตลอดวัน ถึงครึ่งวัน",
+    "ตลอดวัน ชอบอากาศเย็น",
+    "ตลอดวัน ชอบอากาศเย็น ทนร้อน ",
+    "ตลอดวัน ชอบอากาศเย็น ทนทาน",
+  ];
+  const DD_water = ["น้อย", "ปานกลาง", "มาก"];
+  const DD_propagation = [
+    "เพาะเมล็ด",
+    "ปักชำกิ่ง",
+    "แยกหัว",
+    "ตอนกิ่ง ปักชำกิ่ง",
+    "เพาะเมล็ด หรือแยกหัว",
+    "เพาะเมล็ดหรือปักชำกิ่ง",
+    "เพาะเมล็ด ปักชำกิ่ง หรือแยกกอ",
+    "เพาะเมล็ด หรือแยกเหง้า",
+  ];
+  const DD_hour = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21,
+    22, 23, 24,
+  ];
+  const DD_miute = [0, 10, 20, 30, 40, 50];
+
   return (
-    <ScrollView style={{ backgroundColor: "#D0F48E"}}>
-      <View
-        style={{
-          flex: 1,
-          // alignItems: "center",
-          justifyContent: "center",
+    <ScrollView
+      contentContainerStyle={{
+        backgroundColor: "#D0F48E",
+        flexGrow: 1,
+        justifyContent: "center",
+      }}
+    >
+      <Text>{"\n"}</Text>
+      <Text>{"\n"}</Text>
+      <Text style={{ textAlign: "center", fontSize: 20 }}>
+        เพิ่มข้อมูลพืชชนิดใหม่
+      </Text>
+
+      <Text style={styles.label}>ชื่อพืช</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          setNewFlowering({
+            ...NewFlowering,
+            name_flowring_plants: e,
+          });
         }}
-      >
-        <View style={{ alignItems: "center" }}>
-          <Text>{"\n"}</Text>
+      />
 
-          {/* <Button
-            title="Function"
-            onPress={() => console.log("Admin_AddFlowering Call")}
-          />
-          <Button title="Logout" onPress={() => removeValue()} /> */}
-        </View>
+      <Text style={styles.label}>ชื่อวิทยาศาสตร์</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          setNewFlowering({
+            ...NewFlowering,
+            name_science: e,
+          });
+        }}
+      />
 
-        <Text>{"\n"}</Text>
-
-        <View style={{ paddingLeft: "15%" }}>
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>ชื่อ</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  name_flowring_plants: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>ชื่อวิทยาศาสตร์</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  name_science: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>วงศ์</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  clan: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>ประเภท</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  type: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>ลำต้น</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  plant_stem: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>ใบ</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  leaf: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>ดอก</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  flowering: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>ผล</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  fruitage: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>อัตราการเจริญเติบโต</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  growth_rate: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>ดิน</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  soil: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>แสงแดด</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  sunlight: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>เวลาอาบแดด</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  sunbathing_time: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>น้ำ</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  desired_water: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>ขยายพันธุ์</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  propagation: e,
-                });
-              }}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={{ paddingLeft: "3%" }}>การใช้งานและอื่นๆ</Text>
-            <TextInput
-              style={styles.textinput}
-              onChangeText={async (e) => {
-                await setNewFlowering({
-                  ...NewFlowering,
-                  other: e,
-                });
-              }}
-            />
-          </View>
-        </View>
-
-        <Text>{"\n"}</Text>
-
-        <View style={{ alignItems: "center" }}>
-          <Button
-            title="Add New Flower"
-            onPress={async () => {
-              await axios
-                .post("http://192.168.137.1:3000/NewFlowering", {
-                  NewFlowering,
-                  Role: state.userRole,
-                })
-                .then(async (res) => {
-                  if (res.data.alert != undefined) {
-                    alert(res.data.alert);
-                  }
-
-                  if (res.data.nav != undefined) {
-                    alert(res.data.nav);
-                    navigation.navigate("Admin_Home");
-                  }
-                });
+      <View style={{ alignItems: "center" }}>
+        <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              marginBottom: 10,
+              paddingStart: "1%",
             }}
-          />
+          >
+            <Text style={{ marginVertical: 7 }}>วงศ์ตระกูล</Text>
+
+            <SelectDropdown
+              data={DD_lineage}
+              // defaultValueByIndex={1}
+              // defaultValue={'Egypt'}
+              onSelect={(selectedItem, index) => {
+                // console.log(selectedItem, index);
+
+                setNewFlowering({
+                  ...NewFlowering,
+                  clan: selectedItem,
+                });
+              }}
+              defaultButtonText={"..."}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown1BtnStyle}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={15}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={styles.dropdown1RowTxtStyle}
+            />
+          </View>
+
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <Text style={{ marginVertical: 7 }}>ประเภท</Text>
+
+            <SelectDropdown
+              data={DD_flower_type}
+              // defaultValueByIndex={1}
+              // defaultValue={'Egypt'}
+              onSelect={(selectedItem, index) => {
+                // console.log(selectedItem, index);
+
+                setNewFlowering({
+                  ...NewFlowering,
+                  type: selectedItem,
+                });
+              }}
+              defaultButtonText={"..."}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown1BtnStyle}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={15}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={styles.dropdown1RowTxtStyle}
+            />
+          </View>
+        </View>
+      </View>
+
+      <Text style={styles.label}>ลำต้น</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          setNewFlowering({
+            ...NewFlowering,
+            plant_stem: e,
+          });
+        }}
+      />
+
+      <Text style={styles.label}>ใบ</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          setNewFlowering({
+            ...NewFlowering,
+            leaf: e,
+          });
+        }}
+      />
+
+      <Text style={styles.label}>การออกดอก</Text>
+      <TextInput
+        editable={true}
+        multiline={true}
+        numberOfLines={6}
+        style={{
+          backgroundColor: "white",
+          borderStyle: "solid",
+          borderColor: "#B7B7B7",
+          borderRadius: 7,
+          borderWidth: 1,
+          fontSize: 13,
+          marginHorizontal: 10,
+          paddingStart: 10,
+          marginBottom: 10,
+        }}
+        onChangeText={async (e) => {
+          setNewFlowering({
+            ...NewFlowering,
+            flowering: e,
+          });
+        }}
+      />
+
+      <Text style={styles.label}>การออกผล</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          setNewFlowering({
+            ...NewFlowering,
+            fruitage: e,
+          });
+        }}
+      />
+
+      <View style={{ alignItems: "center" }}>
+        <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              marginBottom: 10,
+              paddingStart: "1.8%",
+            }}
+          >
+            <Text style={{ marginVertical: 7 }}>การเจริญเติบโต</Text>
+
+            <SelectDropdown
+              data={DD_growth}
+              // defaultValueByIndex={1}
+              // defaultValue={'Egypt'}
+              onSelect={(selectedItem, index) => {
+                // console.log(selectedItem, index);
+
+                setNewFlowering({
+                  ...NewFlowering,
+                  growth_rate: selectedItem,
+                });
+              }}
+              defaultButtonText={"..."}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown1BtnStyle}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={15}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={styles.dropdown1RowTxtStyle}
+            />
+          </View>
+
+          <View
+            style={{
+              flex: 2,
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <Text style={{ marginVertical: 7 }}>ดิน</Text>
+
+            <SelectDropdown
+              data={DD_soil}
+              // defaultValueByIndex={1}
+              // defaultValue={'Egypt'}
+              onSelect={(selectedItem, index) => {
+                // console.log(selectedItem, index);
+
+                setNewFlowering({
+                  ...NewFlowering,
+                  soil: selectedItem,
+                });
+              }}
+              defaultButtonText={"..."}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown1BtnStyle}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={15}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={{ color: "#444", textAlign: "left", fontSize: 13 }}
+            />
+          </View>
         </View>
 
-        <Text>{"\n"}</Text>
-        <Text>{"\n"}</Text>
+        <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              marginBottom: 10,
+              paddingStart: "1.8%",
+            }}
+          >
+            <Text style={{ marginVertical: 7 }}>น้ำที่ต้องการ</Text>
+
+            <SelectDropdown
+              data={DD_water}
+              // defaultValueByIndex={1}
+              // defaultValue={'Egypt'}
+              onSelect={(selectedItem, index) => {
+                // console.log(selectedItem, index);
+
+                setNewFlowering({
+                  ...NewFlowering,
+                  desired_water: selectedItem,
+                });
+              }}
+              defaultButtonText={"..."}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown1BtnStyle}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={15}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={styles.dropdown1RowTxtStyle}
+            />
+          </View>
+
+          <View
+            style={{
+              flex: 2,
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <Text style={{ marginVertical: 7 }}>แสงที่ต้องการ</Text>
+
+            <SelectDropdown
+              data={DD_sunlight}
+              // defaultValueByIndex={1}
+              // defaultValue={'Egypt'}
+              onSelect={(selectedItem, index) => {
+                // console.log(selectedItem, index);
+
+                setNewFlowering({
+                  ...NewFlowering,
+                  sunlight: selectedItem,
+                });
+              }}
+              defaultButtonText={"..."}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown1BtnStyle}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={15}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={{ color: "#444", textAlign: "left", fontSize: 15 }}
+            />
+          </View>
+        </View>
+
+        <View style={{ flexDirection: "row", marginBottom: 7 }}>
+          <View
+            style={{
+              flex: 1,
+              marginBottom: 10,
+              marginStart: 10,
+            }}
+          >
+            <Text style={{ marginVertical: 7 }}>การขยายพันธุ์</Text>
+
+            <SelectDropdown
+              data={DD_propagation}
+              // defaultValueByIndex={1}
+              // defaultValue={'Egypt'}
+              onSelect={(selectedItem, index) => {
+                // console.log(selectedItem, index);
+
+                setNewFlowering({
+                  ...NewFlowering,
+                  propagation: selectedItem,
+                });
+              }}
+              defaultButtonText={"..."}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={{
+                width: "97.5%",
+                height: 45,
+                backgroundColor: "#FFF",
+                borderRadius: 7,
+                borderWidth: 1,
+                borderColor: "#444",
+              }}
+              buttonTextStyle={styles.dropdown1BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    color={"#444"}
+                    size={15}
+                  />
+                );
+              }}
+              dropdownIconPosition={"right"}
+              dropdownStyle={styles.dropdown1DropdownStyle}
+              rowStyle={styles.dropdown1RowStyle}
+              rowTextStyle={styles.dropdown1RowTxtStyle}
+            />
+          </View>
+        </View>
       </View>
+
+      <View style={{ flexDirection: "row", marginBottom: 7 }}>
+        <View
+          style={{
+            flex: 1,
+            marginBottom: 10,
+          }}
+        >
+          <Text style={styles.label}>เวลาการอาบแดดต่อวัน</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              paddingStart: "3%",
+            }}
+          >
+            <View style={{ flex: 1.75 }}>
+              <SelectDropdown
+                data={DD_hour}
+                // defaultValueByIndex={1}
+                // defaultValue={'Egypt'}
+                onSelect={(selectedItem, index) => {
+                  // console.log(selectedItem, index);
+                  let hour = String(selectedItem);
+
+                  if (NewFlowering.sunbathing_time != "") {
+                    let splitvalue = NewFlowering.sunbathing_time.split("h");
+                    setNewFlowering({
+                      ...NewFlowering,
+                      sunbathing_time: hour + "h" + splitvalue[1],
+                    });
+                  } else {
+                    setNewFlowering({
+                      ...NewFlowering,
+                      sunbathing_time: hour + "h00m",
+                    });
+                  }
+                }}
+                defaultButtonText={"..."}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+                buttonStyle={{
+                  width: "100%",
+                  height: 45,
+                  backgroundColor: "#FFF",
+                  borderRadius: 7,
+                  borderWidth: 1,
+                  borderColor: "#444",
+                }}
+                buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                renderDropdownIcon={(isOpened) => {
+                  return (
+                    <FontAwesome
+                      name={isOpened ? "chevron-up" : "chevron-down"}
+                      color={"#444"}
+                      size={15}
+                    />
+                  );
+                }}
+                dropdownIconPosition={"right"}
+                dropdownStyle={styles.dropdown1DropdownStyle}
+                rowStyle={styles.dropdown1RowStyle}
+                rowTextStyle={styles.dropdown1RowTxtStyle}
+              />
+            </View>
+            <View style={{ flex: 0.8, alignItems: "center" }}>
+              <Text style={{ fontSize: 17 }}>ชั่วโมง</Text>
+            </View>
+
+            <View style={{ flex: 1.75 }}>
+              <SelectDropdown
+                data={DD_miute}
+                // defaultValueByIndex={1}
+                // defaultValue={'Egypt'}
+                onSelect={(selectedItem, index) => {
+                  // console.log(selectedItem, index);
+                  let minute = String(selectedItem);
+
+                  if (NewFlowering.sunbathing_time != "") {
+                    // console.log(NewFlowering.sunbathing_time);
+                    let splitvalue = NewFlowering.sunbathing_time.split("h");
+
+                    setNewFlowering({
+                      ...NewFlowering,
+                      sunbathing_time: splitvalue[0] + "h" + minute + "m",
+                    });
+                  } else {
+                    setNewFlowering({
+                      ...NewFlowering,
+                      sunbathing_time: "0h" + minute,
+                    });
+                  }
+                }}
+                defaultButtonText={"..."}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+                buttonStyle={{
+                  width: "100%",
+                  height: 45,
+                  backgroundColor: "#FFF",
+                  borderRadius: 7,
+                  borderWidth: 1,
+                  borderColor: "#444",
+                }}
+                buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                renderDropdownIcon={(isOpened) => {
+                  return (
+                    <FontAwesome
+                      name={isOpened ? "chevron-up" : "chevron-down"}
+                      color={"#444"}
+                      size={15}
+                    />
+                  );
+                }}
+                dropdownIconPosition={"right"}
+                dropdownStyle={styles.dropdown1DropdownStyle}
+                rowStyle={styles.dropdown1RowStyle}
+                rowTextStyle={styles.dropdown1RowTxtStyle}
+              />
+            </View>
+            <View style={{ flex: 0.8, alignItems: "center" }}>
+              <Text style={{ fontSize: 17 }}>นาที</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      <Text style={styles.label}>อื่นๆ</Text>
+      <TextInput
+        editable={true}
+        multiline={true}
+        numberOfLines={10}
+        style={{
+          backgroundColor: "white",
+          borderStyle: "solid",
+          borderColor: "#B7B7B7",
+          borderRadius: 7,
+          borderWidth: 1,
+          fontSize: 13,
+          marginHorizontal: 10,
+          paddingStart: 10,
+          marginBottom: 10,
+        }}
+        onChangeText={async (e) => {
+          setNewFlowering({
+            ...NewFlowering,
+            other: e,
+          });
+        }}
+      />
+
+      <View style={{ alignItems: "center", marginTop: "5%" }}>
+        <Button
+          title="Add New Flower"
+          onPress={async () => {
+            console.log("AllInput: ", NewFlowering);
+
+            await axios
+              .post("http://192.168.137.1:3000/NewFlowering", {
+                NewFlowering,
+                Role: state.userRole,
+              })
+              .then(async (res) => {
+                if (res.data.alert != undefined) {
+                  alert(res.data.alert);
+                }
+
+                if (res.data.complete != undefined) {
+                  alert(res.data.complete);
+                  navigation.navigate("Admin_Home");
+                }
+              });
+          }}
+        />
+      </View>
+
+      <Text>{"\n"}</Text>
     </ScrollView>
   );
 };
@@ -288,6 +707,18 @@ const Admin_AddFlowering = ({ navigation }) => {
 export default Admin_AddFlowering;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#D0F48E",
+    flex: 1,
+    justifyContent: "center",
+  },
+  square: {
+    backgroundColor: "#7cb48f",
+    width: 100,
+    height: 100,
+    margin: 4,
+  },
+
   button: {
     alignItems: "center",
     justifyContent: "center",
@@ -301,16 +732,37 @@ const styles = StyleSheet.create({
     width: 100,
   },
 
-  row: {
-    flexDirection: "column",
+  input: {
+    backgroundColor: "white",
+    borderStyle: "solid",
+    borderColor: "#B7B7B7",
+    borderRadius: 7,
+    borderWidth: 1,
+    fontSize: 13,
+    height: 45,
+    marginHorizontal: 10,
+    paddingStart: 10,
+    marginBottom: 10,
   },
 
-  textinput: {
-    backgroundColor: "white",
-    height: 35,
-    width: "80%",
-    margin: 8,
-    borderWidth: 1,
-    padding: 10,
+  label: {
+    marginBottom: 7,
+    marginStart: 10,
   },
+
+  dropdown1BtnStyle: {
+    width: "92%",
+    height: 45,
+    backgroundColor: "#FFF",
+    borderRadius: 7,
+    borderWidth: 1,
+    borderColor: "#444",
+  },
+  dropdown1BtnTxtStyle: { color: "#444", textAlign: "left" },
+  dropdown1DropdownStyle: { backgroundColor: "#EFEFEF" },
+  dropdown1RowStyle: {
+    backgroundColor: "#EFEFEF",
+    borderBottomColor: "#C5C5C5",
+  },
+  dropdown1RowTxtStyle: { color: "#444", textAlign: "left" },
 });

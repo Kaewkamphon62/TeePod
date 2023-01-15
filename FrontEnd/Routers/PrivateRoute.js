@@ -150,9 +150,11 @@ export const PrivateRoute = ({ children }) => {
               // await storeData(res.data.token);
               await AsyncStorage.setItem("@Token", res.data.token);
 
-              await otherFunction.getMemberData({
-                username: res.data.member_username,
-              });
+              if (res.data.role != "Admin") {
+                await otherFunction.getMemberData({
+                  username: res.data.member_username,
+                });
+              }
 
               dispatch({
                 type: "RESTORE_TOKEN",

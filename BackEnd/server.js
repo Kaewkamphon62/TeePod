@@ -182,20 +182,34 @@ app.post("/NewFlowering", urlencodedParser, async (req, res) => {
           .findOne({ name_flowring_plants });
 
         if (Old_name == null) {
-          await DB_TeePoT.db("TeePoT")
+          // await DB_TeePoT.db("TeePoT")
+          //   .collection("Flowering_Plants")
+          //   .insertOne(myobj, function (err, res2) {
+          //     if (err) throw err;
+          //     console.log("'1' document inserted complete");
+          //     res.json({
+          //       alert: "เพิ่มพืชใหม่แล้ว",
+          //     });
+
+          //     res.json({
+          //       nav: "get home screen",
+          //     });
+          //     DB_TeePoT.close();
+          //   });
+
+          const AddNewFlowering = await DB_TeePoT.db("TeePoT")
             .collection("Flowering_Plants")
-            .insertOne(myobj, function (err, res2) {
-              if (err) throw err;
-              console.log("'1' document inserted complete");
-              res.json({
-                alert: "เพิ่มพืชใหม่แล้ว",
-              });
-              DB_TeePoT.close();
+            .insertOne(myobj);
+
+          if (AddNewFlowering) {
+            res.json({
+              complete: "เพิ่มพืชใหม่แล้ว",
             });
+          }
         } else {
           if (Old_name != null) {
             res.json({
-              alert: "มีชื่อพืชนี้",
+              alert: "มีชื่อพืชนี้ในระบบแล้ว",
             });
           }
         }
@@ -278,7 +292,7 @@ app.post("/login", urlencodedParser, async (req, res) => {
           res.json({
             token: accessToken,
             role: CollectionWhere,
-            member_username: username
+            member_username: username,
           });
         } else {
           //รหัสผ่านไม่ถูกต้อง

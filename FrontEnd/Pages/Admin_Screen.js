@@ -27,20 +27,20 @@ const Admin_Screen = ({ navigation }) => {
       <Text style={{ textAlign: "center" }}>Admin Screen</Text>
 
       {/* <View style={styles.row}> */}
-        {/* <Button
+      {/* <Button
           title="Function"
           onPress={() => console.log("Admin_Page Call")}
         /> */}
-        {/* <Button title="Logout" onPress={() => removeValue()} /> */}
+      {/* <Button title="Logout" onPress={() => removeValue()} /> */}
       {/* </View> */}
 
-      {/* <View style={styles.row}> */}
-        {/* <Button
+      <View style={styles.row}>
+        <Button
           title="ExampleUI_Screen"
           onPress={() => navigation.navigate("ExampleUI_Screen")}
-        /> */}
+        />
         {/* <Button title="Logout" onPress={() => removeValue()} /> */}
-      {/* </View> */}
+      </View>
 
       <View style={styles.row}>
         <Button
