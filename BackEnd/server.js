@@ -86,15 +86,15 @@ app.post("/loadMemberData", urlencodedParser, async (req, res) => {
   }
 });
 
-app.post("/loadFloweringlants", urlencodedParser, async (req, res) => {
+app.post("/loadFloweringplants", urlencodedParser, async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
   console.log("");
-  console.log("loadFloweringlants");
+  console.log("loadFloweringplants");
 
   try {
     const DB_TeePoT = await mongoose.connect(mongoUrl, config);
     if (DB_TeePoT) {
-      const getFloweringlants = async () => {
+      const getFloweringplants = async () => {
         let Data = await DB_TeePoT.db("TeePoT")
           .collection("Flowering_Plants")
           .find({})
@@ -105,7 +105,7 @@ app.post("/loadFloweringlants", urlencodedParser, async (req, res) => {
       // console.log("Floweringlants", await getFloweringlants());
 
       res.json({
-        fp: await getFloweringlants(),
+        fp: await getFloweringplants(),
       });
     }
   } catch (error) {

@@ -11,6 +11,7 @@ import Loading_Screen from "./Pages/Loading_Screen";
 
 import Admin_Screen from "./Pages/Admin_Screen";
 import Admin_AddFlowering_Screen from "./Pages/Admin_AddFlowering";
+import Admin_EditFlowering_Screen from "./Pages/Admin_EditFlowering";
 import ExampleUI_Screen from "./Pages/ExampleUI_Screen";
 
 import Home_Screen from "./Pages/Home_Screen";
@@ -36,7 +37,7 @@ export default function App() {
     <PrivateRoute>
       <PrivateRoute_Context.Consumer>
         {(event) => {
-          console.log("CheckUser: ", event.state.userName)
+          // console.log("CheckUser: ", event.state.userName)
           // console.log("state.token", state.token);
           // console.log("state.authContext", state.authContext);
 
@@ -72,6 +73,7 @@ export default function App() {
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Admin_Home" component={Admin_Screen} />
                   <Stack.Screen name="Admin_AddFlowering_Screen" component={Admin_AddFlowering_Screen} />
+                  <Stack.Screen name="Admin_EditFlowering_Screen" component={Admin_EditFlowering_Screen} />
 
                   <Stack.Screen name="ExampleUI_Screen" component={ExampleUI_Screen} />
                 </Stack.Navigator>

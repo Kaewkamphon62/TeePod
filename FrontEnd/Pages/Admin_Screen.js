@@ -42,10 +42,20 @@ const Admin_Screen = ({ navigation }) => {
         {/* <Button title="Logout" onPress={() => removeValue()} /> */}
       </View>
 
+      <Text>{"\n"}</Text>
+
       <View style={styles.row}>
         <Button
           title="เพิ่มพืช"
           onPress={() => navigation.navigate("Admin_AddFlowering_Screen")}
+        />
+        {/* <Button title="Logout" onPress={() => removeValue()} /> */}
+      </View>
+
+      <View style={styles.row}>
+        <Button
+          title="แก้ไข"
+          onPress={() => navigation.navigate("Admin_EditFlowering_Screen")}
         />
         {/* <Button title="Logout" onPress={() => removeValue()} /> */}
       </View>

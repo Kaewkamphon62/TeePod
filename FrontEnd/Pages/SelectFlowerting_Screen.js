@@ -16,21 +16,21 @@ const SelectFlowerting = ({ navigation }) => {
   const { state, otherFunction } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
-  const [Floweringlants, setFloweringlants] = React.useState([]);
+  const [FloweringPlants, setFloweringPlants] = React.useState([]);
   const [Username, setUsername] = React.useState(null);
 
   React.useEffect(() => {
-    setFloweringlants([]);
+    setFloweringPlants([]);
     setUsername(null);
 
     const username = state.userName;
     const getDB = async () => {
       await axios
-        .post("http://192.168.137.1:3000/loadFloweringlants")
+        .post("http://192.168.137.1:3000/loadFloweringPlants")
         .then(async (res) => {
           if (res.data.fp != undefined) {
             // console.log("res.data.fp", typeof res.data.fp);
-            setFloweringlants(res.data.fp);
+            setFloweringPlants(res.data.fp);
             setUsername(username);
           }
         })
@@ -51,7 +51,7 @@ const SelectFlowerting = ({ navigation }) => {
       }}
     >
       <View style={styles.ContainerMain}>
-        {Floweringlants.filter((a, key) => key % 2 == 0).map((data, key) => {
+        {FloweringPlants.filter((a, key) => key % 2 == 0).map((data, key) => {
           return (
             <View style={{ alignItems: "center" }} key={key}>
               {/* <Text value="Hello" style={styles.marginItems}>
@@ -70,7 +70,7 @@ const SelectFlowerting = ({ navigation }) => {
                 title={data.name_flowring_plants}
                 onPress={async () => {
                   await axios
-                    .post("http://192.168.137.1:3000/SelectFloweringlants", {
+                    .post("http://192.168.137.1:3000/SelectFloweringPlants", {
                       UserUsername: Username,
                       name_flowring_plants: data.name_flowring_plants,
                       sunbathing_time: data.sunbathing_time,
@@ -93,7 +93,7 @@ const SelectFlowerting = ({ navigation }) => {
       </View>
 
       <View style={styles.ContainerMain}>
-        {Floweringlants.filter((a, key) => key % 2 == 1).map((data, key) => {
+        {FloweringPlants.filter((a, key) => key % 2 == 1).map((data, key) => {
           return (
             <View style={{ alignItems: "center" }} key={key}>
               {/* <Text style={styles.marginItems}>Picture</Text> */}
@@ -110,7 +110,7 @@ const SelectFlowerting = ({ navigation }) => {
                 title={data.name_flowring_plants}
                 onPress={async () => {
                   await axios
-                    .post("http://192.168.137.1:3000/SelectFloweringlants", {
+                    .post("http://192.168.137.1:3000/SelectFloweringPlants", {
                       UserUsername: Username,
                       name_flowring_plants: data.name_flowring_plants,
                       sunbathing_time: data.sunbathing_time,
