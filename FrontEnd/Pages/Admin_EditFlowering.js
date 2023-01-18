@@ -58,6 +58,7 @@ const Admin_EditFlowering = ({ navigation }) => {
 
   const [SelectFloweringPlants, setSelectFloweringPlants] = React.useState([]);
   const [NameFloweringPlants, setNameFloweringPlants] = React.useState([]);
+  const [Old_NameFloweringPlants, setOld_NameFloweringPlants] = React.useState("");
   const [FloweringPlants, setFloweringPlants] = React.useState({
     name_flowring_plants: "", //ชื่อ
     name_science: "", //ชื่อวิทาศาสตร์
@@ -259,6 +260,7 @@ const Admin_EditFlowering = ({ navigation }) => {
                   (dataFP) => dataFP.name_flowring_plants
                 ).indexOf(selectedItem);
 
+                await setOld_NameFloweringPlants(selectedItem)
                 await setSelectFloweringPlants(FloweringPlants[PositionName]);
               })();
             }}
@@ -983,21 +985,20 @@ const Admin_EditFlowering = ({ navigation }) => {
               JSON.stringify(SelectFloweringPlants, null, 2)
             );
 
-            // await axios
-            //   .post("http://192.168.137.1:3000/", {
-            //     SelectFloweringPlants,
-            //     Role: state.userRole,
-            //   })
-            //   .then(async (res) => {
-            //     if (res.data.alert != undefined) {
-            //       alert(res.data.alert);
-            //     }
+            await axios
+              .post("http://192.168.137.1:3000/EditFloweringlants", {
+                SelectFloweringPlants,
+                Old_NameFloweringPlants
+              })
+              .then(async (res) => {
+                if (res.data.alert != undefined) {
+                  alert(res.data.alert);
+                }
 
-            //     if (res.data.complete != undefined) {
-            //       alert(res.data.complete);
-            //       navigation.navigate("Admin_Home");
-            //     }
-            //   });
+                if (res.data.complete != undefined) {
+                  alert(res.data.complete);
+                }
+              });
           }}
         />
       </View>

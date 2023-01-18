@@ -86,10 +86,10 @@ app.post("/loadMemberData", urlencodedParser, async (req, res) => {
   }
 });
 
-app.post("/loadFloweringplants", urlencodedParser, async (req, res) => {
+app.post("/loadFloweringPlants", urlencodedParser, async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
   console.log("");
-  console.log("loadFloweringplants");
+  console.log("loadFloweringPlants");
 
   try {
     const DB_TeePoT = await mongoose.connect(mongoUrl, config);
@@ -121,18 +121,18 @@ app.post("/loadFloweringplants", urlencodedParser, async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //หน้าเลือกพืช
 
-app.post("/SelectFloweringlants", urlencodedParser, async (req, res) => {
+app.post("/SelectFloweringPlants", urlencodedParser, async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
   console.log("");
-  console.log("SelectFloweringlants");
+  console.log("SelectFloweringPlants");
 
   // console.log(req.body.UserUsername)
   // console.log(req.body.name_flowring_plants)
   // console.log(req.body.sunbathing_time)
 
   let Username = req.body.UserUsername;
-  let NFP = req.body.name_flowring_plants;
-  let ST = req.body.sunbathing_time;
+  const NFP = req.body.name_flowring_plants;
+  const ST = req.body.sunbathing_time;
 
   try {
     const DB_TeePoT = await mongoose.connect(mongoUrl, config);
@@ -142,6 +142,67 @@ app.post("/SelectFloweringlants", urlencodedParser, async (req, res) => {
         .updateOne(
           { username: Username },
           { $set: { name_flowring_plants: NFP, sunbathing_time: ST } }
+        );
+
+      // res.json({
+      //   alert: "อัพเดตเรียบร้อย",
+      // });
+
+      if (DataUpdate) {
+        res.json({
+          alert: "อัพเดตเรียบร้อย",
+        });
+      }
+    }
+  } catch (error) {
+    // console.error(error);
+    console.log("NetWork Error");
+
+    res.json({
+      resError: "NetWork Error",
+    });
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+//หน้าอัพเดตพืช
+
+app.post("/EditFloweringlants", urlencodedParser, async (req, res) => {
+  // console.log("userToken: ", req.body.userToken);
+  console.log("");
+  console.log("EditFloweringlants");
+
+  const SelectFlowering = req.body.SelectFloweringPlants;
+  let Old_Name = req.body.Old_NameFloweringPlants;
+  console.log(Old_Name);
+
+  try {
+    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    if (DB_TeePoT) {
+      const DataUpdate = await DB_TeePoT.db("TeePoT")
+        .collection("Flowering_Plants")
+        .updateOne(
+          { name_flowring_plants: Old_Name },
+          {
+            $set: {
+              name_flowring_plants: SelectFlowering.name_flowring_plants, //ชื่อ
+              name_science: SelectFlowering.name_science, //ชื่อวิทาศาสตร์
+              clan: SelectFlowering.clan, //วงศ์
+              type: SelectFlowering.type, //ประเภท
+              plant_stem: SelectFlowering.plant_stem, //ลำต้น
+              leaf: SelectFlowering.leaf, //ใบ
+              flowering: SelectFlowering.flowering, //การออกดอก
+              fruitage: SelectFlowering.fruitage, //การออกผล
+              growth_rate: SelectFlowering.growth_rate, //การเจริญเติบโต
+              soil: SelectFlowering.soil, //ดิน
+              desired_water: SelectFlowering.desired_water, //น้ำที่ต้องการ
+              sunlight: SelectFlowering.sunlight, //แสงที่ต้องการ
+              propagation: SelectFlowering.propagation, //การขยายพันธุ์
+              sunbathing_time: SelectFlowering.sunbathing_time, //แสงที่ต้องการ(เวลา)
+              other: SelectFlowering.other, //อื่นๆ
+              url_image: SelectFlowering.url_image, //ลิ้งรูป
+            },
+          },
         );
 
       // res.json({

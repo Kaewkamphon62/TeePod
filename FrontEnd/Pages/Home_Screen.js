@@ -28,34 +28,6 @@ const Home_Screen = ({ navigation }) => {
     otherFunction.getMemberData({ username: state.userName });
   }, []);
 
-  // React.useEffect(() => {
-  //   if (UserUsername != "") {
-  //     const getDB = async () => {
-  //       const username = state.userName;
-  //       console.log("userename", username);
-
-  //       await axios
-  //         .post("http://192.168.137.1:3000/loadMemberData", { username })
-  //         .then(async (res) => {
-  //           if (res.data.mdata != null) {
-  //             // console.log(res.data.mdata);
-  //             setmemberData({
-  //               username: username,
-  //               name_flowring_plants: res.data.mdata.name_flowring_plants,
-  //               sunbathing_time: res.data.mdata.sunbathing_time,
-  //             });
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.log(error);
-  //         });
-  //     };
-  //     getDB();
-  //   } else {
-  //     setUserUsername(state.userName);
-  //   }
-  // }, [UserUsername]);
-
   // const removeValue = async () => {
   //   try {
   //     await AsyncStorage.removeItem("@storage_Key");

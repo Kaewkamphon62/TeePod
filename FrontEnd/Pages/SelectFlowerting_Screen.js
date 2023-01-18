@@ -6,7 +6,7 @@ import {
   Button,
   ScrollView,
 } from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { Image } from "react-native";
@@ -69,6 +69,8 @@ const SelectFlowerting = ({ navigation }) => {
               <Button
                 title={data.name_flowring_plants}
                 onPress={async () => {
+                  console.log("Select: ", data.name_flowring_plants);
+
                   await axios
                     .post("http://192.168.137.1:3000/SelectFloweringPlants", {
                       UserUsername: Username,
