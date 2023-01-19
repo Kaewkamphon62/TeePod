@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import axios from "axios";
+import CountDown from "react-native-countdown-component";
 
 const Home_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
@@ -24,19 +25,19 @@ const Home_Screen = ({ navigation }) => {
   });
 
   React.useEffect(() => {
-    console.log("");
+    // clearTimer(getDeadTime());
     otherFunction.getMemberData({ username: state.userName });
   }, []);
 
-  // const removeValue = async () => {
-  //   try {
-  //     await AsyncStorage.removeItem("@storage_Key");
-  //     // navigation.navigate("SignIn")
-  //   } catch (e) {
-  //     // remove error
-  //   }
-  //   console.log("Done.");
-  // };
+  const [Timer, setTimer] = React.useState("00:00:00");
+  const [CountTime, setCountTime] = React.useState(true);
+
+  const [counter, setCounter] = React.useState(60);
+  React.useEffect(() => {
+    if(CountTime == true){
+      counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+    }
+  }, [counter, CountTime]);
 
   return (
     <View
@@ -187,14 +188,36 @@ const Home_Screen = ({ navigation }) => {
         <View
           style={{ flex: 2, alignItems: "center", justifyContent: "center" }}
         >
-          {state.sunbathing_time != null ? (
+          {/* {state.sunbathing_time != null ? (
             <>
               <Text>{state.sunbathing_time}</Text>
             </>
-          ) : null}
+          ) : null} */}
+
+          <View>
+            {/* <CountDown
+              until={10}
+              onFinish={() => alert("finished")}
+              onPress={() => alert("hello")}
+              size={20}
+            /> */}
+            {/* <Text style={{ fontSize: 30 }}>{Timer}</Text> */}
+            <Text style={{ fontSize: 30 }}>{counter}</Text>
+          </View>
         </View>
-        <View style={{ flex: 1, paddingRight: "4%" }}>
-          <Button title="เริ่ม/หยุด" />
+        <View style={{ flex: 1, paddingRight: "4%", justifyContent: "center" }}>
+          <Button
+            title="เริ่ม/หยุด"
+            onPress={async () => {
+              if (CountTime == true) {
+                setCountTime(false);
+              } else {
+                setCountTime(true);
+              }
+
+              // setCounter(60);
+            }}
+          />
         </View>
       </View>
 
@@ -217,7 +240,7 @@ const Home_Screen = ({ navigation }) => {
         </View>
         <View style={{ flex: 1, paddingRight: "4%" }}>
           <Button
-            title="เลือกพืช"
+            title="เปลี่ยนพืช"
             onPress={() => navigation.navigate("Member_SelectFlowerting")}
           />
         </View>
