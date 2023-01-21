@@ -4,7 +4,7 @@ import React from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { PrivateRoute, PrivateRoute_Context } from "./Routers/PrivateRoute";
 
@@ -13,7 +13,6 @@ import Loading_Screen from "./Pages/Loading_Screen";
 import Admin_Screen from "./Pages/Admin_Screen";
 import Admin_AddFlowering_Screen from "./Pages/Admin_AddFlowering";
 import Admin_EditFlowering_Screen from "./Pages/Admin_EditFlowering";
-import ExampleUI_Screen from "./Pages/ExampleUI_Screen";
 
 import Home_Screen from "./Pages/Home_Screen";
 import DashBoard_Screen from "./Pages/DashBoard_Screen";
@@ -25,13 +24,6 @@ import SignUp_Screen from "./Pages/SignUp_Screen";
 const Stack = createNativeStackNavigator();
 
 const Tabs = createBottomTabNavigator();
-const tabs = [
-  { name: "A" },
-  { name: "B" },
-  { name: "C" },
-  { name: "D" },
-  { name: "E" },
-];
 
 export default function App() {
   console.log("");
@@ -76,18 +68,34 @@ export default function App() {
                   <Stack.Screen name="SignUp" component={SignUp_Screen} />
                 </Stack.Navigator>
               ) : event.state.userRole != "Admin" ? (
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Member_Home" component={Home_Screen} />
-                  <Stack.Screen
+                // <Stack.Navigator screenOptions={{ headerShown: false }}>
+                //   <Stack.Screen name="Member_Home" component={Home_Screen} />
+                //   <Stack.Screen name="Member_DashBoard" component={DashBoard_Screen} />
+                //   <Stack.Screen name="Member_SelectFlowerting" component={SelectFlowerting_Screen} />
+                // </Stack.Navigator>
+
+                <Tabs.Navigator screenOptions={{ tabBarVisible: false }}>
+                  <Tabs.Screen name="Member_Home" component={Home_Screen} />
+                  <Tabs.Screen
                     name="Member_DashBoard"
                     component={DashBoard_Screen}
                   />
-                  <Stack.Screen
+                  <Tabs.Screen
                     name="Member_SelectFlowerting"
                     component={SelectFlowerting_Screen}
                   />
-                </Stack.Navigator>
+                </Tabs.Navigator>
               ) : (
+                // <Tabs.Navigator
+                //   initialRouteName={ROUTES.A}
+                //   tabBar={(props) => <TabsUI {...{ tabs, ...props }} />}
+                // >
+                //   <Tabs.Screen name={ROUTES.A} component={ScreenA} />
+                //   <Tabs.Screen name={ROUTES.B} component={ScreenB} />
+                //   <Tabs.Screen name={ROUTES.C} component={ScreenC} />
+                //   <Tabs.Screen name={ROUTES.D} component={ScreenD} />
+                //   <Tabs.Screen name={ROUTES.E} component={ScreenE} />
+                // </Tabs.Navigator>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Admin_Home" component={Admin_Screen} />
                   <Stack.Screen
@@ -97,11 +105,6 @@ export default function App() {
                   <Stack.Screen
                     name="Admin_EditFlowering_Screen"
                     component={Admin_EditFlowering_Screen}
-                  />
-
-                  <Stack.Screen
-                    name="ExampleUI_Screen"
-                    component={ExampleUI_Screen}
                   />
                 </Stack.Navigator>
               )}
