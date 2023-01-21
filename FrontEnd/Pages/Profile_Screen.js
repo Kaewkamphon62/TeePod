@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
+import { Image } from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Profile_Screen = () => {
   /////////////////////////////////////////////////////////////////
@@ -9,35 +11,35 @@ const Profile_Screen = () => {
   /////////////////////////////////////////////////////////////////
   return (
     <View style={styles.Container}>
-      {/* <View style={{ flex: 1, backgroundColor: "red" }} />
-      <View style={{ flex: 1, backgroundColor: "darkorange" }} />
-      <View style={{ flex: 1, backgroundColor: "green" }} /> */}
-
       <View
         style={{
           height: "5%",
           justifyContent: "center",
-          // alignItems: "center",
           borderWidth: 1,
           flex: 0.75,
         }}
       >
-        <View style={{ flexDirection: "row"}}>
-          <Text
-            style={[
-              styles.fontStyle,
-              { flex: 1, backgroundColor: "red", textAlign: "center"},
-            ]}
-          >
-            Hello
-          </Text>
-          <Text
-            style={[
-              styles.fontStyle,
-              { flex: 1, backgroundColor: "green", textAlign: "center" },
-            ]}
-          >
-            Hello
+        <View
+          style={{ flex: 3, justifyContent: "center", alignItems: "center" }}
+        >
+          <Image
+            style={{
+              resizeMode: "cover",
+              marginTop: "17.5%",
+              width: "40%",
+              height: "67.5%",
+              borderStyle: "solid",
+              borderColor: "black",
+              borderRadius: 100,
+              borderWidth: 1,
+            }}
+            source={require("../Assets/images/avatar.jpg")}
+          />
+        </View>
+
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={{ textAlign: "center", fontSize: 25 }}>
+            {state.userName}
           </Text>
         </View>
       </View>
@@ -48,15 +50,48 @@ const Profile_Screen = () => {
           alignItems: "stretch",
           borderWidth: 1,
           flex: 1,
-          // backgroundColor: "red"
         }}
       >
-        <View style={styles.FlexContainer}>
-          <Text style={styles.fontStyle}>TestText</Text>
+        <View
+          style={{
+            height: "15%",
+            justifyContent: "center",
+            alignItems: "center",
+            flex: 1,
+          }}
+        >
+          <View style={{ flexDirection: "row", marginVertical: "2%" }}>
+            <MaterialCommunityIcons
+              style={{ flex: 1, textAlign: "center" }}
+              name="key-link"
+              size={35}
+              color="black"
+            />
+
+            <Text style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}>
+              TestText
+            </Text>
+          </View>
+          <View style={{ flexDirection: "row", marginVertical: "2%" }}>
+            <MaterialCommunityIcons
+              style={{ flex: 1, textAlign: "center" }}
+              name="flower"
+              size={35}
+              color="black"
+            />
+
+            <Text style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}>
+              TestText
+            </Text>
+          </View>
         </View>
 
         <View style={styles.FlexContainer}>
-          <Text style={styles.fontStyle}>TestText</Text>
+          {/* <Text style={styles.fontStyle}>TestText</Text> */}
+        </View>
+
+        <View style={styles.FlexContainer}>
+          {/* <Text style={styles.fontStyle}>TestText</Text> */}
         </View>
 
         <View

@@ -106,11 +106,6 @@ const DashBoard_Screen = ({ navigation }) => {
         {"\n"} Home Screen {"\n"}
       </Text> */}
 
-      <Text style={{ textAlign: "center"}}>
-        {"\n"} User: {state.userName}
-        {"\n"}
-      </Text>
-
       <View style={styles.row}>
         <Text style={{ color: "black" }}>InputKey</Text>
         <TextInput
@@ -301,7 +296,6 @@ const DashBoard_Screen = ({ navigation }) => {
 
       {/* <Button title="Logout" onPress={() => removeValue()} /> */}
 
-
       {/* <Text style={{ textAlign: "center" }}>
         <Pressable
           style={styles.button}
@@ -310,7 +304,6 @@ const DashBoard_Screen = ({ navigation }) => {
           <Text style={{ color: "white" }}>Logout</Text>
         </Pressable>
       </Text> */}
-
     </View>
   );
 };
