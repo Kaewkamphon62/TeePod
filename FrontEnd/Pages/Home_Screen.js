@@ -3,7 +3,7 @@ import React from "react";
 
 const Home_Screen = () => {
   return (
-    <View style={{ alignItems: "center", justifyContent: "center", flex: 1}}>
+    <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
       <Text>Home_Screen</Text>
     </View>
   );

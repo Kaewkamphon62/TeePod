@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import axios from "axios";
-import CountDown from "react-native-countdown-component";
 
 const DashBoard_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
@@ -301,16 +300,17 @@ const DashBoard_Screen = ({ navigation }) => {
       <Text>{"\n"}</Text>
 
       {/* <Button title="Logout" onPress={() => removeValue()} /> */}
-      <Text style={{ textAlign: "center" }}>
+
+
+      {/* <Text style={{ textAlign: "center" }}>
         <Pressable
           style={styles.button}
           onPress={async () => await authSign.signOut()}
         >
           <Text style={{ color: "white" }}>Logout</Text>
         </Pressable>
+      </Text> */}
 
-        {/* <Button title="Logout" onPress={async () => await authSign.signOut()} /> */}
-      </Text>
     </View>
   );
 };

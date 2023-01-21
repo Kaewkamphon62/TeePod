@@ -3,8 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+const Stack = createNativeStackNavigator();
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const Tabs = createBottomTabNavigator();
 
 import { PrivateRoute, PrivateRoute_Context } from "./Routers/PrivateRoute";
 
@@ -16,14 +19,14 @@ import Admin_EditFlowering_Screen from "./Pages/Admin_EditFlowering";
 
 import Home_Screen from "./Pages/Home_Screen";
 import DashBoard_Screen from "./Pages/DashBoard_Screen";
+import Profile_Screen from "./Pages/Profile_Screen";
 import SelectFlowerting_Screen from "./Pages/SelectFlowerting_Screen";
 
 import SignIn_Screen from "./Pages/SignIn_Screen";
 import SignUp_Screen from "./Pages/SignUp_Screen";
 
-const Stack = createNativeStackNavigator();
-
-const Tabs = createBottomTabNavigator();
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function App() {
   console.log("");
@@ -73,18 +76,58 @@ export default function App() {
                 //   <Stack.Screen name="Member_DashBoard" component={DashBoard_Screen} />
                 //   <Stack.Screen name="Member_SelectFlowerting" component={SelectFlowerting_Screen} />
                 // </Stack.Navigator>
+                  <Tabs.Navigator
+                    screenOptions={{
+                      tabBarStyle: { height: "8%" },
+                      tabBarVisible: false,
+                      headerShown: false,
+                      tabBarLabelPosition: "below-icon",
+                      tabBarLabelStyle: { fontSize: 12, marginBottom: "5%" },
+                      tabBarIconStyle: { marginTop: "5%" },
+                    }}
+                  >
 
-                <Tabs.Navigator screenOptions={{ tabBarVisible: false }}>
-                  <Tabs.Screen name="Member_Home" component={Home_Screen} />
-                  <Tabs.Screen
-                    name="Member_DashBoard"
-                    component={DashBoard_Screen}
-                  />
-                  <Tabs.Screen
-                    name="Member_SelectFlowerting"
-                    component={SelectFlowerting_Screen}
-                  />
-                </Tabs.Navigator>
+
+                    
+                    {/* <Tabs.Screen
+                    name="Member_Home"
+                    component={Home_Screen}
+                    options={{
+                      tabBarLabel: "Home",
+                      tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons
+                          name="home"
+                          color={color}
+                          size={size}
+                        />
+                      ),
+                    }}
+                  /> */}
+                    <Tabs.Screen
+                      name="Member_DashBoard"
+                      component={DashBoard_Screen}
+                      options={{
+                        tabBarLabel: "DashBoard",
+                        tabBarIcon: ({ color, size }) => (
+                          <AntDesign
+                            name="dashboard"
+                            color={color}
+                            size={size}
+                          />
+                        ),
+                      }}
+                    />
+                    <Tabs.Screen
+                      name="Member_Profile"
+                      component={Profile_Screen}
+                      options={{
+                        tabBarLabel: "Profile",
+                        tabBarIcon: ({ color, size }) => (
+                          <AntDesign name="profile" color={color} size={size} />
+                        ),
+                      }}
+                    />
+                  </Tabs.Navigator>
               ) : (
                 // <Tabs.Navigator
                 //   initialRouteName={ROUTES.A}
