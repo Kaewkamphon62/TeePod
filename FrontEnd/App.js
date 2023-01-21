@@ -4,6 +4,7 @@ import React from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { PrivateRoute, PrivateRoute_Context } from "./Routers/PrivateRoute";
 
@@ -16,12 +17,21 @@ import ExampleUI_Screen from "./Pages/ExampleUI_Screen";
 
 import Home_Screen from "./Pages/Home_Screen";
 import DashBoard_Screen from "./Pages/DashBoard_Screen";
-import SelectFlowerting_Screen from "./Pages/SelectFlowerting_Screen"
+import SelectFlowerting_Screen from "./Pages/SelectFlowerting_Screen";
 
 import SignIn_Screen from "./Pages/SignIn_Screen";
 import SignUp_Screen from "./Pages/SignUp_Screen";
 
 const Stack = createNativeStackNavigator();
+
+const Tabs = createBottomTabNavigator();
+const tabs = [
+  { name: "A" },
+  { name: "B" },
+  { name: "C" },
+  { name: "D" },
+  { name: "E" },
+];
 
 export default function App() {
   console.log("");
@@ -68,16 +78,31 @@ export default function App() {
               ) : event.state.userRole != "Admin" ? (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Member_Home" component={Home_Screen} />
-                  <Stack.Screen name="Member_DashBoard" component={DashBoard_Screen} />
-                  <Stack.Screen name="Member_SelectFlowerting" component={SelectFlowerting_Screen} />
+                  <Stack.Screen
+                    name="Member_DashBoard"
+                    component={DashBoard_Screen}
+                  />
+                  <Stack.Screen
+                    name="Member_SelectFlowerting"
+                    component={SelectFlowerting_Screen}
+                  />
                 </Stack.Navigator>
               ) : (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Admin_Home" component={Admin_Screen} />
-                  <Stack.Screen name="Admin_AddFlowering_Screen" component={Admin_AddFlowering_Screen} />
-                  <Stack.Screen name="Admin_EditFlowering_Screen" component={Admin_EditFlowering_Screen} />
+                  <Stack.Screen
+                    name="Admin_AddFlowering_Screen"
+                    component={Admin_AddFlowering_Screen}
+                  />
+                  <Stack.Screen
+                    name="Admin_EditFlowering_Screen"
+                    component={Admin_EditFlowering_Screen}
+                  />
 
-                  <Stack.Screen name="ExampleUI_Screen" component={ExampleUI_Screen} />
+                  <Stack.Screen
+                    name="ExampleUI_Screen"
+                    component={ExampleUI_Screen}
+                  />
                 </Stack.Navigator>
               )}
             </NavigationContainer>
