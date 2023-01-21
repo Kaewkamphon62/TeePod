@@ -58,7 +58,8 @@ const Admin_EditFlowering = ({ navigation }) => {
 
   const [SelectFloweringPlants, setSelectFloweringPlants] = React.useState([]);
   const [NameFloweringPlants, setNameFloweringPlants] = React.useState([]);
-  const [Old_NameFloweringPlants, setOld_NameFloweringPlants] = React.useState("");
+  const [Old_NameFloweringPlants, setOld_NameFloweringPlants] =
+    React.useState("");
   const [FloweringPlants, setFloweringPlants] = React.useState({
     name_flowring_plants: "", //ชื่อ
     name_science: "", //ชื่อวิทาศาสตร์
@@ -196,7 +197,12 @@ const Admin_EditFlowering = ({ navigation }) => {
 
   const GetValueTime = (i) => {
     let value = "";
-    if (SelectFloweringPlants.sunbathing_time != undefined) {
+
+    // console.log("SFP001", SelectFloweringPlants.sunbathing_time);
+    if (
+      SelectFloweringPlants.sunbathing_time != undefined &&
+      SelectFloweringPlants.sunbathing_time != ""
+    ) {
       let ArrayTime = SelectFloweringPlants.sunbathing_time.split("h");
 
       if (i == "h") {
@@ -260,7 +266,7 @@ const Admin_EditFlowering = ({ navigation }) => {
                   (dataFP) => dataFP.name_flowring_plants
                 ).indexOf(selectedItem);
 
-                await setOld_NameFloweringPlants(selectedItem)
+                await setOld_NameFloweringPlants(selectedItem);
                 await setSelectFloweringPlants(FloweringPlants[PositionName]);
               })();
             }}
@@ -813,6 +819,9 @@ const Admin_EditFlowering = ({ navigation }) => {
                 onSelect={(selectedItem, index) => {
                   // console.log(selectedItem, index);
                   let hour = String(selectedItem);
+                  // if (hour == "") {
+                  //   hour = 0;
+                  // }
 
                   if (SelectFloweringPlants.sunbathing_time != undefined) {
                     let splitvalue =
@@ -988,7 +997,7 @@ const Admin_EditFlowering = ({ navigation }) => {
             await axios
               .post("http://192.168.137.1:3000/EditFloweringlants", {
                 SelectFloweringPlants,
-                Old_NameFloweringPlants
+                Old_NameFloweringPlants,
               })
               .then(async (res) => {
                 if (res.data.alert != undefined) {

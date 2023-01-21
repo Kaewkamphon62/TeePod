@@ -108,10 +108,14 @@ export const PrivateRoute = ({ children }) => {
             // );
             // console.log("sunbathing_time: ", res.data.mdata.sunbathing_time);
 
+            const ST_Split = res.data.mdata.sunbathing_time.split("h");
+            let hours = parseInt(ST_Split[0]) * 3600000;
+            let minute = parseInt(ST_Split[1]) * 60000;
+
             dispatch({
               type: "MemberDB",
               nfp: res.data.mdata.name_flowring_plants,
-              st: res.data.mdata.sunbathing_time,
+              st: hours + minute,
             });
           }
         })

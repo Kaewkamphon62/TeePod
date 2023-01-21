@@ -15,6 +15,7 @@ import Admin_EditFlowering_Screen from "./Pages/Admin_EditFlowering";
 import ExampleUI_Screen from "./Pages/ExampleUI_Screen";
 
 import Home_Screen from "./Pages/Home_Screen";
+import DashBoard_Screen from "./Pages/DashBoard_Screen";
 import SelectFlowerting_Screen from "./Pages/SelectFlowerting_Screen"
 
 import SignIn_Screen from "./Pages/SignIn_Screen";
@@ -67,6 +68,7 @@ export default function App() {
               ) : event.state.userRole != "Admin" ? (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Member_Home" component={Home_Screen} />
+                  <Stack.Screen name="Member_DashBoard" component={DashBoard_Screen} />
                   <Stack.Screen name="Member_SelectFlowerting" component={SelectFlowerting_Screen} />
                 </Stack.Navigator>
               ) : (
