@@ -25,10 +25,47 @@ import SelectFlowerting_Screen from "./Pages/SelectFlowerting_Screen";
 import SignIn_Screen from "./Pages/SignIn_Screen";
 import SignUp_Screen from "./Pages/SignUp_Screen";
 
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
-export default function App() {
+function TabScreen() {
+  return (
+    <Tabs.Navigator
+      screenOptions={{
+        tabBarStyle: { height: "8%" },
+        tabBarVisible: false,
+        headerShown: false,
+        tabBarLabelPosition: "below-icon",
+        tabBarLabelStyle: { fontSize: 12, marginBottom: "5%" },
+        tabBarIconStyle: { marginTop: "5%" },
+      }}
+    >
+      <Tabs.Screen
+        name="Member_DashBoard"
+        component={DashBoard_Screen}
+        options={{
+          tabBarLabel: "DashBoard",
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="dashboard" color={color} size={size} />
+          ),
+          // tabBarBadge: 3 //แจ้งเตือน
+        }}
+      />
+
+      <Tabs.Screen
+        name="Member_Profile"
+        component={Profile_Screen}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="profile" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tabs.Navigator>
+  );
+}
+
+function App() {
   console.log("");
   // console.log("App.js");
 
@@ -71,74 +108,15 @@ export default function App() {
                   <Stack.Screen name="SignUp" component={SignUp_Screen} />
                 </Stack.Navigator>
               ) : event.state.userRole != "Admin" ? (
-                // <Stack.Navigator screenOptions={{ headerShown: false }}>
-                //   <Stack.Screen name="Member_Home" component={Home_Screen} />
-                //   <Stack.Screen name="Member_DashBoard" component={DashBoard_Screen} />
-                //   <Stack.Screen name="Member_SelectFlowerting" component={SelectFlowerting_Screen} />
-                // </Stack.Navigator>
-                  <Tabs.Navigator
-                    screenOptions={{
-                      tabBarStyle: { height: "8%" },
-                      tabBarVisible: false,
-                      headerShown: false,
-                      tabBarLabelPosition: "below-icon",
-                      tabBarLabelStyle: { fontSize: 12, marginBottom: "5%" },
-                      tabBarIconStyle: { marginTop: "5%" },
-                    }}
-                  >
-
-
-                    
-                    {/* <Tabs.Screen
-                    name="Member_Home"
-                    component={Home_Screen}
-                    options={{
-                      tabBarLabel: "Home",
-                      tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons
-                          name="home"
-                          color={color}
-                          size={size}
-                        />
-                      ),
-                    }}
-                  /> */}
-                    <Tabs.Screen
-                      name="Member_DashBoard"
-                      component={DashBoard_Screen}
-                      options={{
-                        tabBarLabel: "DashBoard",
-                        tabBarIcon: ({ color, size }) => (
-                          <AntDesign
-                            name="dashboard"
-                            color={color}
-                            size={size}
-                          />
-                        ),
-                      }}
-                    />
-                    <Tabs.Screen
-                      name="Member_Profile"
-                      component={Profile_Screen}
-                      options={{
-                        tabBarLabel: "Profile",
-                        tabBarIcon: ({ color, size }) => (
-                          <AntDesign name="profile" color={color} size={size} />
-                        ),
-                      }}
-                    />
-                  </Tabs.Navigator>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="Tab_Function" component={TabScreen} />
+                  <Stack.Screen name="Member_Home" component={Home_Screen} />
+                  <Stack.Screen
+                    name="Member_SelectFlowerting"
+                    component={SelectFlowerting_Screen}
+                  />
+                </Stack.Navigator>
               ) : (
-                // <Tabs.Navigator
-                //   initialRouteName={ROUTES.A}
-                //   tabBar={(props) => <TabsUI {...{ tabs, ...props }} />}
-                // >
-                //   <Tabs.Screen name={ROUTES.A} component={ScreenA} />
-                //   <Tabs.Screen name={ROUTES.B} component={ScreenB} />
-                //   <Tabs.Screen name={ROUTES.C} component={ScreenC} />
-                //   <Tabs.Screen name={ROUTES.D} component={ScreenD} />
-                //   <Tabs.Screen name={ROUTES.E} component={ScreenE} />
-                // </Tabs.Navigator>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Admin_Home" component={Admin_Screen} />
                   <Stack.Screen
@@ -158,6 +136,8 @@ export default function App() {
     </PrivateRoute>
   );
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {

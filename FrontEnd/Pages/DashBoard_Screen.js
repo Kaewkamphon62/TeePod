@@ -106,7 +106,7 @@ const DashBoard_Screen = ({ navigation }) => {
         {"\n"} Home Screen {"\n"}
       </Text> */}
 
-      <Text style={{ textAlign: "center" }}>
+      <Text style={{ textAlign: "center"}}>
         {"\n"} User: {state.userName}
         {"\n"}
       </Text>

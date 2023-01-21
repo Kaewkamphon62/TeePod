@@ -84,7 +84,7 @@ const SelectFlowerting = ({ navigation }) => {
                           username: state.userName,
                         });
 
-                        await navigation.navigate("Member_Home");
+                        await navigation.navigate("Member_Profile");
                       }
                     });
                 }}
@@ -125,7 +125,7 @@ const SelectFlowerting = ({ navigation }) => {
                           username: state.userName,
                         });
 
-                        await navigation.navigate("Member_Home");
+                        await navigation.navigate("Member_Profile");
                       }
                     });
                 }}
