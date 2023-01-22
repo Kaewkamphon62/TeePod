@@ -102,64 +102,6 @@ const DashBoard_Screen = ({ navigation }) => {
         justifyContent: "center",
       }}
     >
-      {/* <Text style={{ textAlign: "center" }}>
-        {"\n"} Home Screen {"\n"}
-      </Text> */}
-
-      <View style={styles.row}>
-        <Text style={{ color: "black" }}>InputKey</Text>
-        <TextInput
-          style={{
-            backgroundColor: "white",
-            height: 35,
-            width: "50%",
-            margin: 8,
-            borderWidth: 1,
-            padding: 10,
-          }}
-          onChangeText={async (e) => {
-            await setInputKey(e);
-          }}
-        />
-
-        <Button
-          title="SubmitKey"
-          onPress={async () => {
-            if (InputKey != null) {
-              await axios
-                .post("http://192.168.137.1:3000/getDB_IOT", { InputKey })
-                .then(async (res) => {
-                  if (res.data.Key != undefined) {
-                    await setKey({
-                      tempc: res.data.Key.tempc,
-                      humid: res.data.Key.humid,
-                      moisture: res.data.Key.moisture,
-                    });
-                  }
-
-                  if (res.data.resError != undefined) {
-                    alert(res.data.resError);
-                  }
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            } else {
-              alert("กรุณากรอกข้อมูลให้ถูกต้อง");
-            }
-          }}
-        />
-      </View>
-
-      {/* <View style={{ flexDirection: "row" }}>
-        <View style={{ flex: 1 }}>
-          <Button title="Button 1" />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Button title="Button 2" />
-        </View>
-      </View> */}
-
       <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
         <View style={{ flex: 1 }}>
           <Text>สถานะ:</Text>
@@ -265,45 +207,6 @@ const DashBoard_Screen = ({ navigation }) => {
           />
         </View>
       </View>
-
-      <Text>{"\n"}</Text>
-
-      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text>ชื่อพืช:</Text>
-        </View>
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          {state.name_fp != null ? (
-            <>
-              <Text>{state.name_fp}</Text>
-            </>
-          ) : null}
-        </View>
-        <View style={{ flex: 1, paddingRight: "4%" }}>
-          <Button
-            title="เปลี่ยนพืช"
-            onPress={() => navigation.navigate("Member_SelectFlowerting")}
-          />
-        </View>
-      </View>
-
-      <Text>{"\n"}</Text>
-      <Text>{"\n"}</Text>
-
-      {/* <Button title="Logout" onPress={() => removeValue()} /> */}
-
-      {/* <Text style={{ textAlign: "center" }}>
-        <Pressable
-          style={styles.button}
-          onPress={async () => await authSign.signOut()}
-        >
-          <Text style={{ color: "white" }}>Logout</Text>
-        </Pressable>
-      </Text> */}
     </View>
   );
 };

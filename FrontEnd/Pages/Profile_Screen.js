@@ -80,9 +80,15 @@ const Profile_Screen = () => {
               color="black"
             />
 
-            <Text style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}>
-              TestText
-            </Text>
+            {state.name_fp != null ? (
+              <>
+                <Text
+                  style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}
+                >
+                  {state.name_fp}
+                </Text>
+              </>
+            ) : null}
           </View>
         </View>
 

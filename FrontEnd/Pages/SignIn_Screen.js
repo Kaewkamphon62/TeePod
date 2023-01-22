@@ -1,6 +1,7 @@
 import * as React from "react";
-import { StyleSheet, Button, View, Text, TextInput } from "react-native";
+import { StyleSheet, View, Text, TextInput, Pressable } from "react-native";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const SignIn_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
@@ -13,36 +14,90 @@ const SignIn_Screen = ({ navigation }) => {
   });
 
   return (
-    <View style={styles.container}>
-      <Text style={{ color: "black", textAlign: "center" }}>SignIn</Text>
+    <View
+      style={{
+        // backgroundColor: "#D0F48E",
+        justifyContent: "center",
+        flex: 1,
+      }}
+    >
+      <Text style={{ textAlign: "center", fontSize: 40, paddingBottom: 100 }}>
+        Sign In
+      </Text>
 
-      <Text style={styles.label}>Username</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={async (e) => {
-          await setInputSighIn({
-            username: e,
-            password: InputSighIn.password,
-          });
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
         }}
-      />
+      >
+        <AntDesign
+          style={{
+            flex: 1,
+            marginHorizontal: "5%",
+            paddingStart: 10,
+            position: "absolute",
+          }}
+          name="user"
+          size={35}
+          color="black"
+        />
+        <View style={{ flex: 8, marginHorizontal: "5%" }}>
+          <TextInput
+            style={[styles.input, { paddingStart: 60 }]}
+            placeholder={"Username"}
+            onChangeText={async (e) => {
+              setInputSighIn({
+                username: e,
+                password: InputSighIn.password,
+              });
+            }}
+          />
+        </View>
+      </View>
 
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        secureTextEntry={true}
-        style={styles.input}
-        onChangeText={async (e) => {
-          await setInputSighIn({
-            username: InputSighIn.username,
-            password: e,
-          });
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginVertical: "5%",
         }}
-      />
+      >
+        <AntDesign
+          style={{
+            flex: 1,
+            marginHorizontal: "5%",
+            paddingStart: 10,
+            position: "absolute",
+          }}
+          name="lock"
+          size={35}
+          color="black"
+        />
+        <View style={{ flex: 8, marginHorizontal: "5%" }}>
+          <TextInput
+            style={[styles.input, { paddingStart: 60 }]}
+            placeholder={"Password"}
+            onChangeText={async (e) => {
+              setInputSighIn({
+                username: InputSighIn.username,
+                password: e,
+              });
+            }}
+          />
+        </View>
+      </View>
 
-      <Text>{"\n"}</Text>
-      <View style={styles.row}>
-        <Button
-          title="Sign IN"
+      {/* <Text style={styles.fontStyle}>TestText</Text> */}
+
+      <View
+        style={{
+          alignItems: "center",
+          marginHorizontal: "5%",
+        }}
+      >
+        <Pressable
+          style={styles.button}
           onPress={async () => {
             if (InputSighIn.username == null || InputSighIn.password == null) {
               alert("กรุณากรอกข้อมูลให้ครบถ้วน");
@@ -50,8 +105,17 @@ const SignIn_Screen = ({ navigation }) => {
               await authSign.signIn({ InputSighIn });
             }
           }}
-        />
-        <Button title="Sign UP" onPress={async () => await navigation.navigate("SignUp")} />
+        >
+          <Text style={styles.fontStyle}>เข้าสู่ระบบ</Text>
+        </Pressable>
+      </View>
+
+      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <Text style={styles.fontStyle}>Don't have an account? </Text>
+
+        <Pressable onPress={async () => await navigation.navigate("SignUp")}>
+          <Text style={[styles.fontStyle, { color: "#6495ED" }]}>Sign UP</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -60,33 +124,27 @@ const SignIn_Screen = ({ navigation }) => {
 export default SignIn_Screen;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#D0F48E",
-    flex: 1,
-    justifyContent: "center",
+  fontStyle: {
+    textAlign: "center",
   },
-  row: {
-    alignItems: "center",
+
+  button: {
     justifyContent: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: "1rem",
+    height: "25%",
+    width: "100%",
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "#e4e5ea",
   },
+
   input: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
+    borderColor: "black",
     borderStyle: "solid",
-    borderColor: "#B7B7B7",
-    borderRadius: 7,
+    borderRadius: 10,
     borderWidth: 1,
     fontSize: 15,
     height: 50,
-    marginHorizontal: 10,
-    paddingStart: 10,
-    marginBottom: 15,
-  },
-
-  label: {
-    marginBottom: 7,
-    marginStart: 10,
+    paddingStart: 15,
   },
 });
