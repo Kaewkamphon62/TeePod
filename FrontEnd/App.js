@@ -14,6 +14,7 @@ import { PrivateRoute, PrivateRoute_Context } from "./Routers/PrivateRoute";
 import Loading_Screen from "./Pages/Loading_Screen";
 
 import Admin_Screen from "./Pages/Admin_Screen";
+import Admin_Profile_Screen from "./Pages/Admin_Profile";
 import Admin_AddFlowering_Screen from "./Pages/Admin_AddFlowering";
 import Admin_EditFlowering_Screen from "./Pages/Admin_EditFlowering";
 
@@ -26,8 +27,9 @@ import SignIn_Screen from "./Pages/SignIn_Screen";
 import SignUp_Screen from "./Pages/SignUp_Screen";
 
 import AntDesign from "react-native-vector-icons/AntDesign";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-function TabScreen() {
+function TabMember_Function() {
   return (
     <Tabs.Navigator
       screenOptions={{
@@ -59,6 +61,57 @@ function TabScreen() {
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="profile" color={color} size={size} />
           ),
+        }}
+      />
+    </Tabs.Navigator>
+  );
+}
+
+function TabAdmin_Function() {
+  return (
+    <Tabs.Navigator
+      screenOptions={{
+        tabBarStyle: { height: "8%" },
+        tabBarVisible: false,
+        headerShown: false,
+        tabBarLabelPosition: "below-icon",
+        tabBarLabelStyle: { fontSize: 12, marginBottom: "5%" },
+        tabBarIconStyle: { marginTop: "5%" },
+      }}
+    >
+      <Tabs.Screen
+        name="Admin_Profile"
+        component={Admin_Profile_Screen}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="profile" color={color} size={size} />
+          ),
+          // tabBarBadge: 3 //แจ้งเตือน
+        }}
+      />
+
+      <Tabs.Screen
+        name="Admin_AddFlowering"
+        component={Admin_AddFlowering_Screen}
+        options={{
+          tabBarLabel: "NewFlower",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="add" color={color} size={size} />
+          ),
+          // tabBarBadge: 3 //แจ้งเตือน
+        }}
+      />
+
+      <Tabs.Screen
+        name="Admin_EditFlowering"
+        component={Admin_EditFlowering_Screen}
+        options={{
+          tabBarLabel: "EditFlower",
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="edit" color={color} size={size} />
+          ),
+          // tabBarBadge: 3 //แจ้งเตือน
         }}
       />
     </Tabs.Navigator>
@@ -109,7 +162,10 @@ function App() {
                 </Stack.Navigator>
               ) : event.state.userRole != "Admin" ? (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Tab_Function" component={TabScreen} />
+                  <Stack.Screen
+                    name="TabMember"
+                    component={TabMember_Function}
+                  />
                   <Stack.Screen name="Member_Home" component={Home_Screen} />
                   <Stack.Screen
                     name="Member_SelectFlowerting"
@@ -118,7 +174,7 @@ function App() {
                 </Stack.Navigator>
               ) : (
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Admin_Home" component={Admin_Screen} />
+                  <Stack.Screen name="TabAdmin" component={TabAdmin_Function} />
                   <Stack.Screen
                     name="Admin_AddFlowering_Screen"
                     component={Admin_AddFlowering_Screen}
