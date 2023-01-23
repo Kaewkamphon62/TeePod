@@ -16,7 +16,7 @@ const SignUp_Screen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ color: "black", textAlign: "center" }}>SignUp</Text>
+      <Text style={{ color: "black", textAlign: "center", fontSize: 40, paddingBottom: 50}}>SignUp</Text>
 
       <Text style={styles.label}>Username</Text>
       <TextInput

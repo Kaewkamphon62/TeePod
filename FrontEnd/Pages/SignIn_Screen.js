@@ -21,70 +21,113 @@ const SignIn_Screen = ({ navigation }) => {
         flex: 1,
       }}
     >
-      <Text style={{ textAlign: "center", fontSize: 40, paddingBottom: 100 }}>
-        Sign In
-      </Text>
-
       <View
         style={{
-          flexDirection: "row",
           alignItems: "center",
+          justifyContent: "center",
+          // backgroundColor: "red",
+          flex: 0.8,
         }}
       >
-        <AntDesign
+        <Text
           style={{
-            flex: 1,
-            marginHorizontal: "5%",
-            paddingStart: 10,
-            position: "absolute",
+            fontSize: 40,
           }}
-          name="user"
-          size={35}
-          color="black"
-        />
-        <View style={{ flex: 8, marginHorizontal: "5%" }}>
-          <TextInput
-            style={[styles.input, { paddingStart: 60 }]}
-            placeholder={"Username"}
-            onChangeText={async (e) => {
-              setInputSighIn({
-                username: e,
-                password: InputSighIn.password,
-              });
-            }}
-          />
-        </View>
+        >
+          Sign In
+        </Text>
       </View>
 
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          marginVertical: "5%",
+          // backgroundColor: "yellow",
+          flex: 1,
         }}
       >
-        <AntDesign
+        <View
           style={{
-            flex: 1,
-            marginHorizontal: "5%",
-            paddingStart: 10,
-            position: "absolute",
+            flexDirection: "row",
+            alignItems: "center",
           }}
-          name="lock"
-          size={35}
-          color="black"
-        />
-        <View style={{ flex: 8, marginHorizontal: "5%" }}>
-          <TextInput
-            style={[styles.input, { paddingStart: 60 }]}
-            placeholder={"Password"}
-            onChangeText={async (e) => {
-              setInputSighIn({
-                username: InputSighIn.username,
-                password: e,
-              });
+        >
+          <AntDesign
+            style={{
+              marginHorizontal: "5%",
+              position: "absolute",
+              textAlign: "center"
             }}
+            name="user"
+            size={35}
+            color="black"
           />
+          <View style={{ flex: 1, marginHorizontal: "5%" }}>
+            <TextInput
+              style={[styles.input, { paddingStart: 65 }]}
+              placeholder={"Username"}
+              onChangeText={async (e) => {
+                setInputSighIn({
+                  username: e,
+                  password: InputSighIn.password,
+                });
+              }}
+            />
+          </View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginVertical: "5%",
+          }}
+        >
+          <AntDesign
+            style={{
+              // flex: 1,
+              marginHorizontal: "5%",
+              position: "absolute",
+              textAlign: "center"
+            }}
+            name="lock"
+            size={35}
+            color="black"
+          />
+          <View style={{ flex: 1, marginHorizontal: "5%" }}>
+            <TextInput
+              secureTextEntry={true}
+              style={[styles.input, { paddingStart: 65 }]}
+              placeholder={"Password"}
+              onChangeText={async (e) => {
+                setInputSighIn({
+                  username: InputSighIn.username,
+                  password: e,
+                });
+              }}
+            />
+          </View>
+        </View>
+
+        <View
+          style={{
+            alignItems: "center",
+            marginHorizontal: "5%",
+          }}
+        >
+          <Pressable
+            style={styles.button}
+            onPress={async () => {
+              if (
+                InputSighIn.username == null ||
+                InputSighIn.password == null
+              ) {
+                alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+              } else {
+                await authSign.signIn({ InputSighIn });
+              }
+            }}
+          >
+            <Text style={styles.fontStyle}>เข้าสู่ระบบ</Text>
+          </Pressable>
         </View>
       </View>
 
@@ -92,30 +135,19 @@ const SignIn_Screen = ({ navigation }) => {
 
       <View
         style={{
-          alignItems: "center",
-          marginHorizontal: "5%",
+          flex: 0.25,
+          // backgroundColor: "green"
         }}
       >
-        <Pressable
-          style={styles.button}
-          onPress={async () => {
-            if (InputSighIn.username == null || InputSighIn.password == null) {
-              alert("กรุณากรอกข้อมูลให้ครบถ้วน");
-            } else {
-              await authSign.signIn({ InputSighIn });
-            }
-          }}
-        >
-          <Text style={styles.fontStyle}>เข้าสู่ระบบ</Text>
-        </Pressable>
-      </View>
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <Text style={styles.fontStyle}>Don't have an account? </Text>
 
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        <Text style={styles.fontStyle}>Don't have an account? </Text>
-
-        <Pressable onPress={async () => await navigation.navigate("SignUp")}>
-          <Text style={[styles.fontStyle, { color: "#6495ED" }]}>Sign UP</Text>
-        </Pressable>
+          <Pressable onPress={async () => await navigation.navigate("SignUp")}>
+            <Text style={[styles.fontStyle, { color: "#6495ED" }]}>
+              Sign UP
+            </Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -130,7 +162,7 @@ const styles = StyleSheet.create({
 
   button: {
     justifyContent: "center",
-    height: "25%",
+    height: "40%",
     width: "100%",
     borderWidth: 1,
     borderRadius: 10,
