@@ -22,6 +22,7 @@ import Home_Screen from "./Pages/Home_Screen";
 import DashBoard_Screen from "./Pages/DashBoard_Screen";
 import Profile_Screen from "./Pages/Profile_Screen";
 import SelectFlowerting_Screen from "./Pages/SelectFlowerting_Screen";
+import Demo_mqtt_Screen from "./Pages/Demo_mqtt_Screen";
 
 import SignIn_Screen from "./Pages/SignIn_Screen";
 import SignUp_Screen from "./Pages/SignUp_Screen";
@@ -52,7 +53,6 @@ function TabMember_Function() {
           // tabBarBadge: 3 //แจ้งเตือน
         }}
       />
-
       <Tabs.Screen
         name="Member_Profile"
         component={Profile_Screen}
@@ -170,6 +170,10 @@ function App() {
                   <Stack.Screen
                     name="Member_SelectFlowerting"
                     component={SelectFlowerting_Screen}
+                  />
+                  <Stack.Screen
+                    name="Member_Demo_mqtt"
+                    component={Demo_mqtt_Screen}
                   />
                 </Stack.Navigator>
               ) : (

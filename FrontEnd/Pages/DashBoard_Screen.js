@@ -1,210 +1,118 @@
-import * as React from "react";
-import {
-  StyleSheet,
-  Button,
-  View,
-  Text,
-  TextInput,
-  Pressable,
-} from "react-native";
-import { PrivateRoute_Context } from "../Routers/PrivateRoute";
-import axios from "axios";
+import { StyleSheet, View, Pressable, Text } from "react-native";
+import React from "react";
+import * as Progress from "react-native-progress";
+import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
-const DashBoard_Screen = ({ navigation }) => {
-  /////////////////////////////////////////////////////////////////
-  const { authSign, otherFunction, state } =
-    React.useContext(PrivateRoute_Context);
-  /////////////////////////////////////////////////////////////////
-
-  const [InputKey, setInputKey] = React.useState(null);
-  const [Key, setKey] = React.useState({
-    tempc: null,
-    humid: null,
-    moisture: null,
-  });
-
-  const [Milliseconds, setMilliseconds] = React.useState(null);
-  const [ShowTime, setShowTime] = React.useState(null);
-  const [CountTime, setCountTime] = React.useState(false);
-
-  React.useEffect(() => {
-    (async () => {
-      // clearTimer(getDeadTime());
-      await otherFunction.getMemberData({ username: state.userName });
-    })();
-  }, []);
-
-  React.useEffect(() => {
-    // console.log("sunbathing_time: ", state.sunbathing_time);
-    setMilliseconds(state.sunbathing_time);
-    setShowTime(Convert_Milliseconds(state.sunbathing_time));
-  }, [state.sunbathing_time]);
-
-  React.useEffect(() => {
-    if (ShowTime == null && Milliseconds != null) {
-      setShowTime(Convert_Milliseconds(Milliseconds));
-    }
-
-    if (CountTime == true) {
-      if (Milliseconds == 59000) {
-        console.log("เวลามิลลิวินาทีถึงค่าที่กำหนดแล้ว คือ: ", Milliseconds);
-      } else {
-        setTimeout(() => {
-          setMilliseconds(Milliseconds - 1000);
-          setShowTime(Convert_Milliseconds(Milliseconds - 1000));
-        }, 1000);
-      }
-    }
-  }, [CountTime, Milliseconds]);
-
-  const Convert_Milliseconds = (e) => {
-    var hours = Math.floor((e % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((e % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((e % (1000 * 60)) / 1000);
-
-    if (hours < 10) {
-      hours = String("0" + hours);
-    }
-    if (minutes < 10) {
-      minutes = String("0" + minutes);
-    }
-    if (seconds < 10) {
-      seconds = String("0" + seconds);
-    }
-    return hours + ":" + minutes + ":" + seconds;
-  };
-
-  // const Convert_Milliseconds = () => {
-  //   if (state.sunbathing_time != null) {
-  //   //   var hours = Math.floor((mls % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   //   var minutes = Math.floor((mls % (1000 * 60 * 60)) / (1000 * 60));
-  //   //   var seconds = Math.floor((mls % (1000 * 60)) / 1000);
-
-  //   //   if (hours < 10) {
-  //   //     hours = String("0" + hours);
-  //   //   }
-  //   //   if (minutes < 10) {
-  //   //     minutes = String("0" + minutes);
-  //   //   }
-  //   //   if (seconds < 10) {
-  //   //     seconds = String("0" + seconds);
-  //   //   }
-  //   //   return hours + ":" + minutes + ":" + seconds;
-  //   }
-  // };
-
+const DashBoard_Screen = () => {
   return (
-    <View
-      style={{
-        backgroundColor: "#D0F48E",
-        flex: 1,
-        // alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
-        <View style={{ flex: 1 }}>
-          <Text>สถานะ:</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text>TextTest</Text>
-        </View>
+    <View style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          // backgroundColor: "red",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "10%",
+        }}
+      >
+        <Text style={{ marginBottom: "1%", fontSize: 20 }}>อาบแดด</Text>
+        <Progress.Circle
+          borderWidth={3}
+          // unfilledColor={"black"}
+          progress={0.5}
+          size={200}
+          thickness={10}
+          showsText={true}
+          unfilledColor={"black"}
+        />
+
+        <Text style={{ marginTop: "7.5%", fontSize: 20 }}>
+          เวลาที่เหลือ: 8:00:00
+        </Text>
       </View>
 
-      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
-        <View style={{ flex: 1 }}>
-          <Text>แบตเตอร์รี่:</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text>TextTest</Text>
-        </View>
-      </View>
-
-      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
-        <View style={{ flex: 1 }}>
-          <Text>อุณหภูมิ:</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          {Key.tempc != undefined ? (
-            <>
-              <Text>{Key.tempc}</Text>
-            </>
-          ) : (
-            <>
-              <Text></Text>
-            </>
-          )}
-        </View>
-      </View>
-
-      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
-        <View style={{ flex: 1 }}>
-          <Text>ความชื้นในดิน:</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          {Key.humid != undefined ? (
-            <>
-              <Text>{Key.humid}</Text>
-            </>
-          ) : null}
-        </View>
-      </View>
-
-      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
-        <View style={{ flex: 1 }}>
-          <Text>ความชื้นในอากาศ:</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          {Key.moisture != null ? (
-            <>
-              <Text>{Key.moisture}</Text>
-            </>
-          ) : null}
-        </View>
-      </View>
-
-      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
-        <View style={{ flex: 1 }}>
-          <Text>วันนี้อาบแดดไปแล้ว:</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text>TextTest</Text>
-        </View>
-      </View>
-
-      <Text>{"\n"}</Text>
-      <Text>{"\n"}</Text>
-
-      <View style={{ flexDirection: "row", paddingLeft: "4%" }}>
+      <View
+        style={{
+          flex: 1,
+          marginHorizontal: "5%",
+          // backgroundColor: "yellow",
+        }}
+      >
         <View
-          style={{ flex: 2, alignItems: "center", justifyContent: "center" }}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            marginHorizontal: "5%",
+            // marginTop: "10%"
+            // backgroundColor: "gray"
+          }}
         >
-          {/* {state.sunbathing_time != null ? (
-            <>
-              <Text>{state.sunbathing_time}</Text>
-            </>
-          ) : null} */}
-
-          {Milliseconds != null ? (
-            <View>
-              <Text style={{ fontSize: 30 }}>{ShowTime}</Text>
-              {/* <Text style={{ fontSize: 30 }}>{Milliseconds}</Text> */}
+          <View style={{ marginBottom: "3%" }}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
+                อุณหภูมิ
+              </Text>
+              <Text style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}>
+                0°C
+              </Text>
             </View>
-          ) : null}
-        </View>
-        <View style={{ flex: 1, paddingRight: "4%", justifyContent: "center" }}>
-          <Button
-            title="เริ่ม/หยุด"
-            onPress={async () => {
-              if (CountTime == true) {
-                setCountTime(false);
-              } else {
-                setCountTime(true);
-              }
+            <Progress.Bar progress={0.3} width={300} height={15} />
+          </View>
 
-              // setCounter(60);
-            }}
-          />
+          <View style={{ marginBottom: "3%" }}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
+                ความชื้นในดิน
+              </Text>
+              <Text style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}>
+                0°C
+              </Text>
+            </View>
+
+            <Progress.Bar progress={0.3} width={300} height={15} />
+          </View>
+
+          <View style={{ marginBottom: "3%" }}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
+                ความชื้นในอากาศ
+              </Text>
+              <Text style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}>
+                0°C
+              </Text>
+            </View>
+
+            <Progress.Bar progress={0.3} width={300} height={15} />
+          </View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginVertical: "5%",
+            marginHorizontal: "10%",
+            height: "12.5%",
+            // backgroundColor: "gray",
+          }}
+        >
+          <Pressable
+            style={[
+              styles.button,
+              {
+                flex: 1,
+              },
+            ]}
+            onPress={async () => console.log("เริ่มการทำงาน")}
+          >
+            <Text style={styles.fontStyle}>เริ่มการทำงาน</Text>
+
+            {/* พอเริ่มการทำงานแล้วจะเปลี่ยนชื่อปุ่มเป็น
+                -กำลังทำงาน สีเขียน
+                -กำลังเตรียมการเริ่มต้น สีเหลือง
+                -เกิดข้อผิดพลาด สีแดง
+                */}
+          </Pressable>
         </View>
       </View>
     </View>
@@ -217,21 +125,12 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 2,
-    elevation: 3,
-    backgroundColor: "#2196f3",
-
     // paddingVertical: 8,
     // paddingHorizontal: 10,
-    height: 40,
-    width: 100,
-  },
-
-  row: {
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: "1rem",
+    height: "100%",
+    // width: "80%",
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "#e4e5ea",
   },
 });

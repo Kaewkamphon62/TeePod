@@ -4,7 +4,7 @@ import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { Image } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const Profile_Screen = () => {
+const Profile_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
   const { authSign, otherFunction, state } =
     React.useContext(PrivateRoute_Context);
@@ -27,7 +27,7 @@ const Profile_Screen = () => {
               resizeMode: "cover",
               marginTop: "17.5%",
               width: "40%",
-              height: "67.5%",
+              height: "72.5%",
               borderStyle: "solid",
               borderColor: "black",
               borderRadius: 100,
@@ -88,16 +88,34 @@ const Profile_Screen = () => {
                   {state.name_fp}
                 </Text>
               </>
-            ) : null}
+            ) : (
+              <>
+                <Text
+                  style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}
+                >
+                  ยังไม่ได้กรอกข้อมูล
+                </Text>
+              </>
+            )}
           </View>
         </View>
 
         <View style={styles.FlexContainer}>
-          {/* <Text style={styles.fontStyle}>TestText</Text> */}
+        <Pressable
+            style={styles.button}
+            onPress={async () => navigation.navigate("Member_SelectFlowerting")}
+          >
+            <Text style={styles.fontStyle}>เปลี่ยนพืช</Text>
+          </Pressable>
         </View>
 
         <View style={styles.FlexContainer}>
-          {/* <Text style={styles.fontStyle}>TestText</Text> */}
+          <Pressable
+            style={styles.button}
+            onPress={async () => navigation.navigate("Member_Demo_mqtt")}
+          >
+            <Text style={styles.fontStyle}>Demo Mqtt</Text>
+          </Pressable>
         </View>
 
         <View
