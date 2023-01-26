@@ -3,6 +3,16 @@ import React from "react";
 import * as Progress from "react-native-progress";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
+import axios from "axios";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+import { MenuProvider } from "react-native-popup-menu";
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from "react-native-popup-menu";
 
 const DashBoard_Screen = () => {
   /////////////////////////////////////////////////////////////////
@@ -10,12 +20,45 @@ const DashBoard_Screen = () => {
     React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
+  const [KeyIOT, setKeyIOT] = React.useState(null);
+  const [DataIoT, setDataIoT] = React.useState({
+    tempc: null,
+    humid: null, //อากาศ
+    moisture: null, //ดิน
+  });
+
+  // console.log(DataIoT)
+  //กำไร/ทุนx100
+
   React.useEffect(() => {
     (async () => {
       // clearTimer(getDeadTime());
-      await otherFunction.getMemberData({ username: state.userName });
+
+      if (KeyIOT != null) {
+        // ดึงข้อมูล KeyIOT ของ User นั้นๆ
+        await axios
+          .post("http://192.168.137.1:3000/getDB_IOT", { KeyIOT })
+          .then(async (res) => {
+            if (res.data.db != undefined) {
+              setDataIoT({
+                tempc: res.data.db.tempc,
+                humid: res.data.db.humid,
+                moisture: res.data.db.moisture,
+              });
+            }
+
+            if (res.data.resError != undefined) {
+              alert(res.data.resError);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        setKeyIOT(state.keyIOT);
+      }
     })();
-  }, []);
+  }, [KeyIOT]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -38,6 +81,8 @@ const DashBoard_Screen = () => {
           showsText={true}
           unfilledColor={"black"}
         />
+
+        {/* <Progress.CircleSnail color={"blue"} /> */}
 
         <Text style={{ marginTop: "7.5%", fontSize: 20 }}>
           เวลาที่เหลือ: 8:00:00
@@ -66,24 +111,99 @@ const DashBoard_Screen = () => {
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
                 อุณหภูมิ
               </Text>
-              <Text style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}>
-                0°C
-              </Text>
+              {/* {DataIoT.tempc != null ? (
+                <Text
+                  style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}
+                >
+                  {DataIoT.tempc} °C
+                </Text>
+              ) : null} */}
+              <Text>TestText</Text>
             </View>
-            <Progress.Bar progress={0.3} width={300} height={15} />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                // backgroundColor: "gray",
+              }}
+            >
+              {DataIoT.tempc != null ? (
+                <Progress.Bar
+                  progress={DataIoT.tempc / 100}
+                  width={300}
+                  height={20}
+                />
+              ) : (
+                <Progress.Bar progress={0} width={300} height={20} />
+              )}
+
+              <View style={{ position: "absolute", right: "2.5%" }}>
+                {DataIoT.tempc != null ? (
+                  <Text style={{ textAlign: "right", fontSize: 15 }}>
+                    {DataIoT.tempc} / 100°C
+                  </Text>
+                ) : null}
+
+                {/* <Menu>
+                  <MenuTrigger>
+                    <Ionicons
+                      style={{ textAlign: "right", fontSize: 12 }}
+                      name="alert-circle-outline"
+                      size={50}
+                      color="black"
+                    />
+                  </MenuTrigger>
+                  <MenuOptions>
+                    <MenuOption style={{padding: 20}}>
+                      <Text>MAX 100°C</Text>
+                    </MenuOption>
+                  </MenuOptions>
+                </Menu> */}
+              </View>
+            </View>
           </View>
 
           <View style={{ marginBottom: "3%" }}>
             <View style={{ flexDirection: "row" }}>
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
-                ความชื้นในดิน
+                ความดันในดิน
               </Text>
-              <Text style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}>
-                0°C
-              </Text>
+
+              {/* {DataIoT.moisture != null ? (
+                <Text
+                  style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}
+                >
+                  Analog {DataIoT.moisture}
+                </Text>
+              ) : null} */}
+              <Text>TestText</Text>
             </View>
 
-            <Progress.Bar progress={0.3} width={300} height={15} />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                // backgroundColor: "gray",
+              }}
+            >
+              {DataIoT.moisture != null ? (
+                <Progress.Bar
+                  progress={DataIoT.moisture / 1024}
+                  width={300}
+                  height={20}
+                />
+              ) : (
+                <Progress.Bar progress={0} width={300} height={20} />
+              )}
+
+              <View style={{ position: "absolute", right: "2.5%" }}>
+                {DataIoT.moisture != null ? (
+                  <Text style={{ textAlign: "right", fontSize: 15 }}>
+                    {DataIoT.moisture} / 1024 Analog
+                  </Text>
+                ) : null}
+              </View>
+            </View>
           </View>
 
           <View style={{ marginBottom: "3%" }}>
@@ -91,12 +211,42 @@ const DashBoard_Screen = () => {
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
                 ความชื้นในอากาศ
               </Text>
-              <Text style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}>
-                0°C
-              </Text>
+
+              {/* {DataIoT.humid != null ? (
+                <Text
+                  style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}
+                >
+                  {DataIoT.humid}% RH
+                </Text>
+              ) : null} */}
+              <Text>TestText</Text>
             </View>
 
-            <Progress.Bar progress={0.3} width={300} height={15} />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                // backgroundColor: "gray",
+              }}
+            >
+              {DataIoT.humid != null ? (
+                <Progress.Bar
+                  progress={DataIoT.humid / 100}
+                  width={300}
+                  height={20}
+                />
+              ) : (
+                <Progress.Bar progress={0} width={300} height={20} />
+              )}
+
+              <View style={{ position: "absolute", right: "2.5%" }}>
+                {DataIoT.humid != null ? (
+                  <Text style={{ textAlign: "right", fontSize: 15 }}>
+                    {DataIoT.humid} / 100 % RH
+                  </Text>
+                ) : null}
+              </View>
+            </View>
           </View>
         </View>
 
@@ -124,7 +274,9 @@ const DashBoard_Screen = () => {
               </>
             ) : (
               <>
-                <Text style={styles.fontStyle}>คุณยังไม่ได้ลงทะเบียน KeyIOT</Text>
+                <Text style={styles.fontStyle}>
+                  คุณยังไม่ได้ลงทะเบียน KeyIOT
+                </Text>
               </>
             )}
 

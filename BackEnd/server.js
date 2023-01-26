@@ -26,7 +26,9 @@ app.post("/getDB_IOT", urlencodedParser, async (req, res) => {
     const DB_TeePoT = await mongoose.connect(mongoUrl, config);
 
     if (DB_TeePoT) {
-      const MyKey = req.body.InputKey;
+      // console.log(req.body.KeyIOT)
+
+      const MyKey = req.body.KeyIOT;
 
       // const { ObjectId } = require('mongodb');
       // const MyKey = ObjectId("63a053a60504451cf44da2cd")
@@ -42,7 +44,7 @@ app.post("/getDB_IOT", urlencodedParser, async (req, res) => {
         .toArray();
 
       res.json({
-        Key: DBKey[0],
+        db: DBKey[0],
       });
     }
   } catch (error) {

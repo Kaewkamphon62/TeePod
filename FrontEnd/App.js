@@ -30,40 +30,44 @@ import SignUp_Screen from "./Pages/SignUp_Screen";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+import { MenuProvider } from "react-native-popup-menu";
+
 function TabMember_Function() {
   return (
-    <Tabs.Navigator
-      screenOptions={{
-        tabBarStyle: { height: "8%" },
-        tabBarVisible: false,
-        headerShown: false,
-        tabBarLabelPosition: "below-icon",
-        tabBarLabelStyle: { fontSize: 12, marginBottom: "5%" },
-        tabBarIconStyle: { marginTop: "5%" },
-      }}
-    >
-      <Tabs.Screen
-        name="Member_DashBoard"
-        component={DashBoard_Screen}
-        options={{
-          tabBarLabel: "DashBoard",
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="dashboard" color={color} size={size} />
-          ),
-          // tabBarBadge: 3 //แจ้งเตือน
+    <MenuProvider>
+      <Tabs.Navigator
+        screenOptions={{
+          tabBarStyle: { height: "8%" },
+          tabBarVisible: false,
+          headerShown: false,
+          tabBarLabelPosition: "below-icon",
+          tabBarLabelStyle: { fontSize: 12, marginBottom: "5%" },
+          tabBarIconStyle: { marginTop: "5%" },
         }}
-      />
-      <Tabs.Screen
-        name="Member_Profile"
-        component={Profile_Screen}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="profile" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tabs.Navigator>
+      >
+        <Tabs.Screen
+          name="Member_DashBoard"
+          component={DashBoard_Screen}
+          options={{
+            tabBarLabel: "DashBoard",
+            tabBarIcon: ({ color, size }) => (
+              <AntDesign name="dashboard" color={color} size={size} />
+            ),
+            // tabBarBadge: 3 //แจ้งเตือน
+          }}
+        />
+        <Tabs.Screen
+          name="Member_Profile"
+          component={Profile_Screen}
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: ({ color, size }) => (
+              <AntDesign name="profile" color={color} size={size} />
+            ),
+          }}
+        />
+      </Tabs.Navigator>
+    </MenuProvider>
   );
 }
 

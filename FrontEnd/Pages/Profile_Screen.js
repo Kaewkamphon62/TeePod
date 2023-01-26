@@ -34,7 +34,7 @@ const Profile_Screen = ({ navigation }) => {
             style={{
               resizeMode: "cover",
               marginTop: "17.5%",
-              width: "40%",
+              width: "42.5%",
               height: "72.5%",
               borderStyle: "solid",
               borderColor: "black",
