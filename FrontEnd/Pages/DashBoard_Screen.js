@@ -5,6 +5,7 @@ import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import axios from "axios";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { MenuProvider } from "react-native-popup-menu";
 import {
@@ -23,8 +24,14 @@ const DashBoard_Screen = () => {
   const [KeyIOT, setKeyIOT] = React.useState(null);
   const [DataIoT, setDataIoT] = React.useState({
     tempc: null,
-    humid: null, //อากาศ
     moisture: null, //ดิน
+    humid: null, //อากาศ
+  });
+
+  const [DetailShow, setDetailShow] = React.useState({
+    tempc: "",
+    humid: "",
+    moisture: "",
   });
 
   //JSON.stringify(json, undefined, 2);
@@ -43,8 +50,38 @@ const DashBoard_Screen = () => {
             if (res.data.db != undefined) {
               setDataIoT({
                 tempc: res.data.db.tempc,
-                humid: res.data.db.humid,
                 moisture: res.data.db.moisture,
+                humid: res.data.db.humid,
+              });
+
+              //อุณหภูมิ
+              let IF_tempc = "";
+              if (res.data.db.tempc) {
+              }
+
+              //ความดันในดิน
+              let IF_moisture = "";
+              if (res.data.db.moisture) {
+              }
+              if (res.data.db.moisture > 800) {
+                IF_moisture = "เซนเซอร์อยู่ในอากาศ";
+              } else if (res.data.db.moisture >= 800) {
+                IF_moisture = "ดินแห้ง";
+              } else if (res.data.db.moisture >= 300) {
+                IF_moisture = "ดินชื้น";
+              } else if (res.data.db.moisture < 300) {
+                IF_moisture = "ดินเปียก";
+              }
+
+              //ความชื้นในอากาศ
+              let IF_humid = "";
+              if (res.data.db.humid) {
+              }
+
+              setDetailShow({
+                tempc: IF_tempc,
+                moisture: IF_moisture,
+                humid: IF_humid,
               });
             }
 
@@ -140,29 +177,6 @@ const DashBoard_Screen = () => {
           unfilledColor={"black"}
         />
 
-        {/* <Progress.CircleSnail color={"blue"} /> */}
-
-        {/* <View
-          style={{
-            flexDirection: "row",
-            marginTop: "7.5%",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 20, marginRight: "4%" }}>เวลาที่เหลือ:</Text>
-
-          <View style={{ marginRight: "4%", borderWidth: 1 }}>
-            <Text style={{ fontSize: 22 }}>8:00:00</Text>
-          </View>
-
-          <MaterialCommunityIcons
-            style={{ textAlign: "center" }}
-            name="clock-edit-outline"
-            size={30}
-            color="black"
-          />
-        </View> */}
-
         <View
           style={{
             flexDirection: "row",
@@ -194,7 +208,6 @@ const DashBoard_Screen = () => {
         style={{
           flex: 1,
           marginHorizontal: "5%",
-          // backgroundColor: "yellow",
         }}
       >
         <View
@@ -203,8 +216,6 @@ const DashBoard_Screen = () => {
             justifyContent: "center",
             alignItems: "center",
             marginHorizontal: "5%",
-            // marginTop: "10%"
-            // backgroundColor: "gray"
           }}
         >
           <View style={{ marginBottom: "3%" }}>
@@ -212,14 +223,27 @@ const DashBoard_Screen = () => {
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
                 อุณหภูมิ
               </Text>
-              {/* {DataIoT.tempc != null ? (
-                <Text
-                  style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}
-                >
-                  {DataIoT.tempc} °C
-                </Text>
-              ) : null} */}
-              <Text>TestText</Text>
+
+              <View style={{ marginRight: "2%" }}>
+                <Text>TestText</Text>
+              </View>
+
+              <View style={{ marginTop: "1.5%" }}>
+                <Menu>
+                  <MenuTrigger>
+                    <Ionicons
+                      style={{ textAlign: "right", fontSize: 12 }}
+                      name="alert-circle-outline"
+                      color="black"
+                    />
+                  </MenuTrigger>
+                  <MenuOptions>
+                    <MenuOption style={{ padding: 20 }}>
+                      <Text>Menu TestText</Text>
+                    </MenuOption>
+                  </MenuOptions>
+                </Menu>
+              </View>
             </View>
             <View
               style={{
@@ -244,22 +268,6 @@ const DashBoard_Screen = () => {
                     {DataIoT.tempc} / 100°C
                   </Text>
                 ) : null}
-
-                {/* <Menu>
-                  <MenuTrigger>
-                    <Ionicons
-                      style={{ textAlign: "right", fontSize: 12 }}
-                      name="alert-circle-outline"
-                      size={50}
-                      color="black"
-                    />
-                  </MenuTrigger>
-                  <MenuOptions>
-                    <MenuOption style={{padding: 20}}>
-                      <Text>MAX 100°C</Text>
-                    </MenuOption>
-                  </MenuOptions>
-                </Menu> */}
               </View>
             </View>
           </View>
@@ -269,15 +277,38 @@ const DashBoard_Screen = () => {
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
                 ความดันในดิน
               </Text>
+              <View style={{ marginRight: "2%" }}>
+                <Text>{DetailShow.moisture}</Text>
+              </View>
 
-              {/* {DataIoT.moisture != null ? (
-                <Text
-                  style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}
-                >
-                  Analog {DataIoT.moisture}
-                </Text>
-              ) : null} */}
-              <Text>TestText</Text>
+              <View style={{ marginTop: "1.5%" }}>
+                <Menu>
+                  <MenuTrigger>
+                    <Ionicons
+                      style={{ textAlign: "right", fontSize: 12 }}
+                      name="alert-circle-outline"
+                      color="black"
+                    />
+                  </MenuTrigger>
+                  <MenuOptions style={{ width: "200%" }}>
+                    <MenuOption>
+                      <Text>{"> 1000: เซนเซอร์อยู่ในอากาศ"}</Text>
+                    </MenuOption>
+
+                    <MenuOption>
+                      <Text>800-1000: ดินแห้ง</Text>
+                    </MenuOption>
+
+                    <MenuOption>
+                      <Text>300-800: ดินชื้น</Text>
+                    </MenuOption>
+
+                    <MenuOption>
+                      <Text>{"< 300: ดินเปียก"}</Text>
+                    </MenuOption>
+                  </MenuOptions>
+                </Menu>
+              </View>
             </View>
 
             <View
@@ -313,14 +344,26 @@ const DashBoard_Screen = () => {
                 ความชื้นในอากาศ
               </Text>
 
-              {/* {DataIoT.humid != null ? (
-                <Text
-                  style={{ marginBottom: "2%", flex: 1, textAlign: "right" }}
-                >
-                  {DataIoT.humid}% RH
-                </Text>
-              ) : null} */}
-              <Text>TestText</Text>
+              <View style={{ marginRight: "2%" }}>
+                <Text>TestText</Text>
+              </View>
+
+              <View style={{ marginTop: "1.5%" }}>
+                <Menu>
+                  <MenuTrigger>
+                    <Ionicons
+                      style={{ textAlign: "right", fontSize: 12 }}
+                      name="alert-circle-outline"
+                      color="black"
+                    />
+                  </MenuTrigger>
+                  <MenuOptions>
+                    <MenuOption style={{ padding: 20 }}>
+                      <Text>Menu TestText</Text>
+                    </MenuOption>
+                  </MenuOptions>
+                </Menu>
+              </View>
             </View>
 
             <View
