@@ -29,7 +29,7 @@ const DashBoard_Screen = () => {
 
   //JSON.stringify(json, undefined, 2);
   // console.log(JSON.stringify(state, undefined, 2))
-  //กำไร/ทุนx100
+  //กำไร/ทุน
 
   React.useEffect(() => {
     (async () => {
@@ -61,7 +61,62 @@ const DashBoard_Screen = () => {
     })();
   }, [KeyIOT]);
 
-  console.log(JSON.stringify(state, undefined, 2));
+  //////////////////////////////////////////////////////////////////////////////// Time
+
+  const [Milliseconds, setMilliseconds] = React.useState(null);
+  const [ShowTime, setShowTime] = React.useState(null);
+  const [CountTime, setCountTime] = React.useState(false);
+  const [ProgressClock, setProgressClock] = React.useState(0);
+
+  const Convert_Milliseconds = (e) => {
+    var hours = Math.floor((e % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((e % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((e % (1000 * 60)) / 1000);
+
+    if (hours < 10) {
+      hours = String("0" + hours);
+    }
+    if (minutes < 10) {
+      minutes = String("0" + minutes);
+    }
+    if (seconds < 10) {
+      seconds = String("0" + seconds);
+    }
+    return hours + ":" + minutes + ":" + seconds;
+  };
+
+  React.useEffect(() => {
+    // console.log("sunbathing_time: ", state.sunbathing_time);
+    setMilliseconds(state.sunbathing_time);
+    setShowTime(Convert_Milliseconds(state.sunbathing_time));
+  }, [state.sunbathing_time]);
+
+  React.useEffect(() => {
+    if (ShowTime == null && Milliseconds != null) {
+      setShowTime(Convert_Milliseconds(Milliseconds));
+    }
+
+    if (CountTime == true) {
+      if (Milliseconds == 50000) {
+        //หยุดที่ 50 วินาที
+        console.log("เวลามิลลิวินาทีถึงค่าที่กำหนดแล้ว คือ: ", Milliseconds);
+      } else {
+        setTimeout(() => {
+          setProgressClock(ProgressClock + 1000);
+
+          setMilliseconds(Milliseconds - 1000);
+          setShowTime(Convert_Milliseconds(Milliseconds - 1000));
+        }, 1000);
+      }
+    }
+  }, [CountTime, Milliseconds]);
+
+  // console.log(Milliseconds);
+  // console.log(state.sunbathing_time);
+
+  //////////////////////////////////////////////////////////////////////////////// Time
+
+  // console.log(JSON.stringify(state, undefined, 2));
 
   return (
     <View style={{ flex: 1 }}>
@@ -78,7 +133,7 @@ const DashBoard_Screen = () => {
         <Progress.Circle
           borderWidth={3}
           // unfilledColor={"black"}
-          progress={0.5}
+          progress={ProgressClock / state.sunbathing_time}
           size={200}
           thickness={10}
           showsText={true}
@@ -121,7 +176,7 @@ const DashBoard_Screen = () => {
             <Text style={{ fontSize: 20 }}>อาบแดด:</Text>
           </View>
           <View style={{ flex: 0.75, alignItems: "center" }}>
-            <Text style={{ fontSize: 22 }}>8:00:00</Text>
+            <Text style={{ fontSize: 22 }}>{ShowTime}</Text>
           </View>
           <View style={{ flex: 1, alignItems: "flex-start", marginLeft: "2%" }}>
             <MaterialCommunityIcons
@@ -129,8 +184,7 @@ const DashBoard_Screen = () => {
               name="clock-edit-outline"
               size={30}
               color="black"
-
-              onPress={console.log("Hello")}
+              onPress={async () => console.log("แก้ไขเวลา")}
             />
           </View>
         </View>
@@ -313,7 +367,13 @@ const DashBoard_Screen = () => {
                 flex: 1,
               },
             ]}
-            onPress={async () => console.log("เริ่มการทำงาน")}
+            onPress={async () => {
+              if (CountTime == true) {
+                setCountTime(false);
+              } else {
+                setCountTime(true);
+              }
+            }}
           >
             {state.keyIOT != null ? (
               <>
