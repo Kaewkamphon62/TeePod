@@ -1,9 +1,22 @@
 import { StyleSheet, View, Pressable, Text } from "react-native";
 import React from "react";
 import * as Progress from "react-native-progress";
+import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 const DashBoard_Screen = () => {
+  /////////////////////////////////////////////////////////////////
+  const { authSign, otherFunction, state } =
+    React.useContext(PrivateRoute_Context);
+  /////////////////////////////////////////////////////////////////
+
+  React.useEffect(() => {
+    (async () => {
+      // clearTimer(getDeadTime());
+      await otherFunction.getMemberData({ username: state.userName });
+    })();
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -12,7 +25,7 @@ const DashBoard_Screen = () => {
           // backgroundColor: "red",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: "10%",
+          marginTop: "15%",
         }}
       >
         <Text style={{ marginBottom: "1%", fontSize: 20 }}>อาบแดด</Text>
@@ -105,7 +118,15 @@ const DashBoard_Screen = () => {
             ]}
             onPress={async () => console.log("เริ่มการทำงาน")}
           >
-            <Text style={styles.fontStyle}>เริ่มการทำงาน</Text>
+            {state.keyIOT != null ? (
+              <>
+                <Text style={styles.fontStyle}>เริ่มการทำงาน</Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.fontStyle}>คุณยังไม่ได้ลงทะเบียน KeyIOT</Text>
+              </>
+            )}
 
             {/* พอเริ่มการทำงานแล้วจะเปลี่ยนชื่อปุ่มเป็น
                 -กำลังทำงาน สีเขียน

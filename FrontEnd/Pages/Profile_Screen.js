@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
 import React from "react";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { Image } from "react-native";
@@ -9,6 +9,14 @@ const Profile_Screen = ({ navigation }) => {
   const { authSign, otherFunction, state } =
     React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
+
+  React.useEffect(() => {
+    (async () => {
+      // clearTimer(getDeadTime());
+      await otherFunction.getMemberData({ username: state.userName });
+    })();
+  }, []);
+
   return (
     <View style={styles.Container}>
       <View
@@ -68,9 +76,27 @@ const Profile_Screen = ({ navigation }) => {
               color="black"
             />
 
-            <Text style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}>
-              TestText
-            </Text>
+            {/* <Text style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}>
+              {state.keyIOT}
+            </Text> */}
+
+            {state.keyIOT != null ? (
+              <>
+                <Text
+                  style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}
+                >
+                  {state.keyIOT}
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text
+                  style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}
+                >
+                  ลงทะเบียน KeyIOT
+                </Text>
+              </>
+            )}
           </View>
           <View style={{ flexDirection: "row", marginVertical: "2%" }}>
             <MaterialCommunityIcons
@@ -101,7 +127,7 @@ const Profile_Screen = ({ navigation }) => {
         </View>
 
         <View style={styles.FlexContainer}>
-        <Pressable
+          <Pressable
             style={styles.button}
             onPress={async () => navigation.navigate("Member_SelectFlowerting")}
           >
@@ -126,7 +152,7 @@ const Profile_Screen = ({ navigation }) => {
             },
           ]}
         >
-          <Text style={styles.fontStyle}>TestText</Text>
+          {/* <Text style={styles.fontStyle}>TestText</Text> */}
         </View>
 
         <View

@@ -23,6 +23,7 @@ export const PrivateRoute = ({ children }) => {
             ...prevState,
             name_fp: action.nfp,
             sunbathing_time: action.st,
+            keyIOT: action.kiot,
             isLoading: false,
           };
 
@@ -108,14 +109,20 @@ export const PrivateRoute = ({ children }) => {
             // );
             // console.log("sunbathing_time: ", res.data.mdata.sunbathing_time);
 
-            const ST_Split = res.data.mdata.sunbathing_time.split("h");
-            let hours = parseInt(ST_Split[0]) * 3600000;
-            let minute = parseInt(ST_Split[1]) * 60000;
+            let milliseconds = null;
+            if (res.data.mdata.sunbathing_time != null) {
+              const ST_Split = res.data.mdata.sunbathing_time.split("h");
+              let hours = parseInt(ST_Split[0]) * 3600000;
+              let minute = parseInt(ST_Split[1]) * 60000;
+
+              milliseconds = hours + minute;
+            }
 
             dispatch({
               type: "MemberDB",
               nfp: res.data.mdata.name_flowring_plants,
-              st: hours + minute,
+              kiot: res.data.mdata.keyIOT,
+              st: milliseconds,
             });
           }
         })
@@ -192,6 +199,7 @@ export const PrivateRoute = ({ children }) => {
           type: "MemberDB",
           nfp: null,
           st: null,
+          kiot: null,
         });
         dispatch({
           type: "RESTORE_TOKEN",

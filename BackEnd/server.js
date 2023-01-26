@@ -202,7 +202,7 @@ app.post("/EditFloweringlants", urlencodedParser, async (req, res) => {
               other: SelectFlowering.other, //อื่นๆ
               url_image: SelectFlowering.url_image, //ลิ้งรูป
             },
-          },
+          }
         );
 
       // res.json({
@@ -384,9 +384,9 @@ app.post("/register", urlencodedParser, async (req, res) => {
   // console.log("ทดสอบการส่งค่า", req.body.username)
   // const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
-  let email = req.body.InputSighUp.email;
-  let username = req.body.InputSighUp.username.toUpperCase();
-  let password = req.body.InputSighUp.password1;
+  let email = req.body.InputSignUp.email;
+  let username = req.body.InputSignUp.username.toUpperCase();
+  let password = req.body.InputSignUp.password1;
 
   console.log(email, username, password);
 
@@ -425,6 +425,7 @@ app.post("/register", urlencodedParser, async (req, res) => {
             username: username,
             name_flowring_plants: null,
             sunbathing_time: null,
+            keyIOT: null,
           });
         const NewMember = await DB_TeePoT.db("User")
           .collection("Member")

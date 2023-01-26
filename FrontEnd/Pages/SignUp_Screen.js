@@ -9,7 +9,7 @@ const SignUp_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
   // const { authSign } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
-  const [InputSighUp, setInputSighUp] = React.useState({
+  const [InputSignUp, setInputSignUp] = React.useState({
     username: null,
     email: null,
     password1: null,
@@ -67,8 +67,8 @@ const SignUp_Screen = ({ navigation }) => {
               style={[styles.input, { paddingStart: 65 }]}
               placeholder={"Username"}
               onChangeText={async (e) => {
-                setInputSighUp({
-                  ...InputSighUp,
+                setInputSignUp({
+                  ...InputSignUp,
                   username: e,
                 });
               }}
@@ -98,8 +98,8 @@ const SignUp_Screen = ({ navigation }) => {
               style={[styles.input, { paddingStart: 65 }]}
               placeholder={"Email"}
               onChangeText={async (e) => {
-                setInputSighUp({
-                  ...InputSighUp,
+                setInputSignUp({
+                  ...InputSignUp,
                   email: e,
                 });
               }}
@@ -129,8 +129,8 @@ const SignUp_Screen = ({ navigation }) => {
               style={[styles.input, { paddingStart: 65 }]}
               placeholder={"Password"}
               onChangeText={async (e) => {
-                setInputSighUp({
-                  ...InputSighUp,
+                setInputSignUp({
+                  ...InputSignUp,
                   password1: e,
                 });
               }}
@@ -160,8 +160,8 @@ const SignUp_Screen = ({ navigation }) => {
               style={[styles.input, { paddingStart: 65 }]}
               placeholder={"Password Comfirm"}
               onChangeText={async (e) => {
-                setInputSighUp({
-                  ...InputSighUp,
+                setInputSignUp({
+                  ...InputSignUp,
                   password2: e,
                 });
               }}
@@ -179,16 +179,16 @@ const SignUp_Screen = ({ navigation }) => {
             style={styles.button}
             onPress={async () => {
               if (
-                InputSighUp.email != null &&
-                InputSighUp.username != null &&
-                InputSighUp.password1 != null &&
-                InputSighUp.password2 != null
+                InputSignUp.email != null &&
+                InputSignUp.username != null &&
+                InputSignUp.password1 != null &&
+                InputSignUp.password2 != null
               ) {
-                if (InputSighUp.password1 != InputSighUp.password2) {
+                if (InputSignUp.password1 != InputSignUp.password2) {
                   alert("รหัสผ่านไม่ตรงกัน");
                 } else {
                   await axios
-                    .post("http://192.168.137.1:3000/register", { InputSighUp })
+                    .post("http://192.168.137.1:3000/register", { InputSignUp })
                     .then(async (res) => {
                       //res.data.token ว่งมาจากจาก BackEnd (res = response)
                       // console.log(typeof value) //ดู type ของตัวแปรเช่นเป็น object หรือ string
