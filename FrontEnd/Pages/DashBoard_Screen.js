@@ -4,7 +4,7 @@ import * as Progress from "react-native-progress";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import axios from "axios";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { MenuProvider } from "react-native-popup-menu";
 import {
@@ -27,7 +27,8 @@ const DashBoard_Screen = () => {
     moisture: null, //ดิน
   });
 
-  // console.log(DataIoT)
+  //JSON.stringify(json, undefined, 2);
+  // console.log(JSON.stringify(state, undefined, 2))
   //กำไร/ทุนx100
 
   React.useEffect(() => {
@@ -60,6 +61,8 @@ const DashBoard_Screen = () => {
     })();
   }, [KeyIOT]);
 
+  console.log(JSON.stringify(state, undefined, 2));
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -84,9 +87,53 @@ const DashBoard_Screen = () => {
 
         {/* <Progress.CircleSnail color={"blue"} /> */}
 
-        <Text style={{ marginTop: "7.5%", fontSize: 20 }}>
-          เวลาที่เหลือ: 8:00:00
-        </Text>
+        {/* <View
+          style={{
+            flexDirection: "row",
+            marginTop: "7.5%",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 20, marginRight: "4%" }}>เวลาที่เหลือ:</Text>
+
+          <View style={{ marginRight: "4%", borderWidth: 1 }}>
+            <Text style={{ fontSize: 22 }}>8:00:00</Text>
+          </View>
+
+          <MaterialCommunityIcons
+            style={{ textAlign: "center" }}
+            name="clock-edit-outline"
+            size={30}
+            color="black"
+          />
+        </View> */}
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: "7.5%",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{ flex: 1.2, alignItems: "flex-end", marginRight: "2%" }}
+          >
+            <Text style={{ fontSize: 20 }}>อาบแดด:</Text>
+          </View>
+          <View style={{ flex: 0.75, alignItems: "center" }}>
+            <Text style={{ fontSize: 22 }}>8:00:00</Text>
+          </View>
+          <View style={{ flex: 1, alignItems: "flex-start", marginLeft: "2%" }}>
+            <MaterialCommunityIcons
+              style={{ textAlign: "center" }}
+              name="clock-edit-outline"
+              size={30}
+              color="black"
+
+              onPress={console.log("Hello")}
+            />
+          </View>
+        </View>
       </View>
 
       <View
