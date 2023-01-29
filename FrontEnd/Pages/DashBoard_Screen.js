@@ -162,15 +162,28 @@ const DashBoard_Screen = () => {
         }}
       >
         <Text style={{ marginBottom: "1%", fontSize: 20 }}>อาบแดด</Text>
-        <Progress.Circle
-          borderWidth={3}
-          // unfilledColor={"black"}
-          progress={ProgressClock / state.sunbathing_time}
-          size={200}
-          thickness={10}
-          showsText={true}
-          unfilledColor={"black"}
-        />
+
+        {state.sunbathing_time != null ? (
+          <Progress.Circle
+            borderWidth={3}
+            // unfilledColor={"black"}
+            progress={ProgressClock / state.sunbathing_time}
+            size={200}
+            thickness={10}
+            showsText={true}
+            unfilledColor={"black"}
+          />
+        ) : (
+          <Progress.Circle
+            borderWidth={3}
+            // unfilledColor={"black"}
+            progress={0}
+            size={200}
+            thickness={10}
+            showsText={true}
+            unfilledColor={"black"}
+          />
+        )}
 
         <View
           style={{
