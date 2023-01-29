@@ -2,7 +2,6 @@ import { StyleSheet, View, Pressable, Text } from "react-native";
 import React from "react";
 import * as Progress from "react-native-progress";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
-import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import axios from "axios";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -17,8 +16,7 @@ import {
 
 const DashBoard_Screen = () => {
   /////////////////////////////////////////////////////////////////
-  const { authSign, otherFunction, state } =
-    React.useContext(PrivateRoute_Context);
+  const { otherFunction, state } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
   const [KeyIOT, setKeyIOT] = React.useState(null);
@@ -29,14 +27,10 @@ const DashBoard_Screen = () => {
   });
 
   const [DetailShow, setDetailShow] = React.useState({
-    tempc: "",
-    humid: "",
-    moisture: "",
+    tempc: null,
+    humid: null,
+    moisture: null,
   });
-
-  //JSON.stringify(json, undefined, 2);
-  // console.log(JSON.stringify(state, undefined, 2))
-  //กำไร/ทุน
 
   React.useEffect(() => {
     (async () => {
@@ -45,37 +39,37 @@ const DashBoard_Screen = () => {
       if (KeyIOT != null) {
         // ดึงข้อมูล KeyIOT ของ User นั้นๆ
         await axios
-          .post("http://192.168.137.1:3000/getDB_IOT", { KeyIOT })
+          .post("http://192.168.137.1:3000/loadIotData", { KeyIOT })
           .then(async (res) => {
-            if (res.data.db != undefined) {
+            if (res.data.keyzero != undefined) {
               setDataIoT({
-                tempc: res.data.db.tempc,
-                moisture: res.data.db.moisture,
-                humid: res.data.db.humid,
+                tempc: res.data.keyzero.tempc,
+                moisture: res.data.keyzero.moisture,
+                humid: res.data.keyzero.humid,
               });
 
               //อุณหภูมิ
               let IF_tempc = "";
-              if (res.data.db.tempc) {
+              if (res.data.keyzero.tempc) {
               }
 
               //ความดันในดิน
               let IF_moisture = "";
-              if (res.data.db.moisture) {
+              if (res.data.keyzero.moisture) {
               }
-              if (res.data.db.moisture > 800) {
+              if (res.data.keyzero.moisture > 800) {
                 IF_moisture = "เซนเซอร์อยู่ในอากาศ";
-              } else if (res.data.db.moisture >= 800) {
+              } else if (res.data.keyzero.moisture >= 800) {
                 IF_moisture = "ดินแห้ง";
-              } else if (res.data.db.moisture >= 300) {
+              } else if (res.data.keyzero.moisture >= 300) {
                 IF_moisture = "ดินชื้น";
-              } else if (res.data.db.moisture < 300) {
+              } else if (res.data.keyzero.moisture < 300) {
                 IF_moisture = "ดินเปียก";
               }
 
               //ความชื้นในอากาศ
               let IF_humid = "";
-              if (res.data.db.humid) {
+              if (res.data.keyzero.humid) {
               }
 
               setDetailShow({
@@ -96,8 +90,17 @@ const DashBoard_Screen = () => {
         setKeyIOT(state.keyIOT);
       }
     })();
-  }, [KeyIOT]);
+  }, [KeyIOT, state.name_fp]);
 
+  // React.useEffect(() => {
+  //   (async () => {
+  //     // await otherFunction.getDataIOT({ Key: state.KeyIOT });
+  //     await otherFunction.getDataIOT({ Key: state.KeyIOT });
+  //   })();
+  // }, []);
+
+  // otherFunction.getDataIOT({ Key: state.keyIOT })
+  // console.log(state)
   //////////////////////////////////////////////////////////////////////////////// Time
 
   const [Milliseconds, setMilliseconds] = React.useState(null);
@@ -148,19 +151,11 @@ const DashBoard_Screen = () => {
     }
   }, [CountTime, Milliseconds]);
 
-  // console.log(Milliseconds);
-  // console.log(state.sunbathing_time);
-
-  //////////////////////////////////////////////////////////////////////////////// Time
-
-  // console.log(JSON.stringify(state, undefined, 2));
-
   return (
     <View style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
-          // backgroundColor: "red",
           alignItems: "center",
           justifyContent: "center",
           marginTop: "15%",
@@ -448,12 +443,9 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    // paddingVertical: 8,
-    // paddingHorizontal: 10,
     height: "100%",
-    // width: "80%",
     borderWidth: 1,
     borderRadius: 10,
-    backgroundColor: "#e4e5ea",
+    // backgroundColor: "#e4e5ea",
   },
 });

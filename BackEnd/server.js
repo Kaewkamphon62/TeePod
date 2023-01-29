@@ -21,31 +21,67 @@ const config = {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.post("/getDB_IOT", urlencodedParser, async (req, res) => {
+app.post("/loadIotData", urlencodedParser, async (req, res) => {
   try {
     const DB_TeePoT = await mongoose.connect(mongoUrl, config);
 
     if (DB_TeePoT) {
-      // console.log(req.body.KeyIOT)
-
       const MyKey = req.body.KeyIOT;
 
-      // const { ObjectId } = require('mongodb');
-      // const MyKey = ObjectId("63a053a60504451cf44da2cd")
-      // console.log('MyKey typeof: ', typeof MyKey)
-      // const OldKey = await DB_TeePoT.db("TeePoT").collection("IOT").findOne({_id: MyKey})
-      // console.log("OldKey", OldKey);
+      // const FindKey = await DB_TeePoT.db("TeePoT")
+      //   .collection("IOT")
+      //   .findOne({ keyiot: MyKey });
 
-      const DBKey = await DB_TeePoT.db("TeePoT")
+      // if (FindKey != null) {
+        const DBKey = await DB_TeePoT.db("TeePoT")
+          .collection("IOT")
+          .find({ keyiot: MyKey })
+          .sort({ timerecord: -1 })
+          .limit(1)
+          .toArray();
+
+        res.json({
+          keyzero: DBKey[0],
+        });
+      // }
+    }
+  } catch (error) {
+    res.json({
+      resError: "NetWork Error",
+    });
+  }
+});
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post("/Member_InputKey", urlencodedParser, async (req, res) => {
+  try {
+    let Username = req.body.InputKey.Username;
+    let Key = req.body.InputKey.Key.toUpperCase();
+
+    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+
+    if (DB_TeePoT) {
+      const FindKey = await DB_TeePoT.db("TeePoT")
         .collection("IOT")
-        .find({ keyiot: MyKey })
-        .sort({ timerecord: -1 })
-        .limit(1)
-        .toArray();
+        .findOne({ keyiot: Key });
 
-      res.json({
-        db: DBKey[0],
-      });
+      if (FindKey != null) {
+        console.log(FindKey);
+
+        const DataUpdate = await DB_TeePoT.db("TeePoT")
+          .collection("Member_Data")
+          .updateOne({ username: Username }, { $set: { keyIOT: Key } });
+
+        if (DataUpdate) {
+          res.json({
+            complete: "อัพเดตเรียบร้อย",
+          });
+        }
+      } else {
+        res.json({
+          resError: `ไม่มี Key: ${Key} ในระบบ`,
+        });
+      }
     }
   } catch (error) {
     res.json({

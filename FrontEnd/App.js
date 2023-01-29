@@ -150,6 +150,8 @@ function App() {
           // <Stack.Screen options={{headerShown: false}} name="route-name" component={ScreenComponent} />
 
           // console.log("event.state.role", event.state.userRole);
+
+          // console.log(event.state.isLoading)
           return (
             <NavigationContainer>
               {event.state.isLoading == true ? (

@@ -18,13 +18,22 @@ export const PrivateRoute = ({ children }) => {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
+        case "DataIoT":
+          return {
+            ...prevState,
+            tempc: action.tc,
+            moisture: action.moist,
+            humid: action.hid,
+            // isLoading: false,
+          };
+
         case "MemberDB":
           return {
             ...prevState,
             name_fp: action.nfp,
             sunbathing_time: action.st,
             keyIOT: action.kiot,
-            isLoading: false,
+            // isLoading: false,
           };
 
         case "RESTORE_TOKEN":
@@ -61,6 +70,9 @@ export const PrivateRoute = ({ children }) => {
       userName: null,
       name_fp: null,
       sunbathing_time: null,
+      tempc: null,
+      moisture: null,
+      humid: null,
     }
   );
 
@@ -102,13 +114,6 @@ export const PrivateRoute = ({ children }) => {
         .post("http://192.168.137.1:3000/loadMemberData", { username })
         .then(async (res) => {
           if (res.data.mdata != null) {
-            // console.log(res.data.mdata);
-            // console.log(
-            //   "name_flowring_plants: ",
-            //   res.data.mdata.name_flowring_plants
-            // );
-            // console.log("sunbathing_time: ", res.data.mdata.sunbathing_time);
-
             let milliseconds = null;
             if (res.data.mdata.sunbathing_time != null) {
               const ST_Split = res.data.mdata.sunbathing_time.split("h");
@@ -123,6 +128,28 @@ export const PrivateRoute = ({ children }) => {
               nfp: res.data.mdata.name_flowring_plants,
               kiot: res.data.mdata.keyIOT,
               st: milliseconds,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getDataIOT: async (e) => {
+      let KeyIOT = e.Key;
+      // console.log("KeyIOT", KeyIOT)
+
+      await axios
+        .post("http://192.168.137.1:3000/loadIotData", { KeyIOT })
+        .then(async (res) => {
+          if (res.data.keyzero != undefined) {
+            // console.log(res.data.keyzero.tempc);
+
+            dispatch({
+              tc: res.data.keyzero.tempc,
+              moist: res.data.keyzero.moisture,
+              hid: res.data.keyzero.humid,
             });
           }
         })
@@ -165,6 +192,10 @@ export const PrivateRoute = ({ children }) => {
                 await otherFunction.getMemberData({
                   username: res.data.member_username,
                 });
+
+                // await otherFunction.getDataIOT({
+                //   Key: res.data.mdata.keyIOT,
+                // });
               }
 
               dispatch({
@@ -195,6 +226,12 @@ export const PrivateRoute = ({ children }) => {
           console.log(e);
         }
         dispatch({ type: "SIGN_OUT" });
+        dispatch({
+          type: "DataIoT",
+          tc: null,
+          moist: null,
+          hid: null,
+        });
         dispatch({
           type: "MemberDB",
           nfp: null,

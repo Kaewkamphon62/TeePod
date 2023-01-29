@@ -23,8 +23,15 @@ const Member_Demo_mqtt = () => {
   // called when the client connects
   function onConnect() {
     // Once a connection has been made, make a subscription and send a message.
+
     console.log("onConnect");
-    client.subscribe("GDR");
+    client.subscribe("GDR"); //ชื่อ TEST01
+
+    //   client.connect({
+    //     userName: 'GTO1',
+    //     password: '123456',
+    //     onSuccess: onConnect
+    // });
 
     // let message = new Paho.Message("Hello");
     // message.destinationName = "World";

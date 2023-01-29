@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { Image } from "react-native";
+import axios from "axios";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const Profile_Screen = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
@@ -10,10 +12,19 @@ const Profile_Screen = ({ navigation }) => {
     React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
+  const [InputKey, setInputKey] = React.useState({
+    Username: null,
+    Key: null,
+  });
+
   React.useEffect(() => {
     (async () => {
-      // clearTimer(getDeadTime());
-      await otherFunction.getMemberData({ username: state.userName });
+      await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
+
+      setInputKey({
+        ...InputKey,
+        Username: state.userName,
+      });
     })();
   }, []);
 
@@ -70,15 +81,11 @@ const Profile_Screen = ({ navigation }) => {
         >
           <View style={{ flexDirection: "row", marginVertical: "2%" }}>
             <MaterialCommunityIcons
-              style={{ flex: 1, textAlign: "center" }}
+              style={{ flex: 0.5, textAlign: "center" }}
               name="key-link"
               size={35}
               color="black"
             />
-
-            {/* <Text style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}>
-              {state.keyIOT}
-            </Text> */}
 
             {state.keyIOT != null ? (
               <>
@@ -89,50 +96,144 @@ const Profile_Screen = ({ navigation }) => {
                 </Text>
               </>
             ) : (
-              <>
-                <Text
-                  style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}
+              <View
+                style={{
+                  flexDirection: "row",
+                  flex: 2,
+                  marginHorizontal: "2%",
+                }}
+              >
+                <View
+                  style={{
+                    flex: 3,
+                    alignItems: "center",
+                  }}
                 >
-                  ลงทะเบียน KeyIOT
-                </Text>
-              </>
+                  <TextInput
+                    style={[
+                      styles.fontStyle,
+                      {
+                        borderWidth: 1,
+                        flex: 1,
+                        width: "100%",
+                        borderRadius: 10,
+                        textAlign: "center",
+                      },
+                    ]}
+                    placeholder={"KeyIOT"}
+                    onChangeText={async (e) => {
+                      setInputKey({
+                        ...InputKey,
+                        Key: e,
+                      });
+                    }}
+                  />
+                </View>
+
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                  }}
+                >
+                  <Pressable
+                    style={[styles.button, { flex: 1 }]}
+                    // style={{backgroundColor: "yellow"}}
+                    onPress={async () => {
+                      if (InputKey != null) {
+                        await axios
+                          .post("http://192.168.137.1:3000/Member_InputKey", {
+                            InputKey,
+                          })
+                          .then(async (res) => {
+                            if (res.data.complete != undefined) {
+                              await otherFunction.getMemberData({
+                                username: state.userName,
+                              });
+                            }
+
+                            if (res.data.resError != undefined) {
+                              alert(res.data.resError);
+                            }
+                          })
+                          .catch((error) => {
+                            console.log(error);
+                          });
+                      } else {
+                        alert("กรุณากรอกข้อมูลให้ถูกต้อง");
+                      }
+                    }}
+                  >
+                    <Text style={styles.fontStyle}>ยืนยัน</Text>
+                  </Pressable>
+                </View>
+              </View>
             )}
           </View>
           <View style={{ flexDirection: "row", marginVertical: "2%" }}>
             <MaterialCommunityIcons
-              style={{ flex: 1, textAlign: "center" }}
+              style={{ flex: 0.5, textAlign: "center" }}
               name="flower"
               size={35}
               color="black"
             />
 
             {state.name_fp != null ? (
-              <>
+              <View style={{ flexDirection: "row", flex: 2 }}>
                 <Text
                   style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}
                 >
                   {state.name_fp}
                 </Text>
-              </>
+
+                <FontAwesome
+                  style={{
+                    flex: 0.5,
+                    textAlign: "center",
+                    marginHorizontal: "2%",
+                  }}
+                  name="exchange"
+                  size={35}
+                  color="black"
+                  onPress={async () =>
+                    navigation.navigate("Member_SelectFlowerting")
+                  }
+                />
+              </View>
             ) : (
               <>
-                <Text
-                  style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}
+                <Pressable
+                  style={[
+                    styles.fontStyle,
+                    {
+                      flex: 2,
+                      alignItems: "center",
+                      marginHorizontal: "2%",
+                      height: "100%",
+                      width: "95%",
+                      borderWidth: 1,
+                      borderRadius: 10,
+                      backgroundColor: "#e4e5ea",
+                    },
+                  ]}
+                  onPress={async () =>
+                    navigation.navigate("Member_SelectFlowerting")
+                  }
                 >
-                  ยังไม่ได้กรอกข้อมูล
-                </Text>
+                  <Text style={styles.fontStyle}>เลือกพืช</Text>
+                </Pressable>
               </>
             )}
           </View>
         </View>
 
         <View style={styles.FlexContainer}>
-          <Pressable
+          {/* <Pressable
             style={styles.button}
             onPress={async () => navigation.navigate("Member_SelectFlowerting")}
           >
             <Text style={styles.fontStyle}>เปลี่ยนพืช</Text>
-          </Pressable>
+          </Pressable> */}
         </View>
 
         <View style={styles.FlexContainer}>
@@ -151,9 +252,7 @@ const Profile_Screen = ({ navigation }) => {
               marginBottom: "10%",
             },
           ]}
-        >
-          {/* <Text style={styles.fontStyle}>TestText</Text> */}
-        </View>
+        ></View>
 
         <View
           style={{
