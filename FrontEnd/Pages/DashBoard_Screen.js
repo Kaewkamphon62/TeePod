@@ -53,7 +53,7 @@ const DashBoard_Screen = () => {
               if (res.data.keyzero.tempc) {
               }
 
-              //ความดันในดิน
+              //ความชื้นในดิน
               let IF_moisture = "";
               if (res.data.keyzero.moisture) {
               }
@@ -229,7 +229,7 @@ const DashBoard_Screen = () => {
           <View style={{ marginBottom: "3%" }}>
             <View style={{ flexDirection: "row" }}>
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
-                อุณหภูมิ
+                อุณหภูมิภายนอก
               </Text>
 
               <View style={{ marginRight: "2%" }}>
@@ -273,7 +273,7 @@ const DashBoard_Screen = () => {
               <View style={{ position: "absolute", right: "2.5%" }}>
                 {DataIoT.tempc != null ? (
                   <Text style={{ textAlign: "right", fontSize: 15 }}>
-                    {DataIoT.tempc} / 100°C
+                    {DataIoT.tempc}
                   </Text>
                 ) : null}
               </View>
@@ -283,7 +283,7 @@ const DashBoard_Screen = () => {
           <View style={{ marginBottom: "3%" }}>
             <View style={{ flexDirection: "row" }}>
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
-                ความดันในดิน
+                ความชื้นในดิน
               </Text>
               <View style={{ marginRight: "2%" }}>
                 <Text>{DetailShow.moisture}</Text>

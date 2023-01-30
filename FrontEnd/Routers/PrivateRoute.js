@@ -136,27 +136,32 @@ export const PrivateRoute = ({ children }) => {
         });
     },
 
-    getDataIOT: async (e) => {
-      let KeyIOT = e.Key;
-      // console.log("KeyIOT", KeyIOT)
+    // getloadFloweringPlantsData: async (e) => {
 
-      await axios
-        .post("http://192.168.137.1:3000/loadIotData", { KeyIOT })
-        .then(async (res) => {
-          if (res.data.keyzero != undefined) {
-            // console.log(res.data.keyzero.tempc);
+    //   await axios.post
+    // },
 
-            dispatch({
-              tc: res.data.keyzero.tempc,
-              moist: res.data.keyzero.moisture,
-              hid: res.data.keyzero.humid,
-            });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    // getDataIOT: async (e) => {
+    //   let KeyIOT = e.Key;
+    //   // console.log("KeyIOT", KeyIOT)
+
+    //   await axios
+    //     .post("http://192.168.137.1:3000/loadIotData", { KeyIOT })
+    //     .then(async (res) => {
+    //       if (res.data.keyzero != undefined) {
+    //         // console.log(res.data.keyzero.tempc);
+
+    //         dispatch({
+    //           tc: res.data.keyzero.tempc,
+    //           moist: res.data.keyzero.moisture,
+    //           hid: res.data.keyzero.humid,
+    //         });
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
   }));
 
   const authSign = React.useMemo(

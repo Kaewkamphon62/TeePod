@@ -140,11 +140,11 @@ const SignIn_Screen = ({ navigation }) => {
         }}
       >
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={styles.fontStyle}>Don't have an account? </Text>
+          <Text style={styles.fontStyle}>คุณยังไม่มีบัญชีผู้ใช้? </Text>
 
           <Pressable onPress={async () => await navigation.navigate("SignUp")}>
             <Text style={[styles.fontStyle, { color: "#6495ED" }]}>
-              Sign UP
+              สมัครสมาชิก
             </Text>
           </Pressable>
         </View>

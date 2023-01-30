@@ -38,7 +38,7 @@ const Profile_Screen = ({ navigation }) => {
           flex: 0.75,
         }}
       >
-        <View
+        {/* <View
           style={{ flex: 3, justifyContent: "center", alignItems: "center" }}
         >
           <Image
@@ -54,10 +54,10 @@ const Profile_Screen = ({ navigation }) => {
             }}
             source={require("../Assets/images/avatar.jpg")}
           />
-        </View>
+        </View> */}
 
         <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={{ textAlign: "center", fontSize: 25 }}>
+          <Text style={{ textAlign: "center", fontSize: 30 }}>
             {state.userName}
           </Text>
         </View>
@@ -150,6 +150,8 @@ const Profile_Screen = ({ navigation }) => {
                               await otherFunction.getMemberData({
                                 username: state.userName,
                               });
+
+
                             }
 
                             if (res.data.resError != undefined) {
