@@ -88,6 +88,7 @@ const DashBoard_Screen = () => {
           });
       } else {
         setKeyIOT(state.keyIOT);
+        await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
       }
     })();
   }, [KeyIOT, state.name_fp]);

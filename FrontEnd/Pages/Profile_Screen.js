@@ -19,7 +19,7 @@ const Profile_Screen = ({ navigation }) => {
 
   React.useEffect(() => {
     (async () => {
-      await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
+      // await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
 
       setInputKey({
         ...InputKey,
@@ -150,8 +150,6 @@ const Profile_Screen = ({ navigation }) => {
                               await otherFunction.getMemberData({
                                 username: state.userName,
                               });
-
-
                             }
 
                             if (res.data.resError != undefined) {
