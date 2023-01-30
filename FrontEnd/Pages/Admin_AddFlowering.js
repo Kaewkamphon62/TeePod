@@ -172,14 +172,14 @@ const Admin_AddFlowering = ({ navigation }) => {
           <View
             style={{
               flex: 1,
-              alignItems: "center",
               marginBottom: 10,
+              marginStart: 10,
             }}
           >
             <Text style={{ marginVertical: 7 }}>ประเภท</Text>
 
             <SelectDropdown
-              data={DD_flower_type}
+              data={DD_propagation}
               // defaultValueByIndex={1}
               // defaultValue={'Egypt'}
               onSelect={(selectedItem, index) => {
@@ -197,7 +197,14 @@ const Admin_AddFlowering = ({ navigation }) => {
               rowTextForSelection={(item, index) => {
                 return item;
               }}
-              buttonStyle={styles.dropdown1BtnStyle}
+              buttonStyle={{
+                width: "97.5%",
+                height: 45,
+                backgroundColor: "#FFF",
+                borderRadius: 7,
+                borderWidth: 1,
+                borderColor: "#444",
+              }}
               buttonTextStyle={styles.dropdown1BtnTxtStyle}
               renderDropdownIcon={(isOpened) => {
                 return (
