@@ -707,7 +707,26 @@ const Admin_AddFlowering = ({ navigation }) => {
 
                 if (res.data.complete != undefined) {
                   alert(res.data.complete);
-                  navigation.navigate("Admin_Profile");
+                  // navigation.navigate("Admin_Profile");
+
+                  setNewFlowering({
+                    name_flowring_plants: "", //ชื่อ
+                    name_science: "", //ชื่อวิทาศาสตร์
+                    clan: "", //วงศ์
+                    type: "", //ประเภท
+                    plant_stem: "", //ลำต้น
+                    leaf: "", //ใบ
+                    flowering: "", //การออกดอก
+                    fruitage: "", //การออกผล
+                    growth_rate: "", //การเจริญเติบโต
+                    soil: "", //ดิน
+                    desired_water: "", //น้ำที่ต้องการ
+                    sunlight: "", //แสงที่ต้องการ
+                    propagation: "", //การขยายพันธุ์
+                    sunbathing_time: "", //แสงที่ต้องการ(เวลา)
+                    other: "", //อื่นๆ
+                    url_image: "", //ลิ้งรูป
+                  });
                 }
               });
           }}
