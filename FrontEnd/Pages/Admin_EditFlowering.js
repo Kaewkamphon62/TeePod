@@ -87,6 +87,7 @@ const Admin_EditFlowering = ({ navigation }) => {
     "Papaveraceae",
     "Solanaceae",
     "Lamiaceae",
+    "Lythraceae",
   ];
   const DD_flower_type = ["ไม้ดอก", "ไ้ม้ล้มลุก", "ไม้ดอกและไม้ล้มลุก"];
   const DD_growth = ["เร็ว", "ปานกลาง", "ช้า"];
@@ -98,6 +99,8 @@ const Admin_EditFlowering = ({ navigation }) => {
   const DD_sunlight = [
     "รำไร ทนร่มได้ดี",
     "รำไร ชอบอากาศเย็น",
+    "ครึ่งวัน",
+    "ตลอดวัน",
     "ตลอดวัน ถึงครึ่งวัน",
     "ตลอดวัน ชอบอากาศเย็น",
     "ตลอดวัน ชอบอากาศเย็น ทนร้อน ",
