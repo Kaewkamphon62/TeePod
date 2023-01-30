@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View, KeyboardAvoidingView} from "react-native";
 import React, { useEffect } from "react";
 
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";

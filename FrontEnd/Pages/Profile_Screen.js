@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TextInput,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useState } from "react";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { Image } from "react-native";
@@ -109,6 +116,7 @@ const Profile_Screen = ({ navigation }) => {
                     alignItems: "center",
                   }}
                 >
+                  {/* <KeyboardAvoidingView> */}
                   <TextInput
                     style={[
                       styles.fontStyle,
@@ -128,6 +136,7 @@ const Profile_Screen = ({ navigation }) => {
                       });
                     }}
                   />
+                  {/* </KeyboardAvoidingView> */}
                 </View>
 
                 <View
@@ -227,14 +236,14 @@ const Profile_Screen = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={styles.FlexContainer}>
-          {/* <Pressable
+        {/* <View style={styles.FlexContainer}>
+          <Pressable
             style={styles.button}
             onPress={async () => navigation.navigate("Member_SelectFlowerting")}
           >
             <Text style={styles.fontStyle}>เปลี่ยนพืช</Text>
-          </Pressable> */}
-        </View>
+          </Pressable>
+        </View> */}
 
         <View style={styles.FlexContainer}>
           <Pressable
