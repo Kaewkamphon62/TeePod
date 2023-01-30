@@ -216,6 +216,7 @@ const DashBoard_Screen = () => {
         style={{
           flex: 1,
           marginHorizontal: "5%",
+          // backgroundColor: "red",
         }}
       >
         <View
@@ -224,14 +225,23 @@ const DashBoard_Screen = () => {
             justifyContent: "center",
             alignItems: "center",
             marginHorizontal: "5%",
+            // backgroundColor: "blue",
           }}
         >
-          <View style={{ marginBottom: "3%" }}>
+          <View
+            style={{
+              marginBottom: "3%",
+              flex: 1,
+              // backgroundColor: "gray",
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+            }}
+          >
             <View style={{ flexDirection: "row" }}>
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
                 อุณหภูมิภายนอก
               </Text>
-
               <View style={{ marginRight: "2%" }}>
                 <Text>TestText</Text>
               </View>
@@ -245,14 +255,15 @@ const DashBoard_Screen = () => {
                       color="black"
                     />
                   </MenuTrigger>
-                  <MenuOptions>
-                    <MenuOption style={{ padding: 20 }}>
-                      <Text>Menu TestText</Text>
+                  <MenuOptions style={{ width: "200%" }}>
+                    <MenuOption>
+                      <Text>{"TestText"}</Text>
                     </MenuOption>
                   </MenuOptions>
                 </Menu>
               </View>
             </View>
+
             <View
               style={{
                 flexDirection: "row",
@@ -262,9 +273,10 @@ const DashBoard_Screen = () => {
             >
               {DataIoT.tempc != null ? (
                 <Progress.Bar
-                  progress={DataIoT.tempc / 100}
-                  width={300}
+                  style={{ width: "100%", height: "100%" }}
+                  width={null}
                   height={20}
+                  progress={DataIoT.tempc * 0.01}
                 />
               ) : (
                 <Progress.Bar progress={0} width={300} height={20} />
@@ -273,14 +285,23 @@ const DashBoard_Screen = () => {
               <View style={{ position: "absolute", right: "2.5%" }}>
                 {DataIoT.tempc != null ? (
                   <Text style={{ textAlign: "right", fontSize: 15 }}>
-                    {DataIoT.tempc}
+                    {DataIoT.tempc} °C
                   </Text>
                 ) : null}
               </View>
             </View>
           </View>
 
-          <View style={{ marginBottom: "3%" }}>
+          <View
+            style={{
+              marginBottom: "3%",
+              flex: 1,
+              // backgroundColor: "gray",
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+            }}
+          >
             <View style={{ flexDirection: "row" }}>
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
                 ความชื้นในดิน
@@ -328,9 +349,10 @@ const DashBoard_Screen = () => {
             >
               {DataIoT.moisture != null ? (
                 <Progress.Bar
-                  progress={DataIoT.moisture / 1024}
-                  width={300}
+                  style={{ width: "100%", height: "100%" }}
+                  width={null}
                   height={20}
+                  progress={DataIoT.moisture / 1024}
                 />
               ) : (
                 <Progress.Bar progress={0} width={300} height={20} />
@@ -346,7 +368,16 @@ const DashBoard_Screen = () => {
             </View>
           </View>
 
-          <View style={{ marginBottom: "3%" }}>
+          <View
+            style={{
+              marginBottom: "3%",
+              flex: 1,
+              // backgroundColor: "green",
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+            }}
+          >
             <View style={{ flexDirection: "row" }}>
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
                 ความชื้นในอากาศ
@@ -383,9 +414,10 @@ const DashBoard_Screen = () => {
             >
               {DataIoT.humid != null ? (
                 <Progress.Bar
-                  progress={DataIoT.humid / 100}
-                  width={300}
+                  style={{ width: "100%", height: "100%" }}
+                  width={null}
                   height={20}
+                  progress={DataIoT.humid / 100}
                 />
               ) : (
                 <Progress.Bar progress={0} width={300} height={20} />
