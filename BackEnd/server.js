@@ -24,6 +24,7 @@ const config = {
 app.post("/loadIotData", urlencodedParser, async (req, res) => {
   try {
     const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    // console.log()
 
     if (DB_TeePoT) {
       const MyKey = req.body.KeyIOT;

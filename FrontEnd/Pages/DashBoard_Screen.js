@@ -34,64 +34,89 @@ const DashBoard_Screen = () => {
 
   React.useEffect(() => {
     (async () => {
+      if (state.tempc != null) {
+        // console.log("state.keyIOT != null");
+
+        //อุณหภูมิ
+        let IF_tempc = "";
+        if (state.tempc) {
+        }
+
+        //ความชื้นในดิน
+        let IF_moisture = "";
+        if (state.moisture) {
+        }
+        if (state.moisture > 800) {
+          IF_moisture = "เซนเซอร์อยู่ในอากาศ";
+        } else if (state.moisture >= 800) {
+          IF_moisture = "ดินแห้ง";
+        } else if (state.moisture >= 300) {
+          IF_moisture = "ดินชื้น";
+        } else if (state.moisture < 300) {
+          IF_moisture = "ดินเปียก";
+        }
+
+        //ความชื้นในอากาศ
+        let IF_humid = "";
+        if (state.humid) {
+        }
+
+        setDetailShow({
+          tempc: IF_tempc,
+          moisture: IF_moisture,
+          humid: IF_humid,
+        });
+      }
       // clearTimer(getDeadTime());
+      // if (state.keyIOT != null) {
+      // ดึงข้อมูล KeyIOT ของ User นั้นๆ
+      // console.log("state.keyIOT != null")
 
-      if (KeyIOT != null) {
-        // ดึงข้อมูล KeyIOT ของ User นั้นๆ
-        await axios
-          .post("http://192.168.137.1:3000/loadIotData", { KeyIOT })
-          .then(async (res) => {
-            if (res.data.keyzero != undefined) {
-              setDataIoT({
-                tempc: res.data.keyzero.tempc,
-                moisture: res.data.keyzero.moisture,
-                humid: res.data.keyzero.humid,
-              });
+      // setDataIoT({
+      //   tempc: state.tempc, //อุณหภูมิภายนอก
+      //   moisture: state.moisture, //ดิน
+      //   humid: state.humid, //อากาศ
+      // });
 
-              //อุณหภูมิ
-              let IF_tempc = "";
-              if (res.data.keyzero.tempc) {
-              }
+      // //อุณหภูมิ
+      // let IF_tempc = "";
+      // if (state.tempc) {
+      // }
 
-              //ความชื้นในดิน
-              let IF_moisture = "";
-              if (res.data.keyzero.moisture) {
-              }
-              if (res.data.keyzero.moisture > 800) {
-                IF_moisture = "เซนเซอร์อยู่ในอากาศ";
-              } else if (res.data.keyzero.moisture >= 800) {
-                IF_moisture = "ดินแห้ง";
-              } else if (res.data.keyzero.moisture >= 300) {
-                IF_moisture = "ดินชื้น";
-              } else if (res.data.keyzero.moisture < 300) {
-                IF_moisture = "ดินเปียก";
-              }
+      // //ความชื้นในดิน
+      // let IF_moisture = "";
+      // if (state.moisture) {
+      // }
+      // if (state.moisture > 800) {
+      //   IF_moisture = "เซนเซอร์อยู่ในอากาศ";
+      // } else if (state.moisture >= 800) {
+      //   IF_moisture = "ดินแห้ง";
+      // } else if (state.moisture >= 300) {
+      //   IF_moisture = "ดินชื้น";
+      // } else if (state.moisture < 300) {
+      //   IF_moisture = "ดินเปียก";
+      // }
 
-              //ความชื้นในอากาศ
-              let IF_humid = "";
-              if (res.data.keyzero.humid) {
-              }
+      // //ความชื้นในอากาศ
+      // let IF_humid = "";
+      // if (state.humid) {
+      // }
 
-              setDetailShow({
-                tempc: IF_tempc,
-                moisture: IF_moisture,
-                humid: IF_humid,
-              });
-            }
-
-            if (res.data.resError != undefined) {
-              alert(res.data.resError);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        setKeyIOT(state.keyIOT);
+      // setDetailShow({
+      //   tempc: IF_tempc,
+      //   moisture: IF_moisture,
+      //   humid: IF_humid,
+      // });
+      // }
+      else {
         await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
       }
     })();
-  }, [KeyIOT, state.name_fp]);
+  }, [state.tempc]);
+
+  // console.log(state)
+
+  // otherFunction.getDataIOT({ Key: state.keyIOT });
 
   // React.useEffect(() => {
   //   (async () => {
@@ -272,21 +297,21 @@ const DashBoard_Screen = () => {
                 // backgroundColor: "gray",
               }}
             >
-              {DataIoT.tempc != null ? (
+              {state.tempc != null ? (
                 <Progress.Bar
                   style={{ width: "100%", height: "100%" }}
                   width={null}
                   height={20}
-                  progress={DataIoT.tempc * 0.01}
+                  progress={state.tempc * 0.01}
                 />
               ) : (
                 <Progress.Bar progress={0} width={300} height={20} />
               )}
 
               <View style={{ position: "absolute", right: "2.5%" }}>
-                {DataIoT.tempc != null ? (
+                {state.tempc != null ? (
                   <Text style={{ textAlign: "right", fontSize: 15 }}>
-                    {DataIoT.tempc} °C
+                    {state.tempc} °C
                   </Text>
                 ) : null}
               </View>
@@ -348,21 +373,21 @@ const DashBoard_Screen = () => {
                 // backgroundColor: "gray",
               }}
             >
-              {DataIoT.moisture != null ? (
+              {state.moisture != null ? (
                 <Progress.Bar
                   style={{ width: "100%", height: "100%" }}
                   width={null}
                   height={20}
-                  progress={DataIoT.moisture / 1024}
+                  progress={state.moisture / 1024}
                 />
               ) : (
                 <Progress.Bar progress={0} width={300} height={20} />
               )}
 
               <View style={{ position: "absolute", right: "2.5%" }}>
-                {DataIoT.moisture != null ? (
+                {state.moisture != null ? (
                   <Text style={{ textAlign: "right", fontSize: 15 }}>
-                    {DataIoT.moisture} / 1024 Analog
+                    {state.moisture} / 1024 Analog
                   </Text>
                 ) : null}
               </View>
@@ -413,21 +438,21 @@ const DashBoard_Screen = () => {
                 // backgroundColor: "gray",
               }}
             >
-              {DataIoT.humid != null ? (
+              {state.humid != null ? (
                 <Progress.Bar
                   style={{ width: "100%", height: "100%" }}
                   width={null}
                   height={20}
-                  progress={DataIoT.humid / 100}
+                  progress={state.humid / 100}
                 />
               ) : (
                 <Progress.Bar progress={0} width={300} height={20} />
               )}
 
               <View style={{ position: "absolute", right: "2.5%" }}>
-                {DataIoT.humid != null ? (
+                {state.humid != null ? (
                   <Text style={{ textAlign: "right", fontSize: 15 }}>
-                    {DataIoT.humid} / 100 % RH
+                    {state.humid} / 100 % RH
                   </Text>
                 ) : null}
               </View>
@@ -465,9 +490,7 @@ const DashBoard_Screen = () => {
               </>
             ) : (
               <>
-                <Text style={styles.fontStyle}>
-                  คุณยังไม่ได้ยืนยัน KeyIOT
-                </Text>
+                <Text style={styles.fontStyle}>คุณยังไม่ได้ยืนยัน KeyIOT</Text>
               </>
             )}
 

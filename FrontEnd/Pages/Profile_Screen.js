@@ -28,12 +28,16 @@ const Profile_Screen = ({ navigation }) => {
     (async () => {
       // await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
 
-      setInputKey({
-        ...InputKey,
-        Username: state.userName,
-      });
+      if (InputKey.Key != null) {
+        await otherFunction.getDataIOT({ Key: InputKey.Key }); //โหลดเมื่อเข้าแอพใหม่
+      } else {
+        setInputKey({
+          ...InputKey,
+          Username: state.userName,
+        });
+      }
     })();
-  }, []);
+  }, [InputKey.Key]);
 
   return (
     <View style={styles.Container}>

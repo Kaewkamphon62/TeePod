@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View, KeyboardAvoidingView} from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
 
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
@@ -24,7 +24,7 @@ export const PrivateRoute = ({ children }) => {
             tempc: action.tc,
             moisture: action.moist,
             humid: action.hid,
-            // isLoading: false,
+            isLoading: false,
           };
 
         case "MemberDB":
@@ -33,7 +33,7 @@ export const PrivateRoute = ({ children }) => {
             name_fp: action.nfp,
             sunbathing_time: action.st,
             keyIOT: action.kiot,
-            // isLoading: false,
+            isLoading: false,
           };
 
         case "RESTORE_TOKEN":
@@ -65,11 +65,14 @@ export const PrivateRoute = ({ children }) => {
     {
       isLoading: true,
       isSignout: false,
+
       userToken: null,
       userRole: null,
       userName: null,
+
       name_fp: null,
       sunbathing_time: null,
+
       tempc: null,
       moisture: null,
       humid: null,
@@ -129,6 +132,10 @@ export const PrivateRoute = ({ children }) => {
               kiot: res.data.mdata.keyIOT,
               st: milliseconds,
             });
+
+            if (res.data.mdata.keyIOT != null) {
+              await otherFunction.getDataIOT({ Key: res.data.mdata.keyIOT });
+            }
           }
         })
         .catch((error) => {
@@ -137,31 +144,31 @@ export const PrivateRoute = ({ children }) => {
     },
 
     // getloadFloweringPlantsData: async (e) => {
-
-    //   await axios.post
+    //   await axios.post;
     // },
 
-    // getDataIOT: async (e) => {
-    //   let KeyIOT = e.Key;
-    //   // console.log("KeyIOT", KeyIOT)
+    getDataIOT: async (e) => {
+      let KeyIOT = e.Key;
+      // console.log("KeyIOT: ", KeyIOT);
 
-    //   await axios
-    //     .post("http://192.168.137.1:3000/loadIotData", { KeyIOT })
-    //     .then(async (res) => {
-    //       if (res.data.keyzero != undefined) {
-    //         // console.log(res.data.keyzero.tempc);
+      await axios
+        .post("http://192.168.137.1:3000/loadIotData", { KeyIOT })
+        .then(async (res) => {
+          if (res.data.keyzero != undefined) {
+            // console.log("res.data.keyzero", res.data.keyzero);
 
-    //         dispatch({
-    //           tc: res.data.keyzero.tempc,
-    //           moist: res.data.keyzero.moisture,
-    //           hid: res.data.keyzero.humid,
-    //         });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
+            dispatch({
+              type: "DataIoT",
+              tc: res.data.keyzero.tempc,
+              moist: res.data.keyzero.moisture,
+              hid: res.data.keyzero.humid,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   }));
 
   const authSign = React.useMemo(
