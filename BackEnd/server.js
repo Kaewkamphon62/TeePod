@@ -34,16 +34,16 @@ app.post("/loadIotData", urlencodedParser, async (req, res) => {
       //   .findOne({ keyiot: MyKey });
 
       // if (FindKey != null) {
-        const DBKey = await DB_TeePoT.db("TeePoT")
-          .collection("IOT")
-          .find({ keyiot: MyKey })
-          .sort({ timerecord: -1 })
-          .limit(1)
-          .toArray();
+      const DBKey = await DB_TeePoT.db("TeePoT")
+        .collection("IOT")
+        .find({ keyiot: MyKey })
+        .sort({ timerecord: -1 })
+        .limit(1)
+        .toArray();
 
-        res.json({
-          keyzero: DBKey[0],
-        });
+      res.json({
+        keyzero: DBKey[0],
+      });
       // }
     }
   } catch (error) {
@@ -239,6 +239,7 @@ app.post("/EditFloweringlants", urlencodedParser, async (req, res) => {
               propagation: SelectFlowering.propagation, //การขยายพันธุ์
               sunbathing_time: SelectFlowering.sunbathing_time, //แสงที่ต้องการ(เวลา)
               other: SelectFlowering.other, //อื่นๆ
+              tip: SelectFlowering.tip, //เกร็ดน่ารู้
               url_image: SelectFlowering.url_image, //ลิ้งรูป
             },
           }

@@ -63,8 +63,8 @@ const Admin_EditFlowering = ({ navigation }) => {
     React.useState("");
   const [FloweringPlants, setFloweringPlants] = React.useState({
     name_flowring_plants: "", //ชื่อ
-    name_science: "", //ชื่อวิทาศาสตร์
-    clan: "", //วงศ์
+    // name_science: "", //ชื่อวิทาศาสตร์
+    // clan: "", //วงศ์
     type: "", //ประเภท
     plant_stem: "", //ลำต้น
     leaf: "", //ใบ
@@ -77,19 +77,20 @@ const Admin_EditFlowering = ({ navigation }) => {
     propagation: "", //การขยายพันธุ์
     sunbathing_time: "", //แสงที่ต้องการ(เวลา)
     other: "", //อื่นๆ
+    tip: "", //เกร็ดน่ารู้
     url_image: "", //ลิ้งรูป
   });
 
-  const DD_lineage = [
-    "Asteraceae",
-    "Brassicaceae",
-    "Campanulaceae",
-    "Malvaceae",
-    "Papaveraceae",
-    "Solanaceae",
-    "Lamiaceae",
-    "Lythraceae",
-  ];
+  // const DD_lineage = [
+  //   "Asteraceae",
+  //   "Brassicaceae",
+  //   "Campanulaceae",
+  //   "Malvaceae",
+  //   "Papaveraceae",
+  //   "Solanaceae",
+  //   "Lamiaceae",
+  //   "Lythraceae",
+  // ];
   const DD_flower_type = ["ไม้ดอก", "ไ้ม้ล้มลุก", "ไม้ดอกและไม้ล้มลุก"];
   const DD_growth = ["เร็ว", "ปานกลาง", "ช้า"];
   const DD_soil = [
@@ -145,59 +146,59 @@ const Admin_EditFlowering = ({ navigation }) => {
   //   return array;
   // };
 
-  const GetValueByName = (i) => {
-    retrun(
-      <SelectDropdown
-        data={DD_lineage}
-        // defaultValueByIndex={1}
-        // defaultValue={'Egypt'}
-        onSelect={(selectedItem, index) => {
-          // console.log(selectedItem, index);
+  // const GetValueByName = (i) => {
+  //   retrun(
+  //     <SelectDropdown
+  //       data={DD_lineage}
+  //       // defaultValueByIndex={1}
+  //       // defaultValue={'Egypt'}
+  //       onSelect={(selectedItem, index) => {
+  //         // console.log(selectedItem, index);
 
-          setSelectFloweringPlants({
-            ...SelectFloweringPlants,
-            clan: selectedItem,
-          });
-        }}
-        // defaultButtonText={
-        //   SelectFloweringPlants.clan != undefined
-        //     ? SelectFloweringPlants.clan
-        //     : "..."
-        // }
+  //         setSelectFloweringPlants({
+  //           ...SelectFloweringPlants,
+  //           clan: selectedItem,
+  //         });
+  //       }}
+  //       // defaultButtonText={
+  //       //   SelectFloweringPlants.clan != undefined
+  //       //     ? SelectFloweringPlants.clan
+  //       //     : "..."
+  //       // }
 
-        defaultButtonText={
-          // () => {
-          //   return "...";
-          // }
+  //       defaultButtonText={
+  //         // () => {
+  //         //   return "...";
+  //         // }
 
-          SelectFloweringPlants.clan != undefined
-            ? SelectFloweringPlants.clan
-            : "..."
-        }
-        buttonTextAfterSelection={(selectedItem, index) => {
-          return selectedItem;
-        }}
-        rowTextForSelection={(item, index) => {
-          return item;
-        }}
-        buttonStyle={styles.dropdown1BtnStyle}
-        buttonTextStyle={styles.dropdown1BtnTxtStyle}
-        renderDropdownIcon={(isOpened) => {
-          return (
-            <FontAwesome
-              name={isOpened ? "chevron-up" : "chevron-down"}
-              color={"#444"}
-              size={15}
-            />
-          );
-        }}
-        dropdownIconPosition={"right"}
-        dropdownStyle={styles.dropdown1DropdownStyle}
-        rowStyle={styles.dropdown1RowStyle}
-        rowTextStyle={styles.dropdown1RowTxtStyle}
-      />
-    );
-  };
+  //         SelectFloweringPlants.clan != undefined
+  //           ? SelectFloweringPlants.clan
+  //           : "..."
+  //       }
+  //       buttonTextAfterSelection={(selectedItem, index) => {
+  //         return selectedItem;
+  //       }}
+  //       rowTextForSelection={(item, index) => {
+  //         return item;
+  //       }}
+  //       buttonStyle={styles.dropdown1BtnStyle}
+  //       buttonTextStyle={styles.dropdown1BtnTxtStyle}
+  //       renderDropdownIcon={(isOpened) => {
+  //         return (
+  //           <FontAwesome
+  //             name={isOpened ? "chevron-up" : "chevron-down"}
+  //             color={"#444"}
+  //             size={15}
+  //           />
+  //         );
+  //       }}
+  //       dropdownIconPosition={"right"}
+  //       dropdownStyle={styles.dropdown1DropdownStyle}
+  //       rowStyle={styles.dropdown1RowStyle}
+  //       rowTextStyle={styles.dropdown1RowTxtStyle}
+  //     />
+  //   );
+  // };
 
   const GetValueTime = (i) => {
     let value = "";
@@ -323,7 +324,7 @@ const Admin_EditFlowering = ({ navigation }) => {
         }}
       />
 
-      <Text style={styles.label}>ชื่อวิทยาศาสตร์</Text>
+      {/* <Text style={styles.label}>ชื่อวิทยาศาสตร์</Text>
       <TextInput
         style={styles.input}
         value={SelectFloweringPlants.name_science}
@@ -333,11 +334,11 @@ const Admin_EditFlowering = ({ navigation }) => {
             name_science: e,
           });
         }}
-      />
+      /> */}
 
       <View style={{ alignItems: "center" }}>
         <View style={{ flexDirection: "row" }}>
-          <View
+          {/* <View
             style={{
               flex: 1,
               alignItems: "center",
@@ -389,7 +390,7 @@ const Admin_EditFlowering = ({ navigation }) => {
               rowStyle={styles.dropdown1RowStyle}
               rowTextStyle={styles.dropdown1RowTxtStyle}
             />
-          </View>
+          </View> */}
 
           <View
             style={{
@@ -951,12 +952,12 @@ const Admin_EditFlowering = ({ navigation }) => {
         </View>
       </View>
 
-      <Text style={styles.label}>อื่นๆ</Text>
+      <Text style={styles.label}>การใช้งานและอื่นๆ</Text>
       <TextInput
         value={SelectFloweringPlants.other}
         editable={true}
         multiline={true}
-        numberOfLines={10}
+        numberOfLines={7}
         style={{
           backgroundColor: "white",
           borderStyle: "solid",
@@ -972,6 +973,31 @@ const Admin_EditFlowering = ({ navigation }) => {
           setSelectFloweringPlants({
             ...SelectFloweringPlants,
             other: e,
+          });
+        }}
+      />
+
+      <Text style={styles.label}>เกร็ดน่ารู้</Text>
+      <TextInput
+        value={SelectFloweringPlants.tip}
+        editable={true}
+        multiline={true}
+        numberOfLines={7}
+        style={{
+          backgroundColor: "white",
+          borderStyle: "solid",
+          borderColor: "#B7B7B7",
+          borderRadius: 7,
+          borderWidth: 1,
+          fontSize: 13,
+          marginHorizontal: 10,
+          paddingStart: 10,
+          marginBottom: 10,
+        }}
+        onChangeText={async (e) => {
+          setSelectFloweringPlants({
+            ...SelectFloweringPlants,
+            tip: e,
           });
         }}
       />

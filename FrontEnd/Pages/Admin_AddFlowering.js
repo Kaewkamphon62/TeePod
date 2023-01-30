@@ -22,8 +22,8 @@ const Admin_AddFlowering = ({ navigation }) => {
 
   const [NewFlowering, setNewFlowering] = React.useState({
     name_flowring_plants: "", //ชื่อ
-    name_science: "", //ชื่อวิทาศาสตร์
-    clan: "", //วงศ์
+    // name_science: "", //ชื่อวิทาศาสตร์
+    // clan: "", //วงศ์
     type: "", //ประเภท
     plant_stem: "", //ลำต้น
     leaf: "", //ใบ
@@ -36,19 +36,20 @@ const Admin_AddFlowering = ({ navigation }) => {
     propagation: "", //การขยายพันธุ์
     sunbathing_time: "", //แสงที่ต้องการ(เวลา)
     other: "", //อื่นๆ
+    tip: "", //เกร็ดน่ารู้
     url_image: "", //ลิ้งรูป
   });
 
-  const DD_lineage = [
-    "Asteraceae",
-    "Brassicaceae",
-    "Campanulaceae",
-    "Malvaceae",
-    "Papaveraceae",
-    "Solanaceae",
-    "Lamiaceae",
-    "Lythraceae",
-  ];
+  // const DD_lineage = [
+  //   "Asteraceae",
+  //   "Brassicaceae",
+  //   "Campanulaceae",
+  //   "Malvaceae",
+  //   "Papaveraceae",
+  //   "Solanaceae",
+  //   "Lamiaceae",
+  //   "Lythraceae",
+  // ];
   const DD_flower_type = ["ไม้ดอก", "ไ้ม้ล้มลุก", "ไม้ดอกและไม้ล้มลุก"];
   const DD_growth = ["เร็ว", "ปานกลาง", "ช้า"];
   const DD_soil = [
@@ -108,7 +109,7 @@ const Admin_AddFlowering = ({ navigation }) => {
         }}
       />
 
-      <Text style={styles.label}>ชื่อวิทยาศาสตร์</Text>
+      {/* <Text style={styles.label}>ชื่อวิทยาศาสตร์</Text>
       <TextInput
         style={styles.input}
         onChangeText={async (e) => {
@@ -117,11 +118,11 @@ const Admin_AddFlowering = ({ navigation }) => {
             name_science: e,
           });
         }}
-      />
+      /> */}
 
       <View style={{ alignItems: "center" }}>
         <View style={{ flexDirection: "row" }}>
-          <View
+          {/* <View
             style={{
               flex: 1,
               alignItems: "center",
@@ -166,7 +167,7 @@ const Admin_AddFlowering = ({ navigation }) => {
               rowStyle={styles.dropdown1RowStyle}
               rowTextStyle={styles.dropdown1RowTxtStyle}
             />
-          </View>
+          </View> */}
 
           <View
             style={{
@@ -654,7 +655,7 @@ const Admin_AddFlowering = ({ navigation }) => {
         </View>
       </View>
 
-      <Text style={styles.label}>อื่นๆ</Text>
+      <Text style={styles.label}>การใช้งานและอื่นๆ</Text>
       <TextInput
         editable={true}
         multiline={true}
@@ -674,6 +675,17 @@ const Admin_AddFlowering = ({ navigation }) => {
           setNewFlowering({
             ...NewFlowering,
             other: e,
+          });
+        }}
+      />
+
+      <Text style={styles.label}>เกร็ดน่ารู้</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={async (e) => {
+          setNewFlowering({
+            ...NewFlowering,
+            tip: e,
           });
         }}
       />
@@ -725,6 +737,7 @@ const Admin_AddFlowering = ({ navigation }) => {
                     propagation: "", //การขยายพันธุ์
                     sunbathing_time: "", //แสงที่ต้องการ(เวลา)
                     other: "", //อื่นๆ
+                    tip: "", //เกร็ดน่รู้
                     url_image: "", //ลิ้งรูป
                   });
                 }
