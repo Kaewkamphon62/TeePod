@@ -213,7 +213,7 @@ app.post("/EditFloweringlants", urlencodedParser, async (req, res) => {
 
   const SelectFlowering = req.body.SelectFloweringPlants;
   let Old_Name = req.body.Old_NameFloweringPlants;
-  console.log(Old_Name);
+  // console.log(Old_Name);
 
   try {
     const DB_TeePoT = await mongoose.connect(mongoUrl, config);
@@ -251,7 +251,7 @@ app.post("/EditFloweringlants", urlencodedParser, async (req, res) => {
 
       if (DataUpdate) {
         res.json({
-          alert: "อัพเดตเรียบร้อย",
+          complete: "อัพเดตเรียบร้อย",
         });
       }
     }

@@ -18,6 +18,12 @@ export const PrivateRoute = ({ children }) => {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
+        case "FloweringPlantsDB":
+          return {
+            ...prevState,
+            FloweringPlants: action.fp,
+            isLoading: false,
+          };
         case "DataIoT":
           return {
             ...prevState,
@@ -76,6 +82,8 @@ export const PrivateRoute = ({ children }) => {
       tempc: null,
       moisture: null,
       humid: null,
+
+      FloweringPlants: null,
     }
   );
 
@@ -169,6 +177,22 @@ export const PrivateRoute = ({ children }) => {
           console.log(error);
         });
     },
+
+    getFloweringPlants: async (e) => {
+      await axios
+        .post("http://192.168.137.1:3000/loadFloweringPlants")
+        .then(async (res) => {
+          if (res.data.fp != undefined) {
+            dispatch({
+              type: "FloweringPlantsDB",
+              fp: res.data.fp,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   }));
 
   const authSign = React.useMemo(
@@ -255,6 +279,10 @@ export const PrivateRoute = ({ children }) => {
           userToken: null,
           userRole: null,
           userName: null,
+        });
+        dispatch({
+          type: "FloweringPlantsDB",
+          FloweringPlants: null,
         });
       },
     }),

@@ -17,7 +17,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const Admin_AddFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
-  const { state } = React.useContext(PrivateRoute_Context);
+  const { state, otherFunction } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
   const [NewFlowering, setNewFlowering] = React.useState({
@@ -727,6 +727,8 @@ const Admin_AddFlowering = ({ navigation }) => {
                 if (res.data.complete != undefined) {
                   alert(res.data.complete);
                   // navigation.navigate("Admin_Profile");
+
+                  await otherFunction.getFloweringPlants();
 
                   setNewFlowering({
                     name_flowring_plants: "", //ชื่อ

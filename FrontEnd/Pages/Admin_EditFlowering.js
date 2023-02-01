@@ -18,45 +18,29 @@ import SelectFlowerting from "./SelectFlowerting_Screen";
 
 const Admin_EditFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
-  const { state } = React.useContext(PrivateRoute_Context);
+  const { state, otherFunction } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
 
   React.useEffect(() => {
-    // setFloweringPlants([]);
-    // setNameFloweringPlants([]);
+    (async () => {
+      if (state.FloweringPlants != null) {
+        console.log("");
+        console.log("if useEffect");
+        // console.log(JSON.stringify(state.FloweringPlants, null, 2));
 
-    const getDB = async () => {
-      await axios
-        .post("http://192.168.137.1:3000/loadFloweringPlants")
-        .then(async (res) => {
-          if (res.data.fp != undefined) {
-            // console.log("res.data.fp", typeof res.data.fp);
-            // console.log("");
-            // console.log(res.data.fp);
-            // console.log(JSON.stringify(res.data.fp, null, 2));
+        setNameFloweringPlants(
+          await state.FloweringPlants.map(
+            (dataFP) => dataFP.name_flowring_plants
+          )
+        );
 
-            // for (const i in res.data.fp) {
-            //   // console.log("i", i);
+        setFloweringPlants(await state.FloweringPlants);
+      } else {
+        otherFunction.getFloweringPlants({});
+      }
+    })();
+  }, [state.FloweringPlants]);
 
-            //   // console.log("i", res.data.fp[i].name_flowring_plants)
-            //   NameFloweringPlants.push(res.data.fp[i].name_flowring_plants);
-            // }
-
-            await setNameFloweringPlants(
-              res.data.fp.map((dataFP) => dataFP.name_flowring_plants)
-            );
-
-            await setFloweringPlants(res.data.fp);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    getDB();
-  }, []);
-
-  const [RecallDB, setRecallDB] = React.useState(0);
   const [SelectFloweringPlants, setSelectFloweringPlants] = React.useState([]);
   const [NameFloweringPlants, setNameFloweringPlants] = React.useState([]);
   const [Old_NameFloweringPlants, setOld_NameFloweringPlants] =
@@ -275,6 +259,7 @@ const Admin_EditFlowering = ({ navigation }) => {
                 await setSelectFloweringPlants(FloweringPlants[PositionName]);
               })();
             }}
+            defaultValue={"..."}
             defaultButtonText={"..."}
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem;
@@ -1026,10 +1011,10 @@ const Admin_EditFlowering = ({ navigation }) => {
           title="Comfirm Edit Flower"
           onPress={async () => {
             // console.log("NewUpdate: ", SelectFloweringPlants);
-            console.log(
-              "NewUpdate",
-              JSON.stringify(SelectFloweringPlants, null, 2)
-            );
+            // console.log(
+            //   "NewUpdate",
+            //   JSON.stringify(SelectFloweringPlants, null, 2)
+            // );
 
             await axios
               .post("http://192.168.137.1:3000/EditFloweringlants", {
@@ -1037,12 +1022,15 @@ const Admin_EditFlowering = ({ navigation }) => {
                 Old_NameFloweringPlants,
               })
               .then(async (res) => {
-                if (res.data.alert != undefined) {
-                  alert(res.data.alert);
+                if (res.data.resError != undefined) {
+                  alert(res.data.resError);
                 }
 
                 if (res.data.complete != undefined) {
-                  alert(res.data.complete);
+                  otherFunction.getFloweringPlants();
+                  alert(await res.data.complete);
+                  setSelectFloweringPlants([]);
+                  setNameFloweringPlants([]);
                 }
               });
           }}
