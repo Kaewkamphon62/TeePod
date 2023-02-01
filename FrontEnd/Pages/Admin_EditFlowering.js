@@ -24,8 +24,6 @@ const Admin_EditFlowering = ({ navigation }) => {
   React.useEffect(() => {
     (async () => {
       if (state.FloweringPlants != null) {
-        console.log("");
-        console.log("if useEffect");
         // console.log(JSON.stringify(state.FloweringPlants, null, 2));
 
         setNameFloweringPlants(
