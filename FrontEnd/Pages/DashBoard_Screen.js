@@ -19,13 +19,6 @@ const DashBoard_Screen = () => {
   const { otherFunction, state } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////w
 
-  const [KeyIOT, setKeyIOT] = React.useState(null);
-  const [DataIoT, setDataIoT] = React.useState({
-    tempc: null,
-    moisture: null, //ดิน
-    humid: null, //อากาศ
-  });
-
   const [DetailShow, setDetailShow] = React.useState({
     tempc: null,
     humid: null,
@@ -34,6 +27,9 @@ const DashBoard_Screen = () => {
 
   React.useEffect(() => {
     (async () => {
+      // console.log("state.tempc: ", state.tempc);
+
+
       if (state.tempc != null) {
         // console.log("state.keyIOT != null");
 
@@ -47,7 +43,7 @@ const DashBoard_Screen = () => {
         if (state.moisture) {
         }
         if (state.moisture > 800) {
-          IF_moisture = "เซนเซอร์อยู่ในอากาศ";
+          IF_moisture = "ตรวจไม่พบความชื้นในดิน";
         } else if (state.moisture >= 800) {
           IF_moisture = "ดินแห้ง";
         } else if (state.moisture >= 300) {
@@ -112,9 +108,7 @@ const DashBoard_Screen = () => {
         await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
       }
     })();
-  }, [state.tempc]);
-
-  // console.log(state)
+  }, [state.keyIOT]);
 
   // otherFunction.getDataIOT({ Key: state.keyIOT });
 
@@ -347,7 +341,7 @@ const DashBoard_Screen = () => {
                   </MenuTrigger>
                   <MenuOptions style={{ width: "200%" }}>
                     <MenuOption>
-                      <Text>{"> 1000: เซนเซอร์อยู่ในอากาศ"}</Text>
+                      <Text>{"> 1000: ตรวจไม่พบความชื้นในดิน"}</Text>
                     </MenuOption>
 
                     <MenuOption>

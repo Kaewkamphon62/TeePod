@@ -67,7 +67,7 @@ app.post("/Member_InputKey", urlencodedParser, async (req, res) => {
         .findOne({ keyiot: Key });
 
       if (FindKey != null) {
-        console.log(FindKey);
+        // console.log(FindKey);
 
         const DataUpdate = await DB_TeePoT.db("TeePoT")
           .collection("Member_Data")
@@ -81,6 +81,35 @@ app.post("/Member_InputKey", urlencodedParser, async (req, res) => {
       } else {
         res.json({
           resError: `ไม่มี Key: ${Key} ในระบบ`,
+        });
+      }
+    }
+  } catch (error) {
+    res.json({
+      resError: "NetWork Error",
+    });
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post("/Member_DeleteKey", urlencodedParser, async (req, res) => {
+  try {
+    let Username = req.body.InputKey.Username;
+
+    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    if (DB_TeePoT) {
+      const KeyToNull = await DB_TeePoT.db("TeePoT")
+        .collection("Member_Data")
+        .updateOne({ username: Username }, { $set: { keyIOT: null } });
+
+      if (KeyToNull != null) {
+        res.json({
+          complete: "อัพเดตเรียบร้อย",
+        });
+      } else {
+        res.json({
+          resError: "ErrorCode500",
         });
       }
     }
@@ -252,6 +281,10 @@ app.post("/EditFloweringlants", urlencodedParser, async (req, res) => {
       if (DataUpdate) {
         res.json({
           complete: "อัพเดตเรียบร้อย",
+        });
+      } else {
+        res.json({
+          resError: "ErrorCode500",
         });
       }
     }

@@ -92,7 +92,7 @@ const Profile_Screen = ({ navigation }) => {
         >
           <View style={{ flexDirection: "row", marginVertical: "2%" }}>
             <MaterialCommunityIcons
-              style={{ flex: 0.5, textAlign: "center" }}
+              style={{ flex: 0.5, textAlign: "center", marginHorizontal: "2%" }}
               name="key-link"
               size={35}
               color="black"
@@ -105,6 +105,37 @@ const Profile_Screen = ({ navigation }) => {
                 >
                   {state.keyIOT}
                 </Text>
+
+                <FontAwesome
+                  style={{
+                    flex: 0.5,
+                    textAlign: "center",
+                    marginHorizontal: "2%",
+                  }}
+                  name="exchange"
+                  size={35}
+                  color="black"
+                  onPress={async () => {
+                    await axios
+                      .post("http://192.168.137.1:3000/Member_DeleteKey", {
+                        InputKey,
+                      })
+                      .then(async (res) => {
+                        if (res.data.complete != undefined) {
+                          await otherFunction.getMemberData({
+                            username: state.userName,
+                          });
+                        }
+
+                        if (res.data.resError != undefined) {
+                          alert(res.data.resError);
+                        }
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      });
+                  }}
+                />
               </>
             ) : (
               <View
@@ -116,8 +147,9 @@ const Profile_Screen = ({ navigation }) => {
               >
                 <View
                   style={{
-                    flex: 3,
+                    flex: 2,
                     alignItems: "center",
+                    marginHorizontal: "2%",
                   }}
                 >
                   {/* <KeyboardAvoidingView> */}
@@ -150,7 +182,7 @@ const Profile_Screen = ({ navigation }) => {
                   }}
                 >
                   <Pressable
-                    style={[styles.button, { flex: 1 }]}
+                    style={[styles.button, { flex: 2 }]}
                     // style={{backgroundColor: "yellow"}}
                     onPress={async () => {
                       if (InputKey != null) {
@@ -163,6 +195,8 @@ const Profile_Screen = ({ navigation }) => {
                               await otherFunction.getMemberData({
                                 username: state.userName,
                               });
+
+                              navigation.navigate("Member_DashBoard");
                             }
 
                             if (res.data.resError != undefined) {
@@ -177,7 +211,7 @@ const Profile_Screen = ({ navigation }) => {
                       }
                     }}
                   >
-                    <Text style={styles.fontStyle}>ยืนยัน</Text>
+                    <Text style={styles.fontStyle}>Summit</Text>
                   </Pressable>
                 </View>
               </View>

@@ -141,9 +141,7 @@ export const PrivateRoute = ({ children }) => {
               st: milliseconds,
             });
 
-            if (res.data.mdata.keyIOT != null) {
-              await otherFunction.getDataIOT({ Key: res.data.mdata.keyIOT });
-            }
+            await otherFunction.getDataIOT({ Key: res.data.mdata.keyIOT });
           }
         })
         .catch((error) => {
@@ -159,23 +157,32 @@ export const PrivateRoute = ({ children }) => {
       let KeyIOT = e.Key;
       // console.log("KeyIOT: ", KeyIOT);
 
-      await axios
-        .post("http://192.168.137.1:3000/loadIotData", { KeyIOT })
-        .then(async (res) => {
-          if (res.data.keyzero != undefined) {
-            // console.log("res.data.keyzero", res.data.keyzero);
+      if (KeyIOT != null) {
+        await axios
+          .post("http://192.168.137.1:3000/loadIotData", { KeyIOT })
+          .then(async (res) => {
+            if (res.data.keyzero != undefined) {
+              // console.log("res.data.keyzero", res.data.keyzero);
 
-            dispatch({
-              type: "DataIoT",
-              tc: res.data.keyzero.tempc,
-              moist: res.data.keyzero.moisture,
-              hid: res.data.keyzero.humid,
-            });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
+              dispatch({
+                type: "DataIoT",
+                tc: res.data.keyzero.tempc,
+                moist: res.data.keyzero.moisture,
+                hid: res.data.keyzero.humid,
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        dispatch({
+          type: "DataIoT",
+          tc: null,
+          moist: null,
+          hid: null,
         });
+      }
     },
 
     getFloweringPlants: async (e) => {
