@@ -29,21 +29,23 @@ const DashBoard_Screen = () => {
     (async () => {
       // console.log("state.tempc: ", state.tempc);
 
-
       if (state.tempc != null) {
         // console.log("state.keyIOT != null");
 
         //อุณหภูมิ
         let IF_tempc = "";
-        if (state.tempc) {
+        if (state.tempc >= 40) {
+          IF_tempc = "อุณหภูมิสูงเกิน";
+        } else if (state.tempc >= 15) {
+          IF_tempc = "อุณหภูมิเหมาะสม";
+        } else if (state.tempc < 15) {
+          IF_tempc = "อุณหภูมิต่ำเกินไป";
         }
 
         //ความชื้นในดิน
         let IF_moisture = "";
-        if (state.moisture) {
-        }
         if (state.moisture > 800) {
-          IF_moisture = "ตรวจไม่พบความชื้นในดิน";
+          IF_moisture = "เซนเซอร์ติดตั้งไม่ถูกต้อง";
         } else if (state.moisture >= 800) {
           IF_moisture = "ดินแห้ง";
         } else if (state.moisture >= 300) {
@@ -53,8 +55,19 @@ const DashBoard_Screen = () => {
         }
 
         //ความชื้นในอากาศ
+        console.log("state.humid: ", state.humid);
         let IF_humid = "";
-        if (state.humid) {
+
+        if (state.humid > 80) {
+          IF_humid = "เหมาะสำหรับต้นกล้า";
+        } else if (state.humid > 60) {
+          IF_humid = "เหมาะสมสำหรับพืชเมืองร้อน";
+        } else if (state.humid > 40) {
+          IF_humid = "เหมาะสมสำหรับพืชส่วนใหญ่ที่จะเติบโต";
+        } else if (state.humid > 20) {
+          IF_humid = "ค่าเฉลี่ยสำหรับพืชในร่มส่วนใหญ่";
+        } else if (state.humid <= 20) {
+          IF_humid = "แห้งเกินไปสำหรับพืชในร่มส่วนใหญ่";
         }
 
         setDetailShow({
@@ -108,7 +121,7 @@ const DashBoard_Screen = () => {
         await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
       }
     })();
-  }, [state.keyIOT]);
+  }, [state.keyIOT, state.tempc]);
 
   // otherFunction.getDataIOT({ Key: state.keyIOT });
 
@@ -263,7 +276,7 @@ const DashBoard_Screen = () => {
                 อุณหภูมิภายนอก
               </Text>
               <View style={{ marginRight: "2%" }}>
-                <Text>TestText</Text>
+                <Text>{DetailShow.tempc}</Text>
               </View>
 
               <View style={{ marginTop: "1.5%" }}>
@@ -277,7 +290,15 @@ const DashBoard_Screen = () => {
                   </MenuTrigger>
                   <MenuOptions style={{ width: "200%" }}>
                     <MenuOption>
-                      <Text>{"TestText"}</Text>
+                      <Text>{"> 40°C: อุณหภูมิสูงเกินไป"}</Text>
+                    </MenuOption>
+
+                    <MenuOption>
+                      <Text>{"> 15°C: อุณหภูมิที่เหมาะสม"}</Text>
+                    </MenuOption>
+
+                    <MenuOption>
+                      <Text>{"0-15°C: อุณหภูมิต่ำเกินไป"}</Text>
                     </MenuOption>
                   </MenuOptions>
                 </Menu>
@@ -341,7 +362,7 @@ const DashBoard_Screen = () => {
                   </MenuTrigger>
                   <MenuOptions style={{ width: "200%" }}>
                     <MenuOption>
-                      <Text>{"> 1000: ตรวจไม่พบความชื้นในดิน"}</Text>
+                      <Text>{"> 1000: เซนเซอร์ติดตั้งไม่ถูกต้อง"}</Text>
                     </MenuOption>
 
                     <MenuOption>
@@ -404,7 +425,7 @@ const DashBoard_Screen = () => {
               </Text>
 
               <View style={{ marginRight: "2%" }}>
-                <Text>TestText</Text>
+                <Text>{DetailShow.humid}</Text>
               </View>
 
               <View style={{ marginTop: "1.5%" }}>
@@ -417,8 +438,34 @@ const DashBoard_Screen = () => {
                     />
                   </MenuTrigger>
                   <MenuOptions>
-                    <MenuOption style={{ padding: 20 }}>
-                      <Text>Menu TestText</Text>
+                    <MenuOption>
+                      <Text>
+                        {"> 80% :ระดับความชื้นที่่เหมาะสำหรับต้นกล้า"}
+                      </Text>
+                    </MenuOption>
+                    <MenuOption>
+                      <Text>
+                        {
+                          "> 60% :ระดับความชื้นที่่เหมาะสมสำหรับเรือนกระจก เหมาะที่สุดสำหรับพืชเมืองร้อน"
+                        }
+                      </Text>
+                    </MenuOption>
+                    <MenuOption>
+                      <Text>
+                        {
+                          "> 40% :ระดับความชื้นที่สมบูรณ์แบบสำหรับพืชส่วนใหญ่ที่จะเติบโต"
+                        }
+                      </Text>
+                    </MenuOption>
+                    <MenuOption>
+                      <Text>
+                        {"> 20% :ระดับความชื้นเฉลี่ยสำหรับพืชในร่มส่วนใหญ่"}
+                      </Text>
+                    </MenuOption>
+                    <MenuOption>
+                      <Text>
+                        {"0-20% :อากาศจะแห้งเกินไปสำหรับพืชในร่มส่วนใหญ่"}
+                      </Text>
                     </MenuOption>
                   </MenuOptions>
                 </Menu>

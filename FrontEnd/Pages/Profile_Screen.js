@@ -84,24 +84,38 @@ const Profile_Screen = ({ navigation }) => {
       >
         <View
           style={{
-            height: "15%",
+            // height: "15%",
             justifyContent: "center",
-            alignItems: "center",
+            // alignItems: "center",
             flex: 1,
           }}
         >
-          <View style={{ flexDirection: "row", marginVertical: "2%" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              marginVertical: "2%",
+            }}
+          >
             <MaterialCommunityIcons
-              style={{ flex: 0.5, textAlign: "center", marginHorizontal: "2%" }}
+              style={{
+                flex: 0.5,
+                textAlign: "center",
+              }}
               name="key-link"
               size={35}
               color="black"
             />
 
             {state.keyIOT != null ? (
-              <>
+              <View style={{ flexDirection: "row", flex: 2 }}>
                 <Text
-                  style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}
+                  style={[
+                    styles.fontStyle,
+                    {
+                      flex: 2,
+                      textAlign: "center",
+                    },
+                  ]}
                 >
                   {state.keyIOT}
                 </Text>
@@ -136,20 +150,18 @@ const Profile_Screen = ({ navigation }) => {
                       });
                   }}
                 />
-              </>
+              </View>
             ) : (
               <View
                 style={{
                   flexDirection: "row",
                   flex: 2,
-                  marginHorizontal: "2%",
                 }}
               >
                 <View
                   style={{
                     flex: 2,
                     alignItems: "center",
-                    marginHorizontal: "2%",
                   }}
                 >
                   {/* <KeyboardAvoidingView> */}
@@ -158,7 +170,7 @@ const Profile_Screen = ({ navigation }) => {
                       styles.fontStyle,
                       {
                         borderWidth: 1,
-                        flex: 1,
+                        flex: 2,
                         width: "100%",
                         borderRadius: 10,
                         textAlign: "center",
@@ -179,11 +191,11 @@ const Profile_Screen = ({ navigation }) => {
                   style={{
                     flex: 1,
                     alignItems: "center",
+                    marginHorizontal: "2%",
                   }}
                 >
                   <Pressable
                     style={[styles.button, { flex: 2 }]}
-                    // style={{backgroundColor: "yellow"}}
                     onPress={async () => {
                       if (InputKey != null) {
                         await axios
@@ -217,9 +229,17 @@ const Profile_Screen = ({ navigation }) => {
               </View>
             )}
           </View>
-          <View style={{ flexDirection: "row", marginVertical: "2%" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              marginVertical: "2%",
+            }}
+          >
             <MaterialCommunityIcons
-              style={{ flex: 0.5, textAlign: "center" }}
+              style={{
+                flex: 0.5,
+                textAlign: "center",
+              }}
               name="flower"
               size={35}
               color="black"
@@ -228,7 +248,13 @@ const Profile_Screen = ({ navigation }) => {
             {state.name_fp != null ? (
               <View style={{ flexDirection: "row", flex: 2 }}>
                 <Text
-                  style={[styles.fontStyle, { flex: 2, textAlign: "center" }]}
+                  style={[
+                    styles.fontStyle,
+                    {
+                      flex: 2,
+                      textAlign: "center",
+                    },
+                  ]}
                 >
                   {state.name_fp}
                 </Text>
@@ -255,9 +281,10 @@ const Profile_Screen = ({ navigation }) => {
                     {
                       flex: 2,
                       alignItems: "center",
-                      marginHorizontal: "2%",
+                      // marginHorizontal: "2%",
+                      marginRight: "2%",
                       height: "100%",
-                      width: "95%",
+                      // width: "95%",
                       borderWidth: 1,
                       borderRadius: 10,
                       backgroundColor: "#e4e5ea",
