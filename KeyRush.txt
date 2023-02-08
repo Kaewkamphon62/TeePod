@@ -1,5 +1,7 @@
 rnfes
 
+        // console.log(JSON.stringify(state.FloweringPlants, null, 2));
+
 FrontEnd
 -Step 1: Start Project
 npm start

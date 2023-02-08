@@ -55,7 +55,7 @@ const DashBoard_Screen = () => {
         }
 
         //ความชื้นในอากาศ
-        console.log("state.humid: ", state.humid);
+        // console.log("state.humid: ", state.humid);
         let IF_humid = "";
 
         if (state.humid > 80) {

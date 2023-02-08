@@ -126,6 +126,7 @@ const SignUp_Screen = ({ navigation }) => {
           />
           <View style={{ flex: 1, marginHorizontal: "5%" }}>
             <TextInput
+              secureTextEntry={true}
               style={[styles.input, { paddingStart: 65 }]}
               placeholder={"Password"}
               onChangeText={async (e) => {
@@ -157,6 +158,7 @@ const SignUp_Screen = ({ navigation }) => {
           />
           <View style={{ flex: 1, marginHorizontal: "5%" }}>
             <TextInput
+              secureTextEntry={true}
               style={[styles.input, { paddingStart: 65 }]}
               placeholder={"Password Comfirm"}
               onChangeText={async (e) => {

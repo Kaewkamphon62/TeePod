@@ -19,6 +19,8 @@ const SelectFlowerting = ({ navigation }) => {
   const [FloweringPlants, setFloweringPlants] = React.useState([]);
   const [Username, setUsername] = React.useState(null);
 
+  const [TestImg, setTestImg] = React.useState(null);
+
   React.useEffect(() => {
     setFloweringPlants([]);
     setUsername(null);
@@ -32,6 +34,8 @@ const SelectFlowerting = ({ navigation }) => {
             // console.log("res.data.fp", typeof res.data.fp);
             setFloweringPlants(res.data.fp);
             setUsername(username);
+
+            setTestImg(res.data.fp[4]);
           }
         })
         .catch((error) => {
@@ -40,6 +44,11 @@ const SelectFlowerting = ({ navigation }) => {
     };
     getDB();
   }, []);
+
+  if (TestImg != null) {
+    // console.log("");
+    console.log(TestImg.img_file);
+  }
 
   return (
     <ScrollView

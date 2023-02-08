@@ -33,7 +33,7 @@ export const PrivateRoute = ({ children }) => {
             isLoading: false,
           };
 
-        case "MemberDB":
+        case "MemberInfo":
           return {
             ...prevState,
             name_fp: action.nfp,
@@ -135,7 +135,7 @@ export const PrivateRoute = ({ children }) => {
             }
 
             dispatch({
-              type: "MemberDB",
+              type: "MemberInfo",
               nfp: res.data.mdata.name_flowring_plants,
               kiot: res.data.mdata.keyIOT,
               st: milliseconds,
@@ -276,7 +276,7 @@ export const PrivateRoute = ({ children }) => {
           hid: null,
         });
         dispatch({
-          type: "MemberDB",
+          type: "MemberInfo",
           nfp: null,
           st: null,
           kiot: null,

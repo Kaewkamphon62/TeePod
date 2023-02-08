@@ -14,11 +14,55 @@ import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import * as ImagePicker from "expo-image-picker";
 
 const Admin_AddFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
   const { state, otherFunction } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
+  const [Image, setImage] = React.useState(null);
+
+  const formInput = new FormData();
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    // console.log(JSON.stringify("result", result, null, 2));
+
+    if (!result.canceled) {
+      // console.log("result.assets[0].uri: ", result.assets[0].uri);
+      // console.log(JSON.stringify(result, null, 2));
+      // setImage(result.assets[0].uri);
+
+      let localUri = result.assets[0].uri;
+      let filename = localUri.split("/").pop();
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
+
+      console.log("");
+      console.log(JSON.stringify(result.assets[0], null, 2));
+
+      // console.log(result.assets[0].uri);
+      // console.log("uri: ", localUri);
+      // console.log("name: ", filename);
+      // console.log("type: ", type);
+
+      // Assume "photo" is the name of the form field the server expects
+      formInput.append("Image", { uri: localUri, name: filename, type });
+    }
+
+    console.log(formInput);
+
+    // setNewFlowering({
+    //   ...NewFlowering,
+    //   img_file: formData
+    // })
+  };
+  // console.log(Image);
 
   const [NewFlowering, setNewFlowering] = React.useState({
     name_flowring_plants: "", //ชื่อ
@@ -37,7 +81,7 @@ const Admin_AddFlowering = ({ navigation }) => {
     sunbathing_time: "", //แสงที่ต้องการ(เวลา)
     other: "", //อื่นๆ
     tip: "", //เกร็ดน่ารู้
-    url_image: "", //ลิ้งรูป
+    img_file: null, //ลิ้งรูป
   });
 
   // const DD_lineage = [
@@ -94,6 +138,7 @@ const Admin_AddFlowering = ({ navigation }) => {
     >
       <Text>{"\n"}</Text>
       <Text>{"\n"}</Text>
+
       <Text style={{ textAlign: "center", fontSize: 20 }}>
         เพิ่มข้อมูลพืชชนิดใหม่
       </Text>
@@ -698,7 +743,7 @@ const Admin_AddFlowering = ({ navigation }) => {
       />
 
       <Text style={styles.label}>URL Image</Text>
-      <TextInput
+      {/* <TextInput
         style={styles.input}
         onChangeText={async (e) => {
           setNewFlowering({
@@ -706,51 +751,80 @@ const Admin_AddFlowering = ({ navigation }) => {
             url_image: e,
           });
         }}
-      />
+      /> */}
+
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Button title="เลือกรูป" onPress={pickImage} />
+        {/* {Image && (
+          <Image source={{ uri: Image }} style={{ width: 200, height: 200 }} />
+        )} */}
+
+        {/* <Image
+          style={{ width: 200, height: 200 }}
+          source={{
+            uri: Image,
+          }}
+        /> */}
+      </View>
 
       <View style={{ alignItems: "center", marginTop: "5%" }}>
         <Button
           title="Add New Flower"
           onPress={async () => {
-            console.log("AllInput: ", NewFlowering);
+            // console.log("AllInput: ", NewFlowering);
+            // formInput.append("NewFlowering", NewFlowering);
 
             await axios
-              .post("http://192.168.137.1:3000/NewFlowering", {
-                NewFlowering,
-                Role: state.userRole,
+              .post("http://192.168.137.1:3000/Upload_Image", formInput, {
+                headers: { "Content-Type": "multipart/form-data" },
               })
+
+              // console.log("formInput: ", typeof formInput);
+              // console.log("formInput: ", formInput)
+
               .then(async (res) => {
-                if (res.data.alert != undefined) {
-                  alert(res.data.alert);
-                }
-
-                if (res.data.complete != undefined) {
-                  alert(res.data.complete);
-                  // navigation.navigate("Admin_Profile");
-
-                  await otherFunction.getFloweringPlants();
-
-                  setNewFlowering({
-                    name_flowring_plants: "", //ชื่อ
-                    name_science: "", //ชื่อวิทาศาสตร์
-                    clan: "", //วงศ์
-                    type: "", //ประเภท
-                    plant_stem: "", //ลำต้น
-                    leaf: "", //ใบ
-                    flowering: "", //การออกดอก
-                    fruitage: "", //การออกผล
-                    growth_rate: "", //การเจริญเติบโต
-                    soil: "", //ดิน
-                    desired_water: "", //น้ำที่ต้องการ
-                    sunlight: "", //แสงที่ต้องการ
-                    propagation: "", //การขยายพันธุ์
-                    sunbathing_time: "", //แสงที่ต้องการ(เวลา)
-                    other: "", //อื่นๆ
-                    tip: "", //เกร็ดน่รู้
-                    url_image: "", //ลิ้งรูป
-                  });
-                }
+                // if (res.data.complete != undefined) {
+                //   console.log(res.data.complete);
+                // }
               });
+
+            // await axios
+            //   .post("http://192.168.137.1:3000/NewFlowering", {
+            //     NewFlowering,
+            //     Role: state.userRole,
+            //   })
+            //   .then(async (res) => {
+            //     if (res.data.alert != undefined) {
+            //       alert(res.data.alert);
+            //     }
+
+            //     if (res.data.complete != undefined) {
+            //       alert(res.data.complete);
+            //       // navigation.navigate("Admin_Profile");
+
+            //       await otherFunction.getFloweringPlants();
+
+            //       setNewFlowering({
+            //         name_flowring_plants: "", //ชื่อ
+            //         name_science: "", //ชื่อวิทาศาสตร์
+            //         clan: "", //วงศ์
+            //         type: "", //ประเภท
+            //         plant_stem: "", //ลำต้น
+            //         leaf: "", //ใบ
+            //         flowering: "", //การออกดอก
+            //         fruitage: "", //การออกผล
+            //         growth_rate: "", //การเจริญเติบโต
+            //         soil: "", //ดิน
+            //         desired_water: "", //น้ำที่ต้องการ
+            //         sunlight: "", //แสงที่ต้องการ
+            //         propagation: "", //การขยายพันธุ์
+            //         sunbathing_time: "", //แสงที่ต้องการ(เวลา)
+            //         other: "", //อื่นๆ
+            //         tip: "", //เกร็ดน่รู้
+            //         img_file: null, //ลิ้งรูป
+            //       });
+            //     }
+            //   });
           }}
         />
       </View>

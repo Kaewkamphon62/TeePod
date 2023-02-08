@@ -1,29 +1,42 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const app = express();
+const MongoClient = require("mongodb").MongoClient; //mongoose
 const jwt = require("jsonwebtoken");
-const e = require("express");
+const express = require("express");
+const fileupload = require("express-fileupload");
 
-// create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
-app.use(bodyParser.json());
+const multer = require("multer");
+const { GridFsStorage } = require("multer-gridfs-storage");
 
-const accessTokenSecret = "TokenSecret";
+// Register and set up the middleware
+const app = express();
+app.use(express.json());
+app.use(fileupload());
+app.use(express.urlencoded({ extended: true }));
 
-const mongoose = require("mongodb").MongoClient;
-const mongoUrl = "mongodb+srv://TeePoT:34190@cluster0.39vukvx.mongodb.net/test";
+// const bodyParser = require("body-parser");
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
 
+const baseUrl = "mongodb+srv://TeePoT:34190@cluster0.39vukvx.mongodb.net/test";
 const config = {
   connectTimeoutMS: 5000,
   socketTimeoutMS: 5000,
   useUnifiedTopology: true,
 };
 
+const accessTokenSecret = "TokenSecret";
+
+const connection = MongoClient.connect(baseUrl);
+// Create a storage object with a given configuration
+const storage = new GridFsStorage({ db: connection });
+
+// Set multer storage engine to the newly created object
+const upload = multer({ storage });
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.post("/loadIotData", urlencodedParser, async (req, res) => {
+app.post("/loadIotData", async (req, res) => {
   try {
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
     // console.log()
 
     if (DB_TeePoT) {
@@ -54,12 +67,12 @@ app.post("/loadIotData", urlencodedParser, async (req, res) => {
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.post("/Member_InputKey", urlencodedParser, async (req, res) => {
+app.post("/Member_InputKey", async (req, res) => {
   try {
     let Username = req.body.InputKey.Username;
     let Key = req.body.InputKey.Key.toUpperCase();
 
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
 
     if (DB_TeePoT) {
       const FindKey = await DB_TeePoT.db("TeePoT")
@@ -69,8 +82,8 @@ app.post("/Member_InputKey", urlencodedParser, async (req, res) => {
       if (FindKey != null) {
         // console.log(FindKey);
 
-        const DataUpdate = await DB_TeePoT.db("TeePoT")
-          .collection("Member_Data")
+        const DataUpdate = await DB_TeePoT.db("User")
+          .collection("Member")
           .updateOne({ username: Username }, { $set: { keyIOT: Key } });
 
         if (DataUpdate) {
@@ -93,14 +106,14 @@ app.post("/Member_InputKey", urlencodedParser, async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.post("/Member_DeleteKey", urlencodedParser, async (req, res) => {
+app.post("/Member_DeleteKey", async (req, res) => {
   try {
     let Username = req.body.InputKey.Username;
 
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
     if (DB_TeePoT) {
-      const KeyToNull = await DB_TeePoT.db("TeePoT")
-        .collection("Member_Data")
+      const KeyToNull = await DB_TeePoT.db("User")
+        .collection("Member")
         .updateOne({ username: Username }, { $set: { keyIOT: null } });
 
       if (KeyToNull != null) {
@@ -122,18 +135,18 @@ app.post("/Member_DeleteKey", urlencodedParser, async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.post("/loadMemberData", urlencodedParser, async (req, res) => {
+app.post("/loadMemberData", async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
   console.log("");
   console.log("loadMemberData");
   let username = req.body.username;
 
   try {
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
     if (DB_TeePoT) {
       // console.log("Test if loadMemberData");
-      const MemberData = await DB_TeePoT.db("TeePoT")
-        .collection("Member_Data")
+      const MemberData = await DB_TeePoT.db("User")
+        .collection("Member")
         .findOne({ username });
 
       if (MemberData != null) {
@@ -154,13 +167,13 @@ app.post("/loadMemberData", urlencodedParser, async (req, res) => {
   }
 });
 
-app.post("/loadFloweringPlants", urlencodedParser, async (req, res) => {
+app.post("/loadFloweringPlants", async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
   console.log("");
   console.log("loadFloweringPlants");
 
   try {
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
     if (DB_TeePoT) {
       const getFloweringplants = async () => {
         let Data = await DB_TeePoT.db("TeePoT")
@@ -189,7 +202,7 @@ app.post("/loadFloweringPlants", urlencodedParser, async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //หน้าเลือกพืช
 
-app.post("/SelectFloweringPlants", urlencodedParser, async (req, res) => {
+app.post("/SelectFloweringPlants", async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
   console.log("");
   console.log("SelectFloweringPlants");
@@ -203,10 +216,10 @@ app.post("/SelectFloweringPlants", urlencodedParser, async (req, res) => {
   const ST = req.body.sunbathing_time;
 
   try {
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
     if (DB_TeePoT) {
-      const DataUpdate = await DB_TeePoT.db("TeePoT")
-        .collection("Member_Data")
+      const DataUpdate = await DB_TeePoT.db("User")
+        .collection("Member")
         .updateOne(
           { username: Username },
           { $set: { name_flowring_plants: NFP, sunbathing_time: ST } }
@@ -235,7 +248,7 @@ app.post("/SelectFloweringPlants", urlencodedParser, async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //หน้าอัพเดตพืช
 
-app.post("/EditFloweringlants", urlencodedParser, async (req, res) => {
+app.post("/EditFloweringlants", async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
   console.log("");
   console.log("EditFloweringlants");
@@ -245,7 +258,7 @@ app.post("/EditFloweringlants", urlencodedParser, async (req, res) => {
   // console.log(Old_Name);
 
   try {
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
     if (DB_TeePoT) {
       const DataUpdate = await DB_TeePoT.db("TeePoT")
         .collection("Flowering_Plants")
@@ -300,36 +313,71 @@ app.post("/EditFloweringlants", urlencodedParser, async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //Admin
-app.post("/NewFlowering", urlencodedParser, async (req, res) => {
+
+// app.post("/Upload_Image", async (req, res) => {
+//   try {
+//     const DB_TeePoT = await MongoClient.connect(baseUrl, config);
+//     if (DB_TeePoT) {
+//       console.log("Imageeeeee: ", req.files);
+//     }
+//   } catch (error) {
+//     // console.error(error);
+//     console.log("NetWork Error");
+
+//     res.json({
+//       resError: "NetWork Error",
+//     });
+//   }
+// });
+
+app.post("/Upload_Image", upload.single("myImage"), async (req, res, next) => {
+  //*รับได้ครั้งเดียว
+  console.log(req.files);
+
+  // try {
+  // } catch (error) {
+  //   // console.error(error);
+  //   console.log("error: ", error);
+  // }
+
+  // try {
+
+  // } catch (error) {
+  //   // console.error(error);
+  //   console.log("error: ", error);
+  // }
+
+  // try {
+  //   const FSRF = await fs.readFile(req.files.path);
+  //   if (FSRF) {
+  //     console.log("Error: ", FSRF);
+  //   } else {
+  //     console.log("File contents ", FSRF);
+  //   }
+  // } catch (error) {
+  //   // console.error(error);
+  //   console.log("error: ", error);
+  // }
+});
+
+app.post("/NewFlowering", async (req, res) => {
   // console.log("req.body.NewFlowering", req.body.NewFlowering);
-  console.log("req.body.Role: ", req.body.Role);
+  // console.log("req.body.Role: ", req.body.Role);
   let ResNewFlowering = req.body.NewFlowering;
   let name_flowring_plants = req.body.NewFlowering.name_flowring_plants;
 
   if (req.body.Role == "Admin") {
     try {
-      const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+      const DB_TeePoT = await MongoClient.connect(baseUrl, config);
       if (DB_TeePoT) {
-        var myobj = ResNewFlowering;
+        let myobj = ResNewFlowering;
+
         const Old_name = await DB_TeePoT.db("TeePoT")
           .collection("Flowering_Plants")
           .findOne({ name_flowring_plants });
 
         if (Old_name == null) {
-          // await DB_TeePoT.db("TeePoT")
-          //   .collection("Flowering_Plants")
-          //   .insertOne(myobj, function (err, res2) {
-          //     if (err) throw err;
-          //     console.log("'1' document inserted complete");
-          //     res.json({
-          //       alert: "เพิ่มพืชใหม่แล้ว",
-          //     });
-
-          //     res.json({
-          //       nav: "get home screen",
-          //     });
-          //     DB_TeePoT.close();
-          //   });
+          console.log("myobj", myobj);
 
           const AddNewFlowering = await DB_TeePoT.db("TeePoT")
             .collection("Flowering_Plants")
@@ -361,7 +409,7 @@ app.post("/NewFlowering", urlencodedParser, async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.post("/ctoken", urlencodedParser, async (req, res) => {
+app.post("/ctoken", async (req, res) => {
   // console.log("userToken: ", req.body.userToken);
   jwt.verify(req.body.userToken, accessTokenSecret, (err, User) => {
     if (err) {
@@ -379,9 +427,9 @@ app.post("/ctoken", urlencodedParser, async (req, res) => {
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-app.post("/login", urlencodedParser, async (req, res) => {
+app.post("/login", async (req, res) => {
   try {
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
     if (DB_TeePoT) {
       //Connected
       const milliseconds = new Date().getTime();
@@ -453,7 +501,7 @@ app.post("/login", urlencodedParser, async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.post("/register", urlencodedParser, async (req, res) => {
+app.post("/register", async (req, res) => {
   // console.log("ทดสอบการส่งค่า", req.body.username)
   // const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -464,10 +512,17 @@ app.post("/register", urlencodedParser, async (req, res) => {
   console.log(email, username, password);
 
   try {
-    const DB_TeePoT = await mongoose.connect(mongoUrl, config);
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
     if (DB_TeePoT) {
       // var dbo = db.db("User");
-      var myobj = { email, username, password };
+      var myobj = {
+        email,
+        username,
+        password,
+        name_flowring_plants: null,
+        sunbathing_time: null,
+        keyIOT: null,
+      };
       const Old_Username = await DB_TeePoT.db("User")
         .collection("Member")
         .findOne({ username });
@@ -479,42 +534,22 @@ app.post("/register", urlencodedParser, async (req, res) => {
       // const OldUser = await Database.db("User").collection("Member").findOne({$or: [{'username': username}, {'email': email}]})
 
       if (Old_Username == null) {
-        console.log("Old_Username", Old_Username);
+        // console.log("Old_Username", Old_Username);
+        console.log("myobj: ", myobj);
 
-        // await DB_TeePoT.db("User")
-        //   .collection("Member")
-        //   .insertOne(myobj, function (err, res2) {
-        //     if (err) throw err;
-        //     console.log("'1' document inserted complete");
-        //     res.json({
-        //       nav: "ลงทะเบียนเสร็จสิ้น",
-        //     });
-        //     DB_TeePoT.close();
-        //   });
-
-        const NewMemberData = await DB_TeePoT.db("TeePoT")
-          .collection("Member_Data")
-          .insertOne({
-            username: username,
-            name_flowring_plants: null,
-            sunbathing_time: null,
-            keyIOT: null,
-          });
         const NewMember = await DB_TeePoT.db("User")
           .collection("Member")
           .insertOne(myobj);
 
-        if (NewMemberData && NewMember) {
+        if (NewMember) {
           res.json({
             alert: "ลงทะเบียนเสร็จสิ้น",
           });
         }
       } else {
-        if (Old_Username != null) {
-          res.json({
-            alert: "มีชื่อผู้ใช้ในระบบแล้ว",
-          });
-        }
+        res.json({
+          alert: "มีชื่อผู้ใช้ในระบบแล้ว",
+        });
       }
     }
   } catch (e) {
