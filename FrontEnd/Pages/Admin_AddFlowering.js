@@ -15,6 +15,7 @@ import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import * as ImagePicker from "expo-image-picker";
+var FormData = require("form-data");
 
 const Admin_AddFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
@@ -22,8 +23,10 @@ const Admin_AddFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
   const [Image, setImage] = React.useState(null);
 
-  const formInput = new FormData();
+
   const pickImage = async () => {
+    const FormData_Image = new FormData();
+
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -32,6 +35,10 @@ const Admin_AddFlowering = ({ navigation }) => {
       quality: 1,
     });
     // console.log(JSON.stringify("result", result, null, 2));
+
+    // if (formInput.has("Image") == true) {
+    //   formInput = new FormData();
+    // }
 
     if (!result.canceled) {
       // console.log("result.assets[0].uri: ", result.assets[0].uri);
@@ -52,17 +59,11 @@ const Admin_AddFlowering = ({ navigation }) => {
       // console.log("type: ", type);
 
       // Assume "photo" is the name of the form field the server expects
-      formInput.append("Image", { uri: localUri, name: filename, type });
+      FormData_Image.append("Image", { uri: localUri, name: filename, type });
     }
 
-    console.log(formInput);
-
-    // setNewFlowering({
-    //   ...NewFlowering,
-    //   img_file: formData
-    // })
+    setImage(FormData_Image)
   };
-  // console.log(Image);
 
   const [NewFlowering, setNewFlowering] = React.useState({
     name_flowring_plants: "", //ชื่อ
@@ -775,7 +776,7 @@ const Admin_AddFlowering = ({ navigation }) => {
             // formInput.append("NewFlowering", NewFlowering);
 
             await axios
-              .post("http://192.168.137.1:3000/Upload_Image", formInput, {
+              .post("http://192.168.137.1:3000/Upload_Image", Image, {
                 headers: { "Content-Type": "multipart/form-data" },
               })
 

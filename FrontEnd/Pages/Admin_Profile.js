@@ -15,28 +15,10 @@ const Admin_Profile = () => {
         style={{
           height: "5%",
           justifyContent: "center",
-        //   borderWidth: 1,
+          //   borderWidth: 1,
           flex: 0.75,
         }}
       >
-        <View
-          style={{ flex: 3, justifyContent: "center", alignItems: "center" }}
-        >
-          <Image
-            style={{
-              resizeMode: "cover",
-              marginTop: "17.5%",
-              width: "40%",
-              height: "67.5%",
-              borderStyle: "solid",
-              borderColor: "black",
-              borderRadius: 100,
-              borderWidth: 1,
-            }}
-            source={require("../Assets/images/avatar.jpg")}
-          />
-        </View>
-
         <View style={{ flex: 1, justifyContent: "center" }}>
           <Text style={{ textAlign: "center", fontSize: 25 }}>
             {state.userName}
@@ -59,8 +41,7 @@ const Admin_Profile = () => {
               marginBottom: "10%",
             },
           ]}
-        >
-        </View>
+        ></View>
 
         <View
           style={{

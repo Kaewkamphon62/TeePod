@@ -332,7 +332,7 @@ app.post("/EditFloweringlants", async (req, res) => {
 
 app.post("/Upload_Image", upload.single("myImage"), async (req, res, next) => {
   //*รับได้ครั้งเดียว
-  console.log(req.files);
+  console.log(await req.files);
 
   // try {
   // } catch (error) {
