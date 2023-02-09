@@ -18,8 +18,7 @@ const SelectFlowerting = ({ navigation }) => {
 
   const [FloweringPlants, setFloweringPlants] = React.useState([]);
   const [Username, setUsername] = React.useState(null);
-
-  const [TestImg, setTestImg] = React.useState(null);
+  // const [TestImg, setTestImg] = React.useState(null);
 
   React.useEffect(() => {
     setFloweringPlants([]);
@@ -35,7 +34,7 @@ const SelectFlowerting = ({ navigation }) => {
             setFloweringPlants(res.data.fp);
             setUsername(username);
 
-            setTestImg(res.data.fp[4]);
+            // setTestImg(res.data.fp[4]);
           }
         })
         .catch((error) => {
@@ -45,10 +44,32 @@ const SelectFlowerting = ({ navigation }) => {
     getDB();
   }, []);
 
-  if (TestImg != null) {
-    // console.log("");
-    console.log(TestImg.img_file);
-  }
+  // if (TestImg != null) {
+  //   // console.log("");
+  //   console.log(TestImg.img_file);
+  // }
+
+  const FunctionSelectFP = async (a) => {
+    // console.log(JSON.stringify(a, null, 2));
+
+    await axios
+      .post("http://192.168.137.1:3000/SelectFloweringPlants", {
+        UserUsername: Username,
+        name_flowring_plants: a.name_flowring_plants,
+        sunbathing_time: a.sunbathing_time,
+      })
+      .then(async (res) => {
+        if (res.data.alert != undefined) {
+          // alert(res.data.alert);
+
+          await otherFunction.getMemberData({
+            username: state.userName,
+          });
+
+          await navigation.navigate("Member_Profile");
+        }
+      });
+  };
 
   return (
     <ScrollView
@@ -63,12 +84,7 @@ const SelectFlowerting = ({ navigation }) => {
         {FloweringPlants.filter((a, key) => key % 2 == 0).map((data, key) => {
           return (
             <View style={{ alignItems: "center" }} key={key}>
-              {/* <Text value="Hello" style={styles.marginItems}>
-                Picture
-              </Text> */}
-
               <Image
-                // style={styles.marginItems}
                 style={styles.images}
                 source={{
                   uri: data.url_image,
@@ -77,25 +93,8 @@ const SelectFlowerting = ({ navigation }) => {
 
               <Button
                 title={data.name_flowring_plants}
-                onPress={async () => {
-                  console.log("Select: ", data.name_flowring_plants);
-
-                  await axios
-                    .post("http://192.168.137.1:3000/SelectFloweringPlants", {
-                      UserUsername: Username,
-                      name_flowring_plants: data.name_flowring_plants,
-                      sunbathing_time: data.sunbathing_time,
-                    })
-                    .then(async (res) => {
-                      if (res.data.alert != undefined) {
-                        // alert(res.data.alert);
-                        await otherFunction.getMemberData({
-                          username: state.userName,
-                        });
-
-                        await navigation.navigate("Member_Profile");
-                      }
-                    });
+                onPress={() => {
+                  FunctionSelectFP(data);
                 }}
               />
             </View>
@@ -107,10 +106,7 @@ const SelectFlowerting = ({ navigation }) => {
         {FloweringPlants.filter((a, key) => key % 2 == 1).map((data, key) => {
           return (
             <View style={{ alignItems: "center" }} key={key}>
-              {/* <Text style={styles.marginItems}>Picture</Text> */}
-
               <Image
-                // style={styles.marginItems}
                 style={styles.images}
                 source={{
                   uri: data.url_image,
@@ -119,24 +115,8 @@ const SelectFlowerting = ({ navigation }) => {
 
               <Button
                 title={data.name_flowring_plants}
-                onPress={async () => {
-                  await axios
-                    .post("http://192.168.137.1:3000/SelectFloweringPlants", {
-                      UserUsername: Username,
-                      name_flowring_plants: data.name_flowring_plants,
-                      sunbathing_time: data.sunbathing_time,
-                    })
-                    .then(async (res) => {
-                      if (res.data.alert != undefined) {
-                        // alert(res.data.alert);
-
-                        await otherFunction.getMemberData({
-                          username: state.userName,
-                        });
-
-                        await navigation.navigate("Member_Profile");
-                      }
-                    });
+                onPress={() => {
+                  FunctionSelectFP(data);
                 }}
               />
             </View>
