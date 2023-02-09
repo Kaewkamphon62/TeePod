@@ -223,7 +223,7 @@ const Profile_Screen = ({ navigation }) => {
                       }
                     }}
                   >
-                    <Text style={styles.fontStyle}>Summit</Text>
+                    <Text style={styles.fontStyle}>ตกลง</Text>
                   </Pressable>
                 </View>
               </View>

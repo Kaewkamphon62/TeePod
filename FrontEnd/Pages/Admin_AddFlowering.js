@@ -132,7 +132,7 @@ const Admin_AddFlowering = ({ navigation }) => {
   return (
     <ScrollView
       contentContainerStyle={{
-        backgroundColor: "#D0F48E",
+        // backgroundColor: "#D0F48E",
         flexGrow: 1,
         justifyContent: "center",
       }}

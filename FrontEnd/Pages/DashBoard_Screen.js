@@ -531,7 +531,7 @@ const DashBoard_Screen = () => {
               </>
             ) : (
               <>
-                <Text style={styles.fontStyle}>คุณยังไม่ได้ยืนยัน KeyIOT</Text>
+                <Text style={styles.fontStyle}>คุณยังใส่รหัส KeyIOT</Text>
               </>
             )}
 
