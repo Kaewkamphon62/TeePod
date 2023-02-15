@@ -16,6 +16,7 @@ import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import * as ImagePicker from "expo-image-picker";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 const Admin_EditFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
@@ -81,7 +82,7 @@ const Admin_EditFlowering = ({ navigation }) => {
     sunbathing_time: "", //แสงที่ต้องการ(เวลา)
     other: "", //อื่นๆ
     tip: "", //เกร็ดน่ารู้
-    img_base64: "", //ลิ้งรูป
+    img_base64: null, //ลิ้งรูป
   });
 
   // const DD_lineage = [
@@ -260,7 +261,7 @@ const Admin_EditFlowering = ({ navigation }) => {
 
         <View
           style={{
-            flex: 2,
+            flex: 3,
             alignItems: "center",
           }}
         >
@@ -310,6 +311,38 @@ const Admin_EditFlowering = ({ navigation }) => {
             rowTextStyle={styles.dropdown1RowTxtStyle}
           />
         </View>
+
+        <AntDesign
+          style={{
+            // backgroundColor: "red",
+            // fontSize: 15,
+            flex: 0.5,
+          }}
+          name="delete"
+          size={35}
+          color="black"
+          onPress={async () => {
+            if (SelectFloweringPlants.name_flowring_plants != "") {
+              await axios
+                .post("http://192.168.137.1:3000/DeleteFlowering", {
+                  name_flowring_plants:
+                    SelectFloweringPlants.name_flowring_plants,
+                  Role: state.userRole,
+                })
+                .then(async (res) => {
+                  if (res.data.resError != undefined) {
+                    alert(res.data.resError);
+                  }
+
+                  if (res.data.alert != undefined) {
+                    alert(res.data.alert);
+                  }
+                });
+            } else {
+              alert("กรุณาเลือกพืชที่จะลบ");
+            }
+          }}
+        />
       </View>
 
       <Text style={{ textAlign: "center", fontSize: 20, marginTop: "5%" }}>
@@ -328,74 +361,8 @@ const Admin_EditFlowering = ({ navigation }) => {
         }}
       />
 
-      {/* <Text style={styles.label}>ชื่อวิทยาศาสตร์</Text>
-      <TextInput
-        style={styles.input}
-        value={SelectFloweringPlants.name_science}
-        onChangeText={async (e) => {
-          setSelectFloweringPlants({
-            ...SelectFloweringPlants,
-            name_science: e,
-          });
-        }}
-      /> */}
-
       <View style={{ alignItems: "center" }}>
         <View style={{ flexDirection: "row" }}>
-          {/* <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              marginBottom: 10,
-              paddingStart: "1%",
-            }}
-          >
-            <Text style={{ marginVertical: 7 }}>วงศ์ตระกูล</Text>
-
-            <SelectDropdown
-              data={DD_lineage}
-              // defaultValueByIndex={1}
-              defaultValue={
-                SelectFloweringPlants.clan != undefined
-                  ? SelectFloweringPlants.clan
-                  : "..."
-              }
-              onSelect={(selectedItem, index) => {
-                // console.log(selectedItem, index);
-                setSelectFloweringPlants({
-                  ...SelectFloweringPlants,
-                  clan: selectedItem,
-                });
-              }}
-              defaultButtonText={
-                SelectFloweringPlants.clan != undefined
-                  ? SelectFloweringPlants.clan
-                  : "..."
-              }
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-              buttonStyle={styles.dropdown1BtnStyle}
-              buttonTextStyle={styles.dropdown1BtnTxtStyle}
-              renderDropdownIcon={(isOpened) => {
-                return (
-                  <FontAwesome
-                    name={isOpened ? "chevron-up" : "chevron-down"}
-                    color={"#444"}
-                    size={15}
-                  />
-                );
-              }}
-              dropdownIconPosition={"right"}
-              dropdownStyle={styles.dropdown1DropdownStyle}
-              rowStyle={styles.dropdown1RowStyle}
-              rowTextStyle={styles.dropdown1RowTxtStyle}
-            />
-          </View> */}
-
           <View
             style={{
               flex: 1,

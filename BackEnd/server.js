@@ -8,7 +8,7 @@ const { GridFsStorage } = require("multer-gridfs-storage");
 
 // Register and set up the middleware
 const app = express();
-app.use(express.json({limit: '50mb'}));
+app.use(express.json({ limit: "50mb" }));
 app.use(fileupload());
 app.use(express.urlencoded({ extended: true }));
 
@@ -16,7 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: false }));
 
-const baseUrl = "mongodb+srv://TeePoT:34190@cluster0.39vukvx.mongodb.net/test";
+// const baseUrl = "mongodb+srv://TeePoT:34190@cluster0.39vukvx.mongodb.net/test"; 
+const baseUrl = "mongodb://localhost:27017/";
+
 const config = {
   connectTimeoutMS: 5000,
   socketTimeoutMS: 5000,
@@ -329,7 +331,6 @@ app.post("/EditFloweringlants", async (req, res) => {
 // app.post("/Upload_Image", upload.single("image"), async (req, res, next) => {
 //   console.log("req.files", await req.files);
 
-
 // });
 
 app.post("/NewFlowering", async (req, res) => {
@@ -366,6 +367,46 @@ app.post("/NewFlowering", async (req, res) => {
               alert: "มีชื่อพืชนี้ในระบบแล้ว",
             });
           }
+        }
+      }
+    } catch (error) {
+      // console.error(error);
+      console.log("NetWork Error");
+
+      res.json({
+        resError: "NetWork Error",
+      });
+    }
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post("/DeleteFlowering", async (req, res) => {
+  let namefp = req.body.name_flowring_plants;
+
+  if (req.body.Role == "Admin") {
+    try {
+      const DB_TeePoT = await MongoClient.connect(baseUrl, config);
+      if (DB_TeePoT) {
+        const Old_name = await DB_TeePoT.db("TeePoT")
+          .collection("Flowering_Plants")
+          .findOne({ namefp });
+
+        if (Old_name != null) {
+          console.log(Old_name);
+
+          await DB_TeePoT.db("TeePoT")
+            .collection("Flowering_Plants")
+            .drop({ name_flowring_plants: namefp });
+
+          res.json({
+            alert: "ลบแล้ว",
+          });
+        } else {
+          res.json({
+            alert: "ไม่มีข้อมูลพืชนี้ในระบบ",
+          });
         }
       }
     } catch (error) {
