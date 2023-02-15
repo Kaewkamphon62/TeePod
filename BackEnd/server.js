@@ -8,7 +8,7 @@ const { GridFsStorage } = require("multer-gridfs-storage");
 
 // Register and set up the middleware
 const app = express();
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use(fileupload());
 app.use(express.urlencoded({ extended: true }));
 
@@ -326,9 +326,11 @@ app.post("/EditFloweringlants", async (req, res) => {
 //   }
 // });
 
-app.post("/Upload_Image", upload.single("image"), async (req, res, next) => {
-  console.log("req.files", await req.files);
-});
+// app.post("/Upload_Image", upload.single("image"), async (req, res, next) => {
+//   console.log("req.files", await req.files);
+
+
+// });
 
 app.post("/NewFlowering", async (req, res) => {
   // console.log("req.body.NewFlowering", req.body.NewFlowering);

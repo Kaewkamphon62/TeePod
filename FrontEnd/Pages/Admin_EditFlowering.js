@@ -7,6 +7,7 @@ import {
   Pressable,
   TextInput,
   ScrollView,
+  Image,
 } from "react-native";
 import axios from "axios";
 
@@ -14,6 +15,7 @@ import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import * as ImagePicker from "expo-image-picker";
 
 const Admin_EditFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
@@ -38,6 +40,26 @@ const Admin_EditFlowering = ({ navigation }) => {
     })();
   }, [state.FloweringPlants]);
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
+
+    if (!result.canceled) {
+      console.log("");
+      console.log(JSON.stringify(result.assets[0], null, 2));
+
+      setSelectFloweringPlants({
+        ...FloweringPlants,
+        img_base64: result.assets[0].base64,
+      });
+    }
+  };
+
   const [SelectFloweringPlants, setSelectFloweringPlants] = React.useState([]);
   const [NameFloweringPlants, setNameFloweringPlants] = React.useState([]);
   const [Old_NameFloweringPlants, setOld_NameFloweringPlants] =
@@ -59,7 +81,7 @@ const Admin_EditFlowering = ({ navigation }) => {
     sunbathing_time: "", //แสงที่ต้องการ(เวลา)
     other: "", //อื่นๆ
     tip: "", //เกร็ดน่ารู้
-    url_image: "", //ลิ้งรูป
+    img_base64: "", //ลิ้งรูป
   });
 
   // const DD_lineage = [
@@ -991,17 +1013,34 @@ const Admin_EditFlowering = ({ navigation }) => {
         }}
       />
 
-      <Text style={styles.label}>URL Image</Text>
-      <TextInput
-        style={styles.input}
-        value={SelectFloweringPlants.url_image}
-        onChangeText={async (e) => {
-          setSelectFloweringPlants({
-            ...SelectFloweringPlants,
-            url_image: e,
-          });
+      <Text style={styles.label}>รูปภาพ</Text>
+
+      <View
+        style={{
+          alignItems: "center",
+          borderStyle: "solid",
+          borderColor: "black",
+          // borderRadius: 5,
+          // borderWidth: 1,
         }}
-      />
+      >
+        <Image
+          style={{
+            // margin: "10%",
+            borderRadius: 5,
+            marginBottom: "5%",
+            width: 150,
+            height: 150,
+          }}
+          source={{
+            uri: `data:image/png;base64,${SelectFloweringPlants.img_base64}`,
+          }}
+        />
+      </View>
+
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Button title="เลือกรูป" onPress={pickImage} />
+      </View>
 
       <View style={{ alignItems: "center", marginTop: "5%" }}>
         <Button

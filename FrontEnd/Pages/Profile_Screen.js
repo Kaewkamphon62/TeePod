@@ -269,7 +269,7 @@ const Profile_Screen = ({ navigation }) => {
                   size={35}
                   color="black"
                   onPress={async () =>
-                    navigation.navigate("Member_SelectFlowerting")
+                    navigation.navigate("Member_SelectFlower")
                   }
                 />
               </View>

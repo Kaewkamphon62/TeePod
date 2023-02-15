@@ -87,7 +87,7 @@ const SelectFlowerting = ({ navigation }) => {
               <Image
                 style={styles.images}
                 source={{
-                  uri: data.url_image,
+                  uri: `data:image/png;base64,${data.img_base64}`,
                 }}
               />
 
@@ -109,7 +109,7 @@ const SelectFlowerting = ({ navigation }) => {
               <Image
                 style={styles.images}
                 source={{
-                  uri: data.url_image,
+                  uri: `data:image/png;base64,${data.img_base64}`,
                 }}
               />
 
