@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: false }));
 
-// const baseUrl = "mongodb+srv://TeePoT:34190@cluster0.39vukvx.mongodb.net/test"; 
+// const baseUrl = "mongodb+srv://TeePoT:34190@cluster0.39vukvx.mongodb.net/test";
 const baseUrl = "mongodb://localhost:27017/";
 
 const config = {
@@ -384,7 +384,7 @@ app.post("/NewFlowering", async (req, res) => {
 
 app.post("/DeleteFlowering", async (req, res) => {
   let Old_Name = req.body.Old_NameFloweringPlants;
-  console.log(Old_Name)
+  console.log(Old_Name);
 
   if (req.body.Role == "Admin") {
     try {
@@ -395,14 +395,12 @@ app.post("/DeleteFlowering", async (req, res) => {
           .findOne({ name_flowring_plants: Old_Name });
 
         if (Old_name != null) {
-          console.log(Old_name);
-
           await DB_TeePoT.db("TeePoT")
             .collection("Flowering_Plants")
-            .drop({ name_flowring_plants: Old_Name });
+            .deleteOne({ name_flowring_plants: Old_Name });
 
           res.json({
-            alert: "ลบแล้ว",
+            complete: "ลบแล้ว",
           });
         } else {
           res.json({

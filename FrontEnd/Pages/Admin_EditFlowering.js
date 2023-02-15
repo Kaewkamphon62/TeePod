@@ -336,6 +336,13 @@ const Admin_EditFlowering = ({ navigation }) => {
                   if (res.data.alert != undefined) {
                     alert(res.data.alert);
                   }
+
+                  if (res.data.complete != undefined) {
+                    otherFunction.getFloweringPlants();
+                    alert(res.data.complete);
+                    setSelectFloweringPlants([]);
+                    setNameFloweringPlants([]);
+                  }
                 });
             } else {
               alert("กรุณาเลือกพืชที่จะลบ");
@@ -1030,7 +1037,7 @@ const Admin_EditFlowering = ({ navigation }) => {
 
                 if (res.data.complete != undefined) {
                   otherFunction.getFloweringPlants();
-                  alert(await res.data.complete);
+                  alert(res.data.complete);
                   setSelectFloweringPlants([]);
                   setNameFloweringPlants([]);
                 }
