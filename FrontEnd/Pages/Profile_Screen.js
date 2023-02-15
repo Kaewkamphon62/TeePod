@@ -291,7 +291,7 @@ const Profile_Screen = ({ navigation }) => {
                     },
                   ]}
                   onPress={async () =>
-                    navigation.navigate("Member_SelectFlowerting")
+                    navigation.navigate("Member_SelectFlower")
                   }
                 >
                   <Text style={styles.fontStyle}>เลือกพืช</Text>

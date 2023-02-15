@@ -21,7 +21,8 @@ import Admin_EditFlowering_Screen from "./Pages/Admin_EditFlowering";
 import Home_Screen from "./Pages/Home_Screen";
 import DashBoard_Screen from "./Pages/DashBoard_Screen";
 import Profile_Screen from "./Pages/Profile_Screen";
-import SelectFlowerting_Screen from "./Pages/SelectFlowerting_Screen";
+import SelectFlower_Screen from "./Pages/SelectFlower_Screen";
+import SelectFlowerDetail_Screen from "./Pages/SelectFlowerDetail_Screen";
 import Demo_mqtt_Screen from "./Pages/Demo_mqtt_Screen";
 
 import SignIn_Screen from "./Pages/SignIn_Screen";
@@ -174,8 +175,12 @@ function App() {
                   />
                   <Stack.Screen name="Member_Home" component={Home_Screen} />
                   <Stack.Screen
-                    name="Member_SelectFlowerting"
-                    component={SelectFlowerting_Screen}
+                    name="Member_SelectFlower"
+                    component={SelectFlower_Screen}
+                  />
+                  <Stack.Screen
+                    name="Member_SelectFlowerDetail"
+                    component={SelectFlowerDetail_Screen}
                   />
                   <Stack.Screen
                     name="Member_Demo_mqtt"

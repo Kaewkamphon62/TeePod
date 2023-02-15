@@ -14,7 +14,6 @@ import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import SelectFlowerting from "./SelectFlowerting_Screen";
 
 const Admin_EditFlowering = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////

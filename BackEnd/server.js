@@ -25,11 +25,7 @@ const config = {
 
 const accessTokenSecret = "TokenSecret";
 
-const connection = MongoClient.connect(baseUrl);
-// Create a storage object with a given configuration
-const storage = new GridFsStorage({ db: connection });
-
-// Set multer storage engine to the newly created object
+const storage = new GridFsStorage({ url: baseUrl });
 const upload = multer({ storage });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -330,34 +326,8 @@ app.post("/EditFloweringlants", async (req, res) => {
 //   }
 // });
 
-app.post("/Upload_Image", upload.single("myImage"), async (req, res, next) => {
-  //*รับได้ครั้งเดียว
-  console.log(await req.files);
-
-  // try {
-  // } catch (error) {
-  //   // console.error(error);
-  //   console.log("error: ", error);
-  // }
-
-  // try {
-
-  // } catch (error) {
-  //   // console.error(error);
-  //   console.log("error: ", error);
-  // }
-
-  // try {
-  //   const FSRF = await fs.readFile(req.files.path);
-  //   if (FSRF) {
-  //     console.log("Error: ", FSRF);
-  //   } else {
-  //     console.log("File contents ", FSRF);
-  //   }
-  // } catch (error) {
-  //   // console.error(error);
-  //   console.log("error: ", error);
-  // }
+app.post("/Upload_Image", upload.single("image"), async (req, res, next) => {
+  console.log("req.files", await req.files);
 });
 
 app.post("/NewFlowering", async (req, res) => {
