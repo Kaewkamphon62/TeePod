@@ -55,7 +55,7 @@ const Admin_EditFlowering = ({ navigation }) => {
       console.log(JSON.stringify(result.assets[0], null, 2));
 
       setSelectFloweringPlants({
-        ...FloweringPlants,
+        ...SelectFloweringPlants,
         img_base64: result.assets[0].base64,
       });
     }
@@ -325,9 +325,8 @@ const Admin_EditFlowering = ({ navigation }) => {
             if (SelectFloweringPlants.name_flowring_plants != "") {
               await axios
                 .post("http://192.168.137.1:3000/DeleteFlowering", {
-                  name_flowring_plants:
-                    SelectFloweringPlants.name_flowring_plants,
                   Role: state.userRole,
+                  Old_NameFloweringPlants,
                 })
                 .then(async (res) => {
                   if (res.data.resError != undefined) {

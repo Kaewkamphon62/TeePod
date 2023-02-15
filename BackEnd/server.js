@@ -280,7 +280,7 @@ app.post("/EditFloweringlants", async (req, res) => {
               sunbathing_time: SelectFlowering.sunbathing_time, //แสงที่ต้องการ(เวลา)
               other: SelectFlowering.other, //อื่นๆ
               tip: SelectFlowering.tip, //เกร็ดน่ารู้
-              url_image: SelectFlowering.url_image, //ลิ้งรูป
+              img_base64: SelectFlowering.img_base64, //ลิ้งรูป
             },
           }
         );
@@ -383,7 +383,8 @@ app.post("/NewFlowering", async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.post("/DeleteFlowering", async (req, res) => {
-  let namefp = req.body.name_flowring_plants;
+  let Old_Name = req.body.Old_NameFloweringPlants;
+  console.log(Old_Name)
 
   if (req.body.Role == "Admin") {
     try {
@@ -391,14 +392,14 @@ app.post("/DeleteFlowering", async (req, res) => {
       if (DB_TeePoT) {
         const Old_name = await DB_TeePoT.db("TeePoT")
           .collection("Flowering_Plants")
-          .findOne({ namefp });
+          .findOne({ name_flowring_plants: Old_Name });
 
         if (Old_name != null) {
           console.log(Old_name);
 
           await DB_TeePoT.db("TeePoT")
             .collection("Flowering_Plants")
-            .drop({ name_flowring_plants: namefp });
+            .drop({ name_flowring_plants: Old_Name });
 
           res.json({
             alert: "ลบแล้ว",

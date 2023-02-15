@@ -150,6 +150,7 @@ const Admin_AddFlowering = ({ navigation }) => {
       <Text style={styles.label}>ชื่อพืช</Text>
       <TextInput
         style={styles.input}
+        value={NewFlowering.name_flowring_plants}
         onChangeText={async (e) => {
           setNewFlowering({
             ...NewFlowering,
@@ -158,66 +159,8 @@ const Admin_AddFlowering = ({ navigation }) => {
         }}
       />
 
-      {/* <Text style={styles.label}>ชื่อวิทยาศาสตร์</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={async (e) => {
-          setNewFlowering({
-            ...NewFlowering,
-            name_science: e,
-          });
-        }}
-      /> */}
-
       <View style={{ alignItems: "center" }}>
         <View style={{ flexDirection: "row" }}>
-          {/* <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              marginBottom: 10,
-              paddingStart: "1%",
-            }}
-          >
-            <Text style={{ marginVertical: 7 }}>วงศ์ตระกูล</Text>
-
-            <SelectDropdown
-              data={DD_lineage}
-              // defaultValueByIndex={1}
-              // defaultValue={'Egypt'}
-              onSelect={(selectedItem, index) => {
-                // console.log(selectedItem, index);
-
-                setNewFlowering({
-                  ...NewFlowering,
-                  clan: selectedItem,
-                });
-              }}
-              defaultButtonText={"..."}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-              buttonStyle={styles.dropdown1BtnStyle}
-              buttonTextStyle={styles.dropdown1BtnTxtStyle}
-              renderDropdownIcon={(isOpened) => {
-                return (
-                  <FontAwesome
-                    name={isOpened ? "chevron-up" : "chevron-down"}
-                    color={"#444"}
-                    size={15}
-                  />
-                );
-              }}
-              dropdownIconPosition={"right"}
-              dropdownStyle={styles.dropdown1DropdownStyle}
-              rowStyle={styles.dropdown1RowStyle}
-              rowTextStyle={styles.dropdown1RowTxtStyle}
-            />
-          </View> */}
-
           <View
             style={{
               flex: 1,
@@ -228,18 +171,23 @@ const Admin_AddFlowering = ({ navigation }) => {
             <Text style={{ marginVertical: 7 }}>ประเภท</Text>
 
             <SelectDropdown
-              data={DD_propagation}
+              data={DD_flower_type}
               // defaultValueByIndex={1}
               // defaultValue={'Egypt'}
-              onSelect={(selectedItem, index) => {
-                // console.log(selectedItem, index);
 
+              defaultButtonText={'...'}
+
+              // defaultValue={NewFlowering.type != "" ? NewFlowering.type : "..."}
+              // defaultButtonText={
+              //   NewFlowering.type != "" ? NewFlowering.type : "..."
+              // }
+
+              onSelect={(selectedItem, index) => {
                 setNewFlowering({
                   ...NewFlowering,
                   type: selectedItem,
                 });
               }}
-              defaultButtonText={"..."}
               buttonTextAfterSelection={(selectedItem, index) => {
                 return selectedItem;
               }}
