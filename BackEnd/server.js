@@ -63,6 +63,37 @@ app.post("/loadIotData", async (req, res) => {
     });
   }
 });
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post("/Member_New_SunbathingTime", async (req, res) => {
+  try {
+    let Username = req.body.Username;
+    let SunbathingTime = req.body.SunbathingTime;
+
+    const DB_TeePoT = await MongoClient.connect(baseUrl, config);
+
+    if (DB_TeePoT) {
+      const DataUpdate = await DB_TeePoT.db("User")
+        .collection("Member")
+        .updateOne(
+          { username: Username },
+          { $set: { sunbathing_time: SunbathingTime } }
+        );
+
+      if (DataUpdate) {
+        res.json({
+          complete: "อัพเดตเรียบร้อย",
+        });
+      }
+    }
+  } catch (error) {
+    res.json({
+      resError: "NetWork Error",
+    });
+  }
+});
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.post("/Member_InputKey", async (req, res) => {

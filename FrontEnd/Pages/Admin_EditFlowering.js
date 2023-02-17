@@ -276,6 +276,7 @@ const Admin_EditFlowering = ({ navigation }) => {
                 ).indexOf(selectedItem);
 
                 await setOld_NameFloweringPlants(selectedItem);
+
                 await setSelectFloweringPlants(FloweringPlants[PositionName]);
               })();
             }}

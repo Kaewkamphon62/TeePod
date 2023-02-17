@@ -1,4 +1,4 @@
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View, Pressable, Text, Button } from "react-native";
 import React from "react";
 import * as Progress from "react-native-progress";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
@@ -13,6 +13,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from "react-native-popup-menu";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const DashBoard_Screen = () => {
   /////////////////////////////////////////////////////////////////
@@ -170,7 +171,7 @@ const DashBoard_Screen = () => {
     }
 
     if (CountTime == true) {
-      if (Milliseconds == 50000) {
+      if (Milliseconds == 30000) {
         //หยุดที่ 50 วินาที
         console.log("เวลามิลลิวินาทีถึงค่าที่กำหนดแล้ว คือ: ", Milliseconds);
       } else {
@@ -184,6 +185,50 @@ const DashBoard_Screen = () => {
     }
   }, [CountTime, Milliseconds]);
 
+  const [ShowDTP, setShowDTP] = React.useState(false);
+  const onChange = async (event, selectedDate) => {
+    //ตกลง: set
+    //ยกเลิก: dismissed
+    if (event.type == "set") {
+      const hours = parseInt(selectedDate.getHours()) * 3600000;
+      const minute = parseInt(selectedDate.getMinutes()) * 60000;
+      let milliseconds = hours + minute;
+      // console.log(event.type);
+      // console.log(`มิลลิวินาที: ${hours + minute}`);
+
+      setMilliseconds(milliseconds);
+      setShowTime(Convert_Milliseconds(milliseconds));
+
+      console.log(
+        selectedDate.getHours().toString() +
+          "h" +
+          selectedDate.getMinutes().toString() +
+          "m"
+      );
+
+      await axios
+        .post("http://192.168.137.1:3000/Member_New_SunbathingTime", {
+          Username: state.userName,
+          SunbathingTime:
+            selectedDate.getHours().toString() +
+            "h" +
+            selectedDate.getMinutes().toString() +
+            "m",
+        })
+        .then(async (res) => {
+          if (res.data.resError != undefined) {
+            alert(res.data.resError);
+          }
+
+          // if (res.data.complete != undefined) {
+          //   alert(res.data.complete);
+          // }
+        });
+    }
+
+    setShowDTP(false);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -194,6 +239,8 @@ const DashBoard_Screen = () => {
           marginTop: "15%",
         }}
       >
+        {/* <Button onPress={showTimepicker} title="Show time picker!" /> */}
+
         <Text style={{ marginBottom: "1%", fontSize: 20 }}>อาบแดด</Text>
 
         {state.sunbathing_time != null ? (
@@ -239,8 +286,16 @@ const DashBoard_Screen = () => {
               name="clock-edit-outline"
               size={30}
               color="black"
-              onPress={async () => console.log("แก้ไขเวลา")}
+              onPress={async () => setShowDTP(true)}
             />
+
+            {ShowDTP == true ? (
+              <DateTimePicker
+                mode="time"
+                value={new Date()}
+                onChange={onChange}
+              />
+            ) : null}
           </View>
         </View>
       </View>
