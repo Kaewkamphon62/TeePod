@@ -18,13 +18,19 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 const DashBoard_Screen = () => {
   /////////////////////////////////////////////////////////////////
   const { otherFunction, state } = React.useContext(PrivateRoute_Context);
-  /////////////////////////////////////////////////////////////////w
+  /////////////////////////////////////////////////////////////////
+
+  //status Button
+  const [StatusButton, setStatusButton] = React.useState("เริ่มการทำงาน");
+
+  /////////////////////////////////////////////////////////////////
 
   const [DetailShow, setDetailShow] = React.useState({
     tempc: null,
     humid: null,
     moisture: null,
   });
+  const [StartTime, setStartTime] = React.useState(null);
 
   React.useEffect(() => {
     (async () => {
@@ -76,6 +82,7 @@ const DashBoard_Screen = () => {
           moisture: IF_moisture,
           humid: IF_humid,
         });
+        setStartTime(state.sunbathing_time);
       }
       // clearTimer(getDeadTime());
       // if (state.keyIOT != null) {
@@ -121,6 +128,7 @@ const DashBoard_Screen = () => {
       else {
         await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
       }
+      setCountTime(false);
     })();
   }, [state.keyIOT, state.tempc]);
 
@@ -171,22 +179,28 @@ const DashBoard_Screen = () => {
     }
 
     if (CountTime == true) {
-      if (Milliseconds == 30000) {
+      if (Milliseconds == 0) {
+        //การแจ้งเตือน
+        //การกำหนดการทำงานให้หยุด
         //หยุดที่ 50 วินาที
+
         console.log("เวลามิลลิวินาทีถึงค่าที่กำหนดแล้ว คือ: ", Milliseconds);
+        setStatusButton("เริ่มใหม่");
+        setCountTime(false);
       } else {
         setTimeout(() => {
-          setProgressClock(ProgressClock + 1000);
-
-          setMilliseconds(Milliseconds - 1000);
-          setShowTime(Convert_Milliseconds(Milliseconds - 1000));
+          if (CountTime != false) {
+            setProgressClock(ProgressClock + 1000);
+            setMilliseconds(Milliseconds - 1000);
+            setShowTime(Convert_Milliseconds(Milliseconds - 1000));
+          }
         }, 1000);
       }
     }
   }, [CountTime, Milliseconds]);
 
   const [ShowDTP, setShowDTP] = React.useState(false);
-  const onChange = async (event, selectedDate) => {
+  const EditTime = async (event, selectedDate) => {
     //ตกลง: set
     //ยกเลิก: dismissed
     if (event.type == "set") {
@@ -198,13 +212,15 @@ const DashBoard_Screen = () => {
 
       setMilliseconds(milliseconds);
       setShowTime(Convert_Milliseconds(milliseconds));
+      setStartTime(milliseconds);
+      setProgressClock(0);
 
-      console.log(
-        selectedDate.getHours().toString() +
-          "h" +
-          selectedDate.getMinutes().toString() +
-          "m"
-      );
+      // console.log(
+      //   selectedDate.getHours().toString() +
+      //     "h" +
+      //     selectedDate.getMinutes().toString() +
+      //     "m"
+      // );
 
       await axios
         .post("http://192.168.137.1:3000/Member_New_SunbathingTime", {
@@ -224,8 +240,12 @@ const DashBoard_Screen = () => {
           //   alert(res.data.complete);
           // }
         });
+    } else {
+      // setMilliseconds(milliseconds);
+      setShowTime(Convert_Milliseconds(StartTime));
+      // setProgressClock(0);
     }
-
+    setCountTime(false);
     setShowDTP(false);
   };
 
@@ -243,11 +263,11 @@ const DashBoard_Screen = () => {
 
         <Text style={{ marginBottom: "1%", fontSize: 20 }}>อาบแดด</Text>
 
-        {state.sunbathing_time != null ? (
+        {StartTime != null ? (
           <Progress.Circle
             borderWidth={3}
             // unfilledColor={"black"}
-            progress={ProgressClock / state.sunbathing_time}
+            progress={ProgressClock / StartTime}
             size={200}
             thickness={10}
             showsText={true}
@@ -289,11 +309,11 @@ const DashBoard_Screen = () => {
               onPress={async () => setShowDTP(true)}
             />
 
-            {ShowDTP == true ? (
+            {ShowDTP == true && CountTime == false ? (
               <DateTimePicker
                 mode="time"
                 value={new Date()}
-                onChange={onChange}
+                onChange={EditTime}
               />
             ) : null}
           </View>
@@ -576,13 +596,22 @@ const DashBoard_Screen = () => {
               if (CountTime == true) {
                 setCountTime(false);
               } else {
-                setCountTime(true);
+                if (StatusButton == "เริ่มใหม่") {
+                  setProgressClock(0);
+                  setShowTime(Convert_Milliseconds(StartTime));
+                  setProgressClock(0);
+                  setCountTime(false);
+                  setStatusButton("เริ่มการทำงาน");
+                } else {
+                  setCountTime(true);
+                  setStatusButton("...กำลังดำเนินการ");
+                }
               }
             }}
           >
             {state.keyIOT != null ? (
               <>
-                <Text style={styles.fontStyle}>เริ่มการทำงาน</Text>
+                <Text style={styles.fontStyle}>{StatusButton}</Text>
               </>
             ) : (
               <>
