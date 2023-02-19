@@ -1,0 +1,30 @@
+npm i expo-notifications
+
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+                <Button
+                  title="Press to schedule a notification"
+                  onPress={async () => {
+                    await schedulePushNotification();
+                  }}
+                />
+
+
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "TeePoT! 📬",
+      body: "การทำงานเสร็จสิ้น",
+      data: { data: "goes here" },
+    },
+    trigger: { seconds: 2 },
+  });
+}

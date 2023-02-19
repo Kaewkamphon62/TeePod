@@ -138,7 +138,7 @@ export const PrivateRoute = ({ children }) => {
               type: "MemberInfo",
               nfp: res.data.mdata.name_flowring_plants,
               kiot: res.data.mdata.keyIOT,
-              st: milliseconds-50000,
+              st: milliseconds-55000,
             });
 
             await otherFunction.getDataIOT({ Key: res.data.mdata.keyIOT });

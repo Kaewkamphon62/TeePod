@@ -15,6 +15,28 @@ import {
 } from "react-native-popup-menu";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
+import * as Notifications from "expo-notifications"; //การแจ้งเตือน
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+async function schedulePushNotification(e) {
+  const second = parseInt(e) / 1000;
+
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "TeePoT!",
+      body: "การทำงานเสร็จสิ้น",
+      data: { data: "goes here" },
+    },
+    trigger: { seconds: second },
+  });
+}
+
 const DashBoard_Screen = () => {
   /////////////////////////////////////////////////////////////////
   const { otherFunction, state } = React.useContext(PrivateRoute_Context);
@@ -30,7 +52,6 @@ const DashBoard_Screen = () => {
     humid: null,
     moisture: null,
   });
-  const [StartTime, setStartTime] = React.useState(null);
 
   React.useEffect(() => {
     (async () => {
@@ -82,7 +103,6 @@ const DashBoard_Screen = () => {
           moisture: IF_moisture,
           humid: IF_humid,
         });
-        setStartTime(state.sunbathing_time);
       }
       // clearTimer(getDeadTime());
       // if (state.keyIOT != null) {
@@ -145,6 +165,7 @@ const DashBoard_Screen = () => {
   // console.log(state)
   //////////////////////////////////////////////////////////////////////////////// Time
 
+  const [StartTime, setStartTime] = React.useState(null);
   const [Milliseconds, setMilliseconds] = React.useState(null);
   const [ShowTime, setShowTime] = React.useState(null);
   const [CountTime, setCountTime] = React.useState(false);
@@ -169,6 +190,7 @@ const DashBoard_Screen = () => {
 
   React.useEffect(() => {
     // console.log("sunbathing_time: ", state.sunbathing_time);
+    setStartTime(state.sunbathing_time);
     setMilliseconds(state.sunbathing_time);
     setShowTime(Convert_Milliseconds(state.sunbathing_time));
   }, [state.sunbathing_time]);
@@ -598,11 +620,12 @@ const DashBoard_Screen = () => {
               } else {
                 if (StatusButton == "เริ่มใหม่") {
                   setProgressClock(0);
+                  setMilliseconds(StartTime)
                   setShowTime(Convert_Milliseconds(StartTime));
-                  setProgressClock(0);
                   setCountTime(false);
                   setStatusButton("เริ่มการทำงาน");
                 } else {
+                  await schedulePushNotification(StartTime);
                   setCountTime(true);
                   setStatusButton("...กำลังดำเนินการ");
                 }
