@@ -175,8 +175,7 @@ const Admin_AddFlowering = ({ navigation }) => {
               // defaultValueByIndex={1}
               // defaultValue={'Egypt'}
 
-              defaultButtonText={'...'}
-
+              defaultButtonText={"..."}
               // defaultValue={NewFlowering.type != "" ? NewFlowering.type : "..."}
               // defaultButtonText={
               //   NewFlowering.type != "" ? NewFlowering.type : "..."
@@ -224,6 +223,7 @@ const Admin_AddFlowering = ({ navigation }) => {
       <Text style={styles.label}>ลำต้น</Text>
       <TextInput
         style={styles.input}
+        value={NewFlowering.plant_stem}
         onChangeText={async (e) => {
           setNewFlowering({
             ...NewFlowering,
@@ -235,6 +235,7 @@ const Admin_AddFlowering = ({ navigation }) => {
       <Text style={styles.label}>ใบ</Text>
       <TextInput
         style={styles.input}
+        value={NewFlowering.leaf}
         onChangeText={async (e) => {
           setNewFlowering({
             ...NewFlowering,
@@ -259,6 +260,7 @@ const Admin_AddFlowering = ({ navigation }) => {
           paddingStart: 10,
           marginBottom: 10,
         }}
+        value={NewFlowering.flowering}
         onChangeText={async (e) => {
           setNewFlowering({
             ...NewFlowering,
@@ -270,6 +272,7 @@ const Admin_AddFlowering = ({ navigation }) => {
       <Text style={styles.label}>การออกผล</Text>
       <TextInput
         style={styles.input}
+        value={NewFlowering.fruitage}
         onChangeText={async (e) => {
           setNewFlowering({
             ...NewFlowering,
@@ -675,6 +678,7 @@ const Admin_AddFlowering = ({ navigation }) => {
           paddingStart: 10,
           marginBottom: 10,
         }}
+        value={NewFlowering.other}
         onChangeText={async (e) => {
           setNewFlowering({
             ...NewFlowering,
@@ -686,6 +690,7 @@ const Admin_AddFlowering = ({ navigation }) => {
       <Text style={styles.label}>เกร็ดน่ารู้</Text>
       <TextInput
         style={styles.input}
+        value={NewFlowering.tip}
         onChangeText={async (e) => {
           setNewFlowering({
             ...NewFlowering,

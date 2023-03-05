@@ -74,7 +74,8 @@ const SelectFlowerting = ({ navigation }) => {
   return (
     <ScrollView
       contentContainerStyle={{
-        backgroundColor: "#D0F48E",
+        // backgroundColor: "#D0F48E",
+        backgroundColor: "#ebecf1",
         flexGrow: 1,
         justifyContent: "center",
         flexDirection: "row",
