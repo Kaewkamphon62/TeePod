@@ -66,18 +66,192 @@ const SelectFlowerDetail_Screen = ({
 
         <View
           style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
             alignItems: "center",
             flexDirection: "row",
           }}
-        ></View>
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            ประเภท:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>{FlowringPlants.type}</Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            ลำต้น:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>
+            {FlowringPlants.plant_stem}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>ใบ: </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>{FlowringPlants.leaf}</Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            ดอก:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>
+            {FlowringPlants.flowering}
+          </Text>
+        </View>
+
+        {FlowringPlants.fruitage != "" ? (
+          <View
+            style={{
+              marginTop: "5%",
+              marginHorizontal: "5%",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+              ผล:{" "}
+            </Text>
+            <Text style={{ flex: 2, fontSize: 16 }}>
+              {FlowringPlants.fruitage}
+            </Text>
+          </View>
+        ) : null}
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            เติบโต:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>
+            {FlowringPlants.growth_rate}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            ดิน:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>{FlowringPlants.soil}</Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            แสงแดด:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>
+            {FlowringPlants.sunlight}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            น้ำ:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>
+            {FlowringPlants.desired_water}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            ขยายพันธุ์:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>
+            {FlowringPlants.propagation}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            อื่นๆ:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>{FlowringPlants.other}</Text>
+        </View>
+
+        <View
+          style={{
+            marginTop: "5%",
+            marginHorizontal: "5%",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ flex: 1, fontSize: 16, fontWeight: "600" }}>
+            เกร็ดน่ารู้:{" "}
+          </Text>
+          <Text style={{ flex: 2, fontSize: 16 }}>{FlowringPlants.tip}</Text>
+        </View>
       </View>
 
       <View
         style={{
-          // backgroundColor: "red",
-          alignItems: "center",
+          marginTop: "5%",
+          marginBottom: "5%",
           flexDirection: "row",
-          // justifyContent: "flex-end",
         }}
       >
         <Pressable
