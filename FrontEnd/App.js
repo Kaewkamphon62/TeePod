@@ -174,14 +174,16 @@ function App() {
                     component={TabMember_Function}
                   />
                   <Stack.Screen name="Member_Home" component={Home_Screen} />
-                  <Stack.Screen
-                    name="Member_SelectFlower"
-                    component={SelectFlower_Screen}
-                  />
-                  <Stack.Screen
-                    name="Member_SelectFlowerDetail"
-                    component={SelectFlowerDetail_Screen}
-                  />
+
+
+
+                  <Stack.Screen name="Member_SelectFlower" component={SelectFlower_Screen} />
+
+
+                  <Stack.Screen name="Member_SelectFlowerDetail" component={SelectFlowerDetail_Screen}  />
+
+
+
                   <Stack.Screen
                     name="Member_Demo_mqtt"
                     component={Demo_mqtt_Screen}

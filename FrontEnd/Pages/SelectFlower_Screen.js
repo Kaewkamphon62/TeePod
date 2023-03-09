@@ -10,17 +10,17 @@ import React from "react";
 import axios from "axios";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { Image } from "react-native";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { createStackNavigator } from 'react-navigation-stack';
+
+// const Stack = createStackNavigator();
 
 const SelectFlowerting = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
   const { state, otherFunction } = React.useContext(PrivateRoute_Context);
   /////////////////////////////////////////////////////////////////
-
   const [FloweringPlants, setFloweringPlants] = React.useState([]);
   const [Username, setUsername] = React.useState(null);
-  // const [TestImg, setTestImg] = React.useState(null);
 
   React.useEffect(() => {
     setFloweringPlants([]);
@@ -125,6 +125,7 @@ const SelectFlowerting = ({ navigation }) => {
                 title={data.name_flowring_plants}
                 onPress={() => {
                   // FunctionSelectFP(data);
+                  navigation.navigate('Member_SelectFlowerDetail', { FlowringPlants: data }) //ส่งค่าหน้าที่ต้องการไปอีก Screen
                 }}
               />
             </View>
@@ -147,6 +148,7 @@ const SelectFlowerting = ({ navigation }) => {
                 title={data.name_flowring_plants}
                 onPress={() => {
                   // FunctionSelectFP(data);
+                  navigation.navigate('Member_SelectFlowerDetail', { FlowringPlants: data }) //ส่งค่าหน้าที่ต้องการไปอีก Screen
                 }}
               />
             </View>
