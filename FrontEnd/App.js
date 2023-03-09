@@ -175,14 +175,18 @@ function App() {
                   />
                   <Stack.Screen name="Member_Home" component={Home_Screen} />
 
-
-
-                  <Stack.Screen name="Member_SelectFlower" component={SelectFlower_Screen} />
-
-
-                  <Stack.Screen name="Member_SelectFlowerDetail" component={SelectFlowerDetail_Screen}  />
-
-
+                  <Stack.Screen
+                    name="Member_SelectFlower"
+                    component={SelectFlower_Screen}
+                  />
+                  <Stack.Screen
+                    name="Member_SelectFlowerDetail"
+                    component={SelectFlowerDetail_Screen}
+                    options={({ route }) => ({
+                      title: route.params.Name_FP,
+                      headerShown: true,
+                    })}
+                  />
 
                   <Stack.Screen
                     name="Member_Demo_mqtt"

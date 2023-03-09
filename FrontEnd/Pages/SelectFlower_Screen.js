@@ -5,11 +5,11 @@ import {
   View,
   Button,
   ScrollView,
+  Image,
 } from "react-native";
 import React from "react";
 import axios from "axios";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
-import { Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { createStackNavigator } from 'react-navigation-stack';
 
@@ -78,27 +78,27 @@ const SelectFlowerting = ({ navigation }) => {
 
   // console.log(FloweringPlants);
 
-  const FunctionSelectFP = async (a) => {
-    // console.log(JSON.stringify(a, null, 2));
+  // const FunctionSelectFP = async (a) => {
+  //   // console.log(JSON.stringify(a, null, 2));
 
-    await axios
-      .post("http://192.168.137.1:3000/SelectFloweringPlants", {
-        UserUsername: Username,
-        name_flowring_plants: a.name_flowring_plants,
-        sunbathing_time: a.sunbathing_time,
-      })
-      .then(async (res) => {
-        if (res.data.alert != undefined) {
-          // alert(res.data.alert);
+  //   await axios
+  //     .post("http://192.168.137.1:3000/SelectFloweringPlants", {
+  //       UserUsername: Username,
+  //       name_flowring_plants: a.name_flowring_plants,
+  //       sunbathing_time: a.sunbathing_time,
+  //     })
+  //     .then(async (res) => {
+  //       if (res.data.alert != undefined) {
+  //         // alert(res.data.alert);
 
-          await otherFunction.getMemberData({
-            username: state.userName,
-          });
+  //         await otherFunction.getMemberData({
+  //           username: state.userName,
+  //         });
 
-          await navigation.navigate("Member_Profile");
-        }
-      });
-  };
+  //         await navigation.navigate("Member_Profile");
+  //       }
+  //     });
+  // };
 
   return (
     <ScrollView
@@ -125,7 +125,10 @@ const SelectFlowerting = ({ navigation }) => {
                 title={data.name_flowring_plants}
                 onPress={() => {
                   // FunctionSelectFP(data);
-                  navigation.navigate('Member_SelectFlowerDetail', { FlowringPlants: data }) //ส่งค่าหน้าที่ต้องการไปอีก Screen
+                  navigation.navigate("Member_SelectFlowerDetail", {
+                    FlowringPlants: data,
+                    Name_FP: data.name_flowring_plants,
+                  }); //ส่งค่าหน้าที่ต้องการไปอีก Screen
                 }}
               />
             </View>
@@ -148,7 +151,10 @@ const SelectFlowerting = ({ navigation }) => {
                 title={data.name_flowring_plants}
                 onPress={() => {
                   // FunctionSelectFP(data);
-                  navigation.navigate('Member_SelectFlowerDetail', { FlowringPlants: data }) //ส่งค่าหน้าที่ต้องการไปอีก Screen
+                  navigation.navigate("Member_SelectFlowerDetail", {
+                    FlowringPlants: data,
+                    Name_FP: data.name_flowring_plants,
+                  }); //ส่งค่าหน้าที่ต้องการไปอีก Screen
                 }}
               />
             </View>
