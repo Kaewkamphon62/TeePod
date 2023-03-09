@@ -4,7 +4,7 @@ import {
   View,
   Pressable,
   TextInput,
-  KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
@@ -38,6 +38,37 @@ const Profile_Screen = ({ navigation }) => {
       }
     })();
   }, [InputKey.Key]);
+
+  const createTwoButtonAlert = () =>
+    Alert.alert("KeyIOT", "คุณต้องการเปลี่ยน Key หรือไม่", [
+      {
+        text: "ใช่",
+        onPress: async () =>
+          await axios
+            .post("http://192.168.137.1:3000/Member_DeleteKey", {
+              InputKey,
+            })
+            .then(async (res) => {
+              if (res.data.complete != undefined) {
+                await otherFunction.getMemberData({
+                  username: state.userName,
+                });
+              }
+
+              if (res.data.resError != undefined) {
+                alert(res.data.resError);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            }),
+      },
+      {
+        text: "ไม่ใช่",
+        // onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+    ]);
 
   return (
     <View style={styles.Container}>
@@ -130,24 +161,25 @@ const Profile_Screen = ({ navigation }) => {
                   size={35}
                   color="black"
                   onPress={async () => {
-                    await axios
-                      .post("http://192.168.137.1:3000/Member_DeleteKey", {
-                        InputKey,
-                      })
-                      .then(async (res) => {
-                        if (res.data.complete != undefined) {
-                          await otherFunction.getMemberData({
-                            username: state.userName,
-                          });
-                        }
+                    createTwoButtonAlert();
+                    // await axios
+                    //   .post("http://192.168.137.1:3000/Member_DeleteKey", {
+                    //     InputKey,
+                    //   })
+                    //   .then(async (res) => {
+                    //     if (res.data.complete != undefined) {
+                    //       await otherFunction.getMemberData({
+                    //         username: state.userName,
+                    //       });
+                    //     }
 
-                        if (res.data.resError != undefined) {
-                          alert(res.data.resError);
-                        }
-                      })
-                      .catch((error) => {
-                        console.log(error);
-                      });
+                    //     if (res.data.resError != undefined) {
+                    //       alert(res.data.resError);
+                    //     }
+                    //   })
+                    //   .catch((error) => {
+                    //     console.log(error);
+                    //   });
                   }}
                 />
               </View>
