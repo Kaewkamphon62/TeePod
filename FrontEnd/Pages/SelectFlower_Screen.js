@@ -11,6 +11,8 @@ import axios from "axios";
 import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import { Image } from "react-native";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const SelectFlowerting = ({ navigation }) => {
   /////////////////////////////////////////////////////////////////
   const { state, otherFunction } = React.useContext(PrivateRoute_Context);
@@ -23,31 +25,58 @@ const SelectFlowerting = ({ navigation }) => {
   React.useEffect(() => {
     setFloweringPlants([]);
     setUsername(null);
-
     const username = state.userName;
-    const getDB = async () => {
-      await axios
-        .post("http://192.168.137.1:3000/loadFloweringPlants")
-        .then(async (res) => {
-          if (res.data.fp != undefined) {
-            // console.log("res.data.fp", typeof res.data.fp);
-            setFloweringPlants(res.data.fp);
-            setUsername(username);
 
-            // setTestImg(res.data.fp[4]);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    const getDB = async () => {
+      const FP_Async = await AsyncStorage.getItem("@Flowerings");
+      // console.log(typeof JSON.parse(FP_Async))
+
+      if (FP_Async != null) {
+        setFloweringPlants(JSON.parse(FP_Async));
+      } else {
+        await axios
+          .post("http://192.168.137.1:3000/loadFloweringPlants")
+          .then(async (res) => {
+            if (res.data.fp != undefined) {
+              // console.log("res.data.fp", typeof res.data.fp);
+              setFloweringPlants(res.data.fp);
+
+              // console.log(typeof JSON.stringify(res.data.fp))
+              await AsyncStorage.setItem(
+                "@Flowerings",
+                JSON.stringify(res.data.fp)
+              );
+
+              // setTestImg(res.data.fp[4]);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+      setUsername(username);
     };
     getDB();
   }, []);
+
+  // console.log(FloweringPlants)
+
+  // const Test = async () => {
+  //   console.log(await AsyncStorage.getItem("@Flowerings"));
+  // };
+
+  // const Test = async () => {
+  //   console.log(await AsyncStorage.getItem("@test"));
+  // };
+
+  // Test();
 
   // if (TestImg != null) {
   //   // console.log("");
   //   console.log(TestImg.img_file);
   // }
+
+  // console.log(FloweringPlants);
 
   const FunctionSelectFP = async (a) => {
     // console.log(JSON.stringify(a, null, 2));
@@ -95,7 +124,7 @@ const SelectFlowerting = ({ navigation }) => {
               <Button
                 title={data.name_flowring_plants}
                 onPress={() => {
-                  FunctionSelectFP(data);
+                  // FunctionSelectFP(data);
                 }}
               />
             </View>
@@ -117,7 +146,7 @@ const SelectFlowerting = ({ navigation }) => {
               <Button
                 title={data.name_flowring_plants}
                 onPress={() => {
-                  FunctionSelectFP(data);
+                  // FunctionSelectFP(data);
                 }}
               />
             </View>

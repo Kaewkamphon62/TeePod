@@ -88,6 +88,14 @@ export const PrivateRoute = ({ children }) => {
   );
 
   React.useEffect(() => {
+    const DataFloweringPlants = async () => {
+      const FP_Async = await AsyncStorage.getItem("@Flowerings");
+
+      if (FP_Async != null) {
+        await AsyncStorage.removeItem("@Flowerings");
+      }
+    };
+
     const Token_Sync = async () => {
       let userToken;
       try {
@@ -114,6 +122,7 @@ export const PrivateRoute = ({ children }) => {
       } catch (e) {}
     };
     Token_Sync();
+    DataFloweringPlants();
   }, []);
 
   const otherFunction = React.useMemo(() => ({
@@ -138,7 +147,7 @@ export const PrivateRoute = ({ children }) => {
               type: "MemberInfo",
               nfp: res.data.mdata.name_flowring_plants,
               kiot: res.data.mdata.keyIOT,
-              st: milliseconds-55000,
+              st: milliseconds - 55000,
             });
 
             await otherFunction.getDataIOT({ Key: res.data.mdata.keyIOT });
