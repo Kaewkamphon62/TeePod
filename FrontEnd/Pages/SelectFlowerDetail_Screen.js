@@ -33,11 +33,10 @@ const SelectFlowerDetail_Screen = ({
       .then(async (res) => {
         if (res.data.alert != undefined) {
           // alert(res.data.alert);
-
+          
           await otherFunction.getMemberData({
             username: state.userName,
           });
-
           await navigate("Member_Profile");
         }
       });

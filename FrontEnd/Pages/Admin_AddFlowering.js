@@ -172,6 +172,7 @@ const Admin_AddFlowering = ({ navigation }) => {
 
             <SelectDropdown
               data={DD_flower_type}
+              
               // defaultValueByIndex={1}
               // defaultValue={'Egypt'}
 

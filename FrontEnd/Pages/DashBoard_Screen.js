@@ -5,6 +5,7 @@ import { PrivateRoute_Context } from "../Routers/PrivateRoute";
 import axios from "axios";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Paho from "paho-mqtt";
 
 import { MenuProvider } from "react-native-popup-menu";
 import {
@@ -196,29 +197,32 @@ const DashBoard_Screen = () => {
   }, [state.sunbathing_time]);
 
   React.useEffect(() => {
-    if (ShowTime == null && Milliseconds != null) {
-      setShowTime(Convert_Milliseconds(Milliseconds));
-    }
-
-    if (CountTime == true) {
-      if (Milliseconds == 0) {
-        //การแจ้งเตือน
-        //การกำหนดการทำงานให้หยุด
-        //หยุดที่ 50 วินาที
-
-        console.log("เวลามิลลิวินาทีถึงค่าที่กำหนดแล้ว คือ: ", Milliseconds);
-        setStatusButton("เริ่มใหม่");
-        setCountTime(false);
-      } else {
-        setTimeout(() => {
-          if (CountTime != false) {
-            setProgressClock(ProgressClock + 1000);
-            setMilliseconds(Milliseconds - 1000);
-            setShowTime(Convert_Milliseconds(Milliseconds - 1000));
-          }
-        }, 1000);
+    (async () => {
+      if (ShowTime == null && Milliseconds != null) {
+        setShowTime(Convert_Milliseconds(Milliseconds));
       }
-    }
+
+      if (CountTime == true) {
+        if (Milliseconds == 0) {
+          //การแจ้งเตือน
+          //การกำหนดการทำงานให้หยุด
+          //หยุดที่ 50 วินาที
+
+          console.log("เวลามิลลิวินาทีถึงค่าที่กำหนดแล้ว คือ: ", Milliseconds);
+          await StopIOT();
+          setStatusButton("เริ่มใหม่");
+          setCountTime(false);
+        } else {
+          setTimeout(() => {
+            if (CountTime != false) {
+              setProgressClock(ProgressClock + 1000);
+              setMilliseconds(Milliseconds - 1000);
+              setShowTime(Convert_Milliseconds(Milliseconds - 1000));
+            }
+          }, 1000);
+        }
+      }
+    })();
   }, [CountTime, Milliseconds]);
 
   const [ShowDTP, setShowDTP] = React.useState(false);
@@ -270,6 +274,49 @@ const DashBoard_Screen = () => {
     setCountTime(false);
     setShowDTP(false);
   };
+
+  ////////////////////////////////////     MQTT     ///////////////////////////////////////
+
+  const [ConnectedMosquitto, setConnectedMosquitto] = React.useState("OffLine");
+
+  const client = new Paho.Client(
+    "test.mosquitto.org",
+    Number(8080),
+    "clientId_" + parseInt(Math.random() * 100, 10)
+  );
+
+  // client.onConnectionLost = onConnectionLost;
+  // client.onMessageArrived = onMessageArrived;
+  // client.connect({ onSuccess: onConnect });
+  client.connect();
+
+  const StartIOT = () => {
+    //เดินหาแดด
+    const message = new Paho.Message("1," + Milliseconds / 1000);
+    try {
+      message.destinationName = state.keyIOT;
+
+      console.log("message: ", JSON.stringify(message, null, 2));
+      // console.log("type: ", typeof message);
+
+      client.send(message);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const StopIOT = () => {
+    //เดินหาร่ม
+    const message = new Paho.Message("2," + Milliseconds / 1000); //ต้องกำหนดเวลาให้มาก มาก
+    try {
+      message.destinationName = state.keyIOT;
+      client.send(message);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  /////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <View style={{ flex: 1 }}>
@@ -600,6 +647,14 @@ const DashBoard_Screen = () => {
 
         <View
           style={{
+            alignItems: "center",
+          }}
+        >
+          <Text>สถานะการเชื่อมต่อ: {ConnectedMosquitto}</Text>
+        </View>
+
+        <View
+          style={{
             flexDirection: "row",
             marginVertical: "5%",
             marginHorizontal: "10%",
@@ -620,16 +675,19 @@ const DashBoard_Screen = () => {
               } else {
                 if (StatusButton == "เริ่มใหม่") {
                   setProgressClock(0);
-                  setMilliseconds(StartTime)
+                  setMilliseconds(StartTime);
                   setShowTime(Convert_Milliseconds(StartTime));
                   setCountTime(false);
                   setStatusButton("เริ่มการทำงาน");
                 } else {
                   await schedulePushNotification(StartTime);
+                  await StartIOT();
                   setCountTime(true);
                   setStatusButton("...กำลังดำเนินการ");
                 }
               }
+              // console.log('Milliseconds: ', Milliseconds/1000)
+              // console.log(client);
             }}
           >
             {state.keyIOT != null ? (

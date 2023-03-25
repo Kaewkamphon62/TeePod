@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { TextInput, View, Button } from "react-native";
 
+//กรอกเวลาก่อนส่งเป็นแบบ Second
+
 import Paho from "paho-mqtt";
 // import init from 'react_native_mqtt';
 
 const Member_Demo_mqtt = () => {
-  const [runTime, setRunTime] = useState("");
-  // Create a client instance
+  const [Seconds, setSeconds] = useState("");
+
   const client = new Paho.Client(
-    "broker.hivemq.com",
-    Number(8000),
+    "test.mosquitto.org",
+    Number(8080),
     "clientId_" + parseInt(Math.random() * 100, 10)
   );
 
@@ -22,20 +24,8 @@ const Member_Demo_mqtt = () => {
 
   // called when the client connects
   function onConnect() {
-    // Once a connection has been made, make a subscription and send a message.
-
     console.log("onConnect");
-    client.subscribe("GDR"); //ชื่อ TEST01
-
-    //   client.connect({
-    //     userName: 'GTO1',
-    //     password: '123456',
-    //     onSuccess: onConnect
-    // });
-
-    // let message = new Paho.Message("Hello");
-    // message.destinationName = "World";
-    // client.send(message);
+    client.subscribe(key); //ชื่อ TEST01
   }
 
   // called when the client loses its connection
@@ -51,8 +41,8 @@ const Member_Demo_mqtt = () => {
   }
 
   function function1() {
-    var message = new Paho.Message("1," + runTime);
-    message.destinationName = "GDR";
+    var message = new Paho.Message("1," + Seconds);
+    message.destinationName = key;
 
     console.log("message: ", JSON.stringify(message, null, 2));
     console.log("type: ", typeof message);
@@ -60,8 +50,8 @@ const Member_Demo_mqtt = () => {
     client.send(message);
   }
   function function2() {
-    var message = new Paho.Message("2," + runTime);
-    message.destinationName = "GDR";
+    var message = new Paho.Message("2," + Seconds);
+    message.destinationName = key;
     client.send(message);
   }
 
@@ -75,9 +65,9 @@ const Member_Demo_mqtt = () => {
     >
       <TextInput
         placeholder="timeinput"
-        value={runTime}
+        value={Seconds}
         onChangeText={async (e) => {
-          setRunTime(e);
+          setSeconds(e); //เวลาที่กำหนด
         }}
       />
       <Button title="Run Function 1" onPress={function1} />
