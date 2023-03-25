@@ -342,14 +342,14 @@ const Profile_Screen = ({ navigation }) => {
           </Pressable>
         </View> */}
 
-        <View style={styles.FlexContainer}>
+        {/* <View style={styles.FlexContainer}>
           <Pressable
             style={styles.button}
             onPress={async () => navigation.navigate("Member_Demo_mqtt")}
           >
             <Text style={styles.fontStyle}>Demo Mqtt</Text>
           </Pressable>
-        </View>
+        </View> */}
 
         <View
           style={[

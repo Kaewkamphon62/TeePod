@@ -279,21 +279,27 @@ const DashBoard_Screen = () => {
 
   const [ConnectedMosquitto, setConnectedMosquitto] = React.useState("OffLine");
 
+  // const client = new Paho.Client(
+  //   "test.mosquitto.org",
+  //   Number(8080),
+  //   "clientId_" + parseInt(Math.random() * 100, 10)
+  // );
+
+  // client.onConnectionLost = onConnectionLost;
+  // client.onMessageArrived = onMessageArrived;
+  // client.connect({ onSuccess: onConnect });
+
   const client = new Paho.Client(
     "test.mosquitto.org",
     Number(8080),
     "clientId_" + parseInt(Math.random() * 100, 10)
   );
 
-  // client.onConnectionLost = onConnectionLost;
-  // client.onMessageArrived = onMessageArrived;
-  // client.connect({ onSuccess: onConnect });
-  client.connect();
-
   const StartIOT = () => {
     //เดินหาแดด
-    const message = new Paho.Message("1," + Milliseconds / 1000);
     try {
+      const message = new Paho.Message("1," + Milliseconds / 1000);
+
       message.destinationName = state.keyIOT;
 
       console.log("message: ", JSON.stringify(message, null, 2));
@@ -307,8 +313,9 @@ const DashBoard_Screen = () => {
 
   const StopIOT = () => {
     //เดินหาร่ม
-    const message = new Paho.Message("2," + Milliseconds / 1000); //ต้องกำหนดเวลาให้มาก มาก
     try {
+      const message = new Paho.Message("2," + Milliseconds / 1000); //ต้องกำหนดเวลาให้มาก มาก
+
       message.destinationName = state.keyIOT;
       client.send(message);
     } catch (error) {
