@@ -229,17 +229,19 @@ const DashBoard_Screen = () => {
   const EditTime = async (event, selectedDate) => {
     //ตกลง: set
     //ยกเลิก: dismissed
+    console.log("event.type", event.type);
+
     if (event.type == "set") {
-      const hours = parseInt(selectedDate.getHours()) * 3600000;
-      const minute = parseInt(selectedDate.getMinutes()) * 60000;
+      let hours = parseInt(selectedDate.getHours()) * 3600000;
+      let minute = parseInt(selectedDate.getMinutes()) * 60000;
       let milliseconds = hours + minute;
       // console.log(event.type);
       // console.log(`มิลลิวินาที: ${hours + minute}`);
 
       setMilliseconds(milliseconds);
-      setShowTime(Convert_Milliseconds(milliseconds));
       setStartTime(milliseconds);
       setProgressClock(0);
+      setShowTime(Convert_Milliseconds(milliseconds));
 
       // console.log(
       //   selectedDate.getHours().toString() +
@@ -261,18 +263,12 @@ const DashBoard_Screen = () => {
           if (res.data.resError != undefined) {
             alert(res.data.resError);
           }
-
-          // if (res.data.complete != undefined) {
-          //   alert(res.data.complete);
-          // }
+          setCountTime(false);
+          setShowDTP(false);
         });
-    } else {
-      // setMilliseconds(milliseconds);
-      setShowTime(Convert_Milliseconds(StartTime));
-      // setProgressClock(0);
+    } else if (event.type == "dismissed") {
+      setShowDTP(false);
     }
-    setCountTime(false);
-    setShowDTP(false);
   };
 
   ////////////////////////////////////     MQTT     ///////////////////////////////////////
@@ -301,7 +297,6 @@ const DashBoard_Screen = () => {
       const message = new Paho.Message("1," + Milliseconds / 1000);
 
       message.destinationName = state.keyIOT;
-
       console.log("message: ", JSON.stringify(message, null, 2));
       // console.log("type: ", typeof message);
 
@@ -382,7 +377,11 @@ const DashBoard_Screen = () => {
               name="clock-edit-outline"
               size={30}
               color="black"
-              onPress={async () => setShowDTP(true)}
+              onPress={async () => {
+                if (CountTime == false) {
+                  setShowDTP(true);
+                }
+              }}
             />
 
             {ShowDTP == true && CountTime == false ? (
