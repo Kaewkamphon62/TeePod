@@ -6,6 +6,7 @@ import axios from "axios";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Paho from "paho-mqtt";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { MenuProvider } from "react-native-popup-menu";
 import {
@@ -104,52 +105,11 @@ const DashBoard_Screen = () => {
           moisture: IF_moisture,
           humid: IF_humid,
         });
-      }
-      // clearTimer(getDeadTime());
-      // if (state.keyIOT != null) {
-      // ดึงข้อมูล KeyIOT ของ User นั้นๆ
-      // console.log("state.keyIOT != null")
-
-      // setDataIoT({
-      //   tempc: state.tempc, //อุณหภูมิภายนอก
-      //   moisture: state.moisture, //ดิน
-      //   humid: state.humid, //อากาศ
-      // });
-
-      // //อุณหภูมิ
-      // let IF_tempc = "";
-      // if (state.tempc) {
-      // }
-
-      // //ความชื้นในดิน
-      // let IF_moisture = "";
-      // if (state.moisture) {
-      // }
-      // if (state.moisture > 800) {
-      //   IF_moisture = "เซนเซอร์อยู่ในอากาศ";
-      // } else if (state.moisture >= 800) {
-      //   IF_moisture = "ดินแห้ง";
-      // } else if (state.moisture >= 300) {
-      //   IF_moisture = "ดินชื้น";
-      // } else if (state.moisture < 300) {
-      //   IF_moisture = "ดินเปียก";
-      // }
-
-      // //ความชื้นในอากาศ
-      // let IF_humid = "";
-      // if (state.humid) {
-      // }
-
-      // setDetailShow({
-      //   tempc: IF_tempc,
-      //   moisture: IF_moisture,
-      //   humid: IF_humid,
-      // });
-      // }
-      else {
+      } else {
         await otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
       }
-      setCountTime(false);
+
+      // setCountTime(false);
     })();
   }, [state.keyIOT, state.tempc]);
 
@@ -164,6 +124,8 @@ const DashBoard_Screen = () => {
 
   // otherFunction.getDataIOT({ Key: state.keyIOT })
   // console.log(state)
+
+  // console.log(new Date().getMilliseconds())
   //////////////////////////////////////////////////////////////////////////////// Time
 
   const [StartTime, setStartTime] = React.useState(null);
@@ -189,11 +151,46 @@ const DashBoard_Screen = () => {
     return hours + ":" + minutes + ":" + seconds;
   };
 
+  const Convert_DateNoW_To_Milliseconds = (e) => {
+    var hours = new Date(e).getHours() * 3600000;
+    var minutes = new Date(e).getMinutes() * 60000;
+    var seconds = new Date(e).getSeconds() * 1000;
+
+    let value = hours + minutes + seconds;
+
+    return value;
+  };
+
   React.useEffect(() => {
-    // console.log("sunbathing_time: ", state.sunbathing_time);
-    setStartTime(state.sunbathing_time);
-    setMilliseconds(state.sunbathing_time);
-    setShowTime(Convert_Milliseconds(state.sunbathing_time));
+    (async () => {
+      const ProcessClock = await AsyncStorage.getItem("@ProcessClock");
+      const ProC_toArray = JSON.parse(ProcessClock);
+      // console.log("ProC_toArray", ProC_toArray);
+
+      // console.log("sunbathing_time: ", state.sunbathing_time);
+      if (ProcessClock != null) {
+        const Current_Milliseconds = Convert_DateNoW_To_Milliseconds(Date.now()) //เวลาปัจจุบัน
+        const Past_Milliseconds = Convert_DateNoW_To_Milliseconds(ProC_toArray.DateNow) //เวลาในอดีต
+
+        setStartTime(ProC_toArray.Milliseconds);
+        setProgressClock(Current_Milliseconds - Past_Milliseconds)
+
+        let Value_Time = 0
+        if(Current_Milliseconds - Past_Milliseconds <= 0){
+          Value_Time = 0
+        }else{
+          Value_Time = ProC_toArray.Milliseconds - (Current_Milliseconds - Past_Milliseconds)
+        }
+
+        setMilliseconds(Value_Time);
+        setShowTime(Convert_Milliseconds(Value_Time));
+        setCountTime(true);
+      } else {
+        setStartTime(state.sunbathing_time);
+        setMilliseconds(state.sunbathing_time);
+        setShowTime(Convert_Milliseconds(state.sunbathing_time));
+      }
+    })();
   }, [state.sunbathing_time]);
 
   React.useEffect(() => {
@@ -209,6 +206,7 @@ const DashBoard_Screen = () => {
           //หยุดที่ 50 วินาที
 
           console.log("เวลามิลลิวินาทีถึงค่าที่กำหนดแล้ว คือ: ", Milliseconds);
+          await AsyncStorage.removeItem("@ProcessClock");
           await StopIOT();
           setStatusButton("เริ่มใหม่");
           setCountTime(false);
@@ -265,6 +263,7 @@ const DashBoard_Screen = () => {
           }
           setCountTime(false);
           setShowDTP(false);
+          await AsyncStorage.removeItem("@ProcessClock");
         });
     } else if (event.type == "dismissed") {
       setShowDTP(false);
@@ -680,12 +679,23 @@ const DashBoard_Screen = () => {
                 setCountTime(false);
               } else {
                 if (StatusButton == "เริ่มใหม่") {
+                  //นับเสร็จ
                   setProgressClock(0);
                   setMilliseconds(StartTime);
                   setShowTime(Convert_Milliseconds(StartTime));
                   setCountTime(false);
                   setStatusButton("เริ่มการทำงาน");
                 } else {
+                  //เริ่มนับถอยหลัง
+                  const ProC_obj = {
+                    Milliseconds: Milliseconds,
+                    DateNow: Date.now(),
+                  };
+                  AsyncStorage.setItem(
+                    "@ProcessClock",
+                    JSON.stringify(ProC_obj)
+                  );
+
                   await schedulePushNotification(StartTime);
                   await StartIOT();
                   setCountTime(true);
