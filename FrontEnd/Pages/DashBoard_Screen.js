@@ -6,6 +6,7 @@ import axios from "axios";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Paho from "paho-mqtt";
+import { ClientFoRMessage } from "paho-mqtt";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { MenuProvider } from "react-native-popup-menu";
@@ -54,6 +55,7 @@ const DashBoard_Screen = () => {
     humid: null,
     moisture: null,
   });
+  const [Moisture, setMoisture] = React.useState(0)
 
   React.useEffect(() => {
     (async () => {
@@ -74,14 +76,20 @@ const DashBoard_Screen = () => {
 
         //ความชื้นในดิน
         let IF_moisture = "";
-        if (state.moisture > 800) {
+
+
+        if (state.moisture > 100 ) {
           IF_moisture = "เซนเซอร์ติดตั้งไม่ถูกต้อง";
-        } else if (state.moisture >= 800) {
+          setMoisture(0)
+        } else if (state.moisture >= 80) {
           IF_moisture = "ดินแห้ง";
-        } else if (state.moisture >= 300) {
+          setMoisture(state.moisture)
+        } else if (state.moisture >= 30) {
           IF_moisture = "ดินชื้น";
-        } else if (state.moisture < 300) {
+          setMoisture(state.moisture)
+        } else if (state.moisture < 30) {
           IF_moisture = "ดินเปียก";
+          setMoisture(state.moisture)
         }
 
         //ความชื้นในอากาศ
@@ -213,9 +221,10 @@ const DashBoard_Screen = () => {
 
           console.log("เวลามิลลิวินาทีถึงค่าที่กำหนดแล้ว คือ: ", Milliseconds);
           await AsyncStorage.removeItem("@ProcessClock");
-          await StopIOT();
-          setStatusButton("เริ่มใหม่");
+          StopIOT();
+          setStatusButton("...กำลังเดินหาร่ม");
           setCountTime(false);
+          setStopIOT_Start(true); //สั่งให้ IOT นับเวลาการเดินหาร่มโดยการกำหนดแบบ hardcode
         } else {
           setTimeout(() => {
             if (CountTime != false) {
@@ -228,6 +237,25 @@ const DashBoard_Screen = () => {
       }
     })();
   }, [CountTime, Milliseconds]);
+
+  const [StopIOT_Start, setStopIOT_Start] = React.useState(false);
+  const [StopIOT_Seconds, setStopIOT_Seconds] = React.useState(10000);
+  React.useEffect(() => {
+    async () => {
+      if (StopIOT_Start == true) {
+        if (StopIOT_Seconds == 0) {
+          setStatusButton("เริ่มใหม่");
+        } else {
+          setTimeout(() => {
+            if (StopIOT_Seconds != false) {
+              setStopIOT_Seconds(StopIOT_Seconds - 1000);
+            }
+          }, 1000);
+        }
+      }
+      console.log("StopIOT_Seconds", StopIOT_Seconds);
+    };
+  }, [StopIOT_Start, StopIOT_Seconds]);
 
   const [ShowDTP, setShowDTP] = React.useState(false);
   const EditTime = async (event, selectedDate) => {
@@ -287,13 +315,15 @@ const DashBoard_Screen = () => {
   );
 
   client.onConnectionLost = onConnectionLost;
-  client.onMessageArrived = onMessageArrived;
   client.connect({ onSuccess: onConnect });
+
+  client.onMessageArrived = onMessageArrived;
 
   function onConnect() {
     console.log("onConnect");
-    setConnectedMosquitto('online')
+    setConnectedMosquitto("Online");
     client.subscribe(state.keyIOT); //ชื่อ TEST01
+    client.subscribe("TESTKEY@");
   }
 
   function onConnectionLost(responseObject) {
@@ -324,8 +354,9 @@ const DashBoard_Screen = () => {
 
   const StopIOT = () => {
     //เดินหาร่ม
+    let Second = StopIOT_Seconds / 1000; //เดินหาร่ม 10 วิ
     try {
-      const message = new Paho.Message("2," + Milliseconds / 1000); //ต้องกำหนดเวลาให้มาก มาก
+      const message = new Paho.Message("2," + Second); //ต้องกำหนดเวลาให้มาก มาก
 
       message.destinationName = state.keyIOT;
       client.send(message);
@@ -333,6 +364,10 @@ const DashBoard_Screen = () => {
       console.log("error", error);
     }
   };
+
+  ///-----------------------------------------------------------------------------------///
+
+
 
   /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -439,7 +474,7 @@ const DashBoard_Screen = () => {
           >
             <View style={{ flexDirection: "row" }}>
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
-                อุณหภูมิภายนอก
+                อุณหภูมิในอากาศ
               </Text>
               <View style={{ marginRight: "2%" }}>
                 <Text>{DetailShow.tempc}</Text>
@@ -511,7 +546,7 @@ const DashBoard_Screen = () => {
           >
             <View style={{ flexDirection: "row" }}>
               <Text style={{ marginBottom: "2%", flex: 1, textAlign: "left" }}>
-                ความชื้นในดิน
+                ความแห้งในดิน
               </Text>
               <View style={{ marginRight: "2%" }}>
                 <Text>{DetailShow.moisture}</Text>
@@ -526,21 +561,21 @@ const DashBoard_Screen = () => {
                       color="black"
                     />
                   </MenuTrigger>
-                  <MenuOptions style={{ width: "200%" }}>
+                  <MenuOptions style={{ width: "3200%" }}>
                     <MenuOption>
-                      <Text>{"> 1000: เซนเซอร์ติดตั้งไม่ถูกต้อง"}</Text>
+                      <Text>{"> 100%: เซนเซอร์ติดตั้งไม่ถูกต้อง"}</Text>
                     </MenuOption>
 
                     <MenuOption>
-                      <Text>800-1000: ดินแห้ง</Text>
+                      <Text>80%-100%: ดินแห้ง</Text>
                     </MenuOption>
 
                     <MenuOption>
-                      <Text>300-800: ดินชื้น</Text>
+                      <Text>30%-80%: ดินชื้น</Text>
                     </MenuOption>
 
                     <MenuOption>
-                      <Text>{"< 300: ดินเปียก"}</Text>
+                      <Text>{"< 30%: ดินเปียก"}</Text>
                     </MenuOption>
                   </MenuOptions>
                 </Menu>
@@ -559,7 +594,7 @@ const DashBoard_Screen = () => {
                   style={{ width: "100%", height: "100%" }}
                   width={null}
                   height={20}
-                  progress={state.moisture / 1024}
+                  progress={Moisture / 100}
                 />
               ) : (
                 <Progress.Bar progress={0} width={300} height={20} />
@@ -568,7 +603,7 @@ const DashBoard_Screen = () => {
               <View style={{ position: "absolute", right: "2.5%" }}>
                 {state.moisture != null ? (
                   <Text style={{ textAlign: "right", fontSize: 15 }}>
-                    {state.moisture} / 1024 Analog
+                    {Moisture}% / 100%
                   </Text>
                 ) : null}
               </View>
@@ -705,19 +740,23 @@ const DashBoard_Screen = () => {
                 } else {
                   //เริ่มนับถอยหลัง
 
-                  const ProC_obj = {
-                    Milliseconds: Milliseconds,
-                    DateNow: Date.now(),
-                  };
-                  AsyncStorage.setItem(
-                    "@ProcessClock",
-                    JSON.stringify(ProC_obj)
-                  );
-                  await schedulePushNotification(StartTime);
-                  setStatusButton("...กำลังดำเนินการ");
+                  if (ConnectedMosquitto == "OffLine") {
+                    alert("การเชื่อมต่อขาดหายไม่สามารถเริ่มการทำงานได้");
+                  } else {
+                    const ProC_obj = {
+                      Milliseconds: Milliseconds,
+                      DateNow: Date.now(),
+                    };
+                    AsyncStorage.setItem(
+                      "@ProcessClock",
+                      JSON.stringify(ProC_obj)
+                    );
+                    await schedulePushNotification(StartTime);
+                    setStatusButton("...กำลังดำเนินการ");
 
-                  StartIOT();
-                  setCountTime(true);
+                    StartIOT();
+                    setCountTime(true);
+                  }
                 }
               }
               // console.log('Milliseconds: ', Milliseconds/1000)
