@@ -169,22 +169,28 @@ const DashBoard_Screen = () => {
 
       // console.log("sunbathing_time: ", state.sunbathing_time);
       if (ProcessClock != null) {
-        const Current_Milliseconds = Convert_DateNoW_To_Milliseconds(Date.now()) //เวลาปัจจุบัน
-        const Past_Milliseconds = Convert_DateNoW_To_Milliseconds(ProC_toArray.DateNow) //เวลาในอดีต
+        const Current_Milliseconds = Convert_DateNoW_To_Milliseconds(
+          Date.now()
+        ); //เวลาปัจจุบัน
+        const Past_Milliseconds = Convert_DateNoW_To_Milliseconds(
+          ProC_toArray.DateNow
+        ); //เวลาในอดีต
 
         setStartTime(ProC_toArray.Milliseconds);
-        setProgressClock(Current_Milliseconds - Past_Milliseconds)
+        setProgressClock(Current_Milliseconds - Past_Milliseconds);
 
-        let Value_Time = 0
-        if(Current_Milliseconds - Past_Milliseconds <= 0){
-          Value_Time = 0
-        }else{
-          Value_Time = ProC_toArray.Milliseconds - (Current_Milliseconds - Past_Milliseconds)
+        let Value_Time = 0;
+        if (Current_Milliseconds - Past_Milliseconds <= 0) {
+          Value_Time = 0;
+        } else {
+          Value_Time =
+            ProC_toArray.Milliseconds -
+            (Current_Milliseconds - Past_Milliseconds);
         }
 
         setMilliseconds(Value_Time);
         setShowTime(Convert_Milliseconds(Value_Time));
-        setCountTime(true);
+        // setCountTime(true);
       } else {
         setStartTime(state.sunbathing_time);
         setMilliseconds(state.sunbathing_time);
@@ -274,26 +280,37 @@ const DashBoard_Screen = () => {
 
   const [ConnectedMosquitto, setConnectedMosquitto] = React.useState("OffLine");
 
-  // const client = new Paho.Client(
-  //   "test.mosquitto.org",
-  //   Number(8080),
-  //   "clientId_" + parseInt(Math.random() * 100, 10)
-  // );
-
-  // client.onConnectionLost = onConnectionLost;
-  // client.onMessageArrived = onMessageArrived;
-  // client.connect({ onSuccess: onConnect });
-
   const client = new Paho.Client(
     "test.mosquitto.org",
     Number(8080),
     "clientId_" + parseInt(Math.random() * 100, 10)
   );
 
+  client.onConnectionLost = onConnectionLost;
+  client.onMessageArrived = onMessageArrived;
+  client.connect({ onSuccess: onConnect });
+
+  function onConnect() {
+    console.log("onConnect");
+    setConnectedMosquitto('online')
+    client.subscribe(state.keyIOT); //ชื่อ TEST01
+  }
+
+  function onConnectionLost(responseObject) {
+    if (responseObject.errorCode !== 0) {
+      console.log("onConnectionLost:" + responseObject.errorMessage);
+    }
+  }
+
+  function onMessageArrived(message) {
+    console.log("onMessageArrived:" + message.payloadString);
+  }
+
   const StartIOT = () => {
     //เดินหาแดด
+    let Seconsd = Milliseconds / 1000;
     try {
-      const message = new Paho.Message("1," + Milliseconds / 1000);
+      let message = new Paho.Message("1," + Seconsd);
 
       message.destinationName = state.keyIOT;
       console.log("message: ", JSON.stringify(message, null, 2));
@@ -687,6 +704,7 @@ const DashBoard_Screen = () => {
                   setStatusButton("เริ่มการทำงาน");
                 } else {
                   //เริ่มนับถอยหลัง
+
                   const ProC_obj = {
                     Milliseconds: Milliseconds,
                     DateNow: Date.now(),
@@ -695,11 +713,11 @@ const DashBoard_Screen = () => {
                     "@ProcessClock",
                     JSON.stringify(ProC_obj)
                   );
-
                   await schedulePushNotification(StartTime);
-                  await StartIOT();
-                  setCountTime(true);
                   setStatusButton("...กำลังดำเนินการ");
+
+                  StartIOT();
+                  setCountTime(true);
                 }
               }
               // console.log('Milliseconds: ', Milliseconds/1000)
