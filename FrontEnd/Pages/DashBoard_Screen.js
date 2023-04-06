@@ -98,13 +98,13 @@ const DashBoard_Screen = () => {
         if (state.humid > 80) {
           IF_humid = "เหมาะสำหรับต้นกล้า";
         } else if (state.humid > 60) {
-          IF_humid = "เหมาะสมสำหรับพืชเมืองร้อน";
+          IF_humid = "เหมาะสำหรับพืชเมืองร้อน";
         } else if (state.humid > 40) {
-          IF_humid = "เหมาะสมสำหรับพืชส่วนใหญ่ที่จะเติบโต";
+          IF_humid = "เหมาะสำหรับพืชส่วนใหญ่";
         } else if (state.humid > 20) {
-          IF_humid = "ค่าเฉลี่ยสำหรับพืชในร่มส่วนใหญ่";
+          IF_humid = "ค่าเฉลี่ยสำหรับพืชในร่ม";
         } else if (state.humid <= 20) {
-          IF_humid = "แห้งเกินไปสำหรับพืชในร่มส่วนใหญ่";
+          IF_humid = "แห้งเกินไปสำหรับพืชในร่ม";
         }
 
         setDetailShow({
@@ -334,22 +334,22 @@ const DashBoard_Screen = () => {
   //   }
   // }
 
-  function onConnectionLost(responseObject){
+  function onConnectionLost(responseObject) {
     // console.log('Connection lost: ', responseObject);
     if (responseObject.errorCode !== 0) {
-      console.log('Attempting to reconnect in 3 seconds');
+      console.log("Attempting to reconnect in 3 seconds");
       setTimeout(() => {
         client.connect({
           onSuccess: () => {
-            console.log('Reconnected');
+            console.log("Reconnected");
           },
           onFailure: (e) => {
-            console.log('Reconnection failed: ', e);
-          }
+            console.log("Reconnection failed: ", e);
+          },
         });
       }, 3000);
     }
-  };
+  }
 
   const [StatusBoard, setStatusBoard] = React.useState(null);
   async function onMessageArrived(message) {
@@ -362,12 +362,19 @@ const DashBoard_Screen = () => {
     }
   }
 
-  // React.useEffect(() => {
-  //   (async () => {
-  //     if (ConnectedMosquitto == "OffLine") {
-  //     }
-  //   })();
-  // });
+
+  const [time, setTime] = React.useState(0);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setTime((time) => time + 5);
+      // console.log(time);
+
+      otherFunction.getMemberData({ username: state.userName }); //โหลดเมื่อเข้าแอพใหม่
+    }, 20000);
+
+    return () => clearTimeout(timeout);
+  }, [time]);
+
 
   React.useEffect(() => {
     (async () => {
@@ -399,7 +406,7 @@ const DashBoard_Screen = () => {
 
           StopIOT();
           setStatusButton("...กำลังเดินหาร่ม");
-        } 
+        }
         // else if (StatusString == "stop"){
         //   console.log("stop");
         //   setStatusButton("เริ่มใหม่");
@@ -425,7 +432,8 @@ const DashBoard_Screen = () => {
     }
   };
 
-  const StopIOT = () => { //function2
+  const StopIOT = () => {
+    //function2
     //เดินหาร่ม
     // let Second = StopIOT_Seconds / 1000; //เดินหาร่ม 10 วิ
     let Second = 1000;
