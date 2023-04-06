@@ -55,7 +55,7 @@ const DashBoard_Screen = () => {
     humid: null,
     moisture: null,
   });
-  const [Moisture, setMoisture] = React.useState(0)
+  const [Moisture, setMoisture] = React.useState(0);
 
   React.useEffect(() => {
     (async () => {
@@ -77,19 +77,18 @@ const DashBoard_Screen = () => {
         //ความชื้นในดิน
         let IF_moisture = "";
 
-
-        if (state.moisture > 100 ) {
+        if (state.moisture > 100) {
           IF_moisture = "เซนเซอร์ติดตั้งไม่ถูกต้อง";
-          setMoisture(0)
+          setMoisture(0);
         } else if (state.moisture >= 80) {
           IF_moisture = "ดินแห้ง";
-          setMoisture(state.moisture)
+          setMoisture(state.moisture);
         } else if (state.moisture >= 30) {
           IF_moisture = "ดินชื้น";
-          setMoisture(state.moisture)
+          setMoisture(state.moisture);
         } else if (state.moisture < 30) {
           IF_moisture = "ดินเปียก";
-          setMoisture(state.moisture)
+          setMoisture(state.moisture);
         }
 
         //ความชื้นในอากาศ
@@ -221,10 +220,14 @@ const DashBoard_Screen = () => {
 
           console.log("เวลามิลลิวินาทีถึงค่าที่กำหนดแล้ว คือ: ", Milliseconds);
           await AsyncStorage.removeItem("@ProcessClock");
-          StopIOT();
-          setStatusButton("...กำลังเดินหาร่ม");
+
+          // setStatusButton("...กำลังเดินหาร่ม");
+
+          console.log("stop");
+          setStatusButton("เริ่มใหม่");
           setCountTime(false);
-          setStopIOT_Start(true); //สั่งให้ IOT นับเวลาการเดินหาร่มโดยการกำหนดแบบ hardcode
+
+          // setStopIOT_Start(true); //สั่งให้ IOT นับเวลาการเดินหาร่มโดยการกำหนดแบบ hardcode
         } else {
           setTimeout(() => {
             if (CountTime != false) {
@@ -238,24 +241,24 @@ const DashBoard_Screen = () => {
     })();
   }, [CountTime, Milliseconds]);
 
-  const [StopIOT_Start, setStopIOT_Start] = React.useState(false);
-  const [StopIOT_Seconds, setStopIOT_Seconds] = React.useState(10000);
-  React.useEffect(() => {
-    async () => {
-      if (StopIOT_Start == true) {
-        if (StopIOT_Seconds == 0) {
-          setStatusButton("เริ่มใหม่");
-        } else {
-          setTimeout(() => {
-            if (StopIOT_Seconds != false) {
-              setStopIOT_Seconds(StopIOT_Seconds - 1000);
-            }
-          }, 1000);
-        }
-      }
-      console.log("StopIOT_Seconds", StopIOT_Seconds);
-    };
-  }, [StopIOT_Start, StopIOT_Seconds]);
+  // const [StopIOT_Start, setStopIOT_Start] = React.useState(false);
+  // const [StopIOT_Seconds, setStopIOT_Seconds] = React.useState(10000);
+  // React.useEffect(() => {
+  //   async () => {
+  //     if (StopIOT_Start == true) {
+  //       if (StopIOT_Seconds == 0) {
+  //         setStatusButton("เริ่มใหม่");
+  //       } else {
+  //         setTimeout(() => {
+  //           if (StopIOT_Seconds != false) {
+  //             setStopIOT_Seconds(StopIOT_Seconds - 1000);
+  //           }
+  //         }, 1000);
+  //       }
+  //     }
+  //     console.log("StopIOT_Seconds", StopIOT_Seconds);
+  //   };
+  // }, [StopIOT_Start, StopIOT_Seconds]);
 
   const [ShowDTP, setShowDTP] = React.useState(false);
   const EditTime = async (event, selectedDate) => {
@@ -316,14 +319,13 @@ const DashBoard_Screen = () => {
 
   client.onConnectionLost = onConnectionLost;
   client.connect({ onSuccess: onConnect });
-
   client.onMessageArrived = onMessageArrived;
 
   function onConnect() {
     console.log("onConnect");
     setConnectedMosquitto("Online");
     client.subscribe(state.keyIOT); //ชื่อ TEST01
-    client.subscribe("TESTKEY@");
+    client.subscribe("TESTKEY@@");
   }
 
   function onConnectionLost(responseObject) {
@@ -332,9 +334,63 @@ const DashBoard_Screen = () => {
     }
   }
 
-  function onMessageArrived(message) {
-    console.log("onMessageArrived:" + message.payloadString);
+  const [StatusBoard, setStatusBoard] = React.useState(null);
+  async function onMessageArrived(message) {
+    // console.log("onMessageArrived:" + message.payloadString);
+
+    let Message = message.payloadString;
+    if (Message != StatusBoard) {
+      console.log("StatusBoard_Message: ", Message);
+      await setStatusBoard(message.payloadString);
+    }
   }
+
+  // React.useEffect(() => {
+  //   (async () => {
+  //     if (ConnectedMosquitto == "OffLine") {
+  //     }
+  //   })();
+  // });
+
+  React.useEffect(() => {
+    (async () => {
+      console.log("OUT_UseEffect", StatusBoard);
+
+      if (StatusBoard != null) {
+        let StatusString = String(StatusBoard);
+        console.log("IN_UseEffect", StatusString);
+
+        if (StatusString.substring(0, 1) == "1,") {
+          console.log("StatusString.substring(0, 1): Ture");
+        }
+
+        if (StatusString == "function1") {
+          console.log("f1");
+          console.log("เริ่มเดินเวลาอาบแดด");
+
+          const ProC_obj = {
+            Milliseconds: Milliseconds,
+            DateNow: Date.now(),
+          };
+          AsyncStorage.setItem("@ProcessClock", JSON.stringify(ProC_obj));
+          await schedulePushNotification(StartTime);
+          setStatusButton("...กำลังดำเนินการ");
+
+          setCountTime(true);
+        } else if (StatusString == "function2") {
+          console.log("f2");
+
+          StopIOT();
+          setStatusButton("...กำลังเดินหาร่ม");
+        } 
+        // else if (StatusString == "stop"){
+        //   console.log("stop");
+        //   setStatusButton("เริ่มใหม่");
+        //   setCountTime(false);
+        // }
+      }
+    })();
+  }, [StatusBoard]);
 
   const StartIOT = () => {
     //เดินหาแดด
@@ -352,9 +408,10 @@ const DashBoard_Screen = () => {
     }
   };
 
-  const StopIOT = () => {
+  const StopIOT = () => { //function2
     //เดินหาร่ม
-    let Second = StopIOT_Seconds / 1000; //เดินหาร่ม 10 วิ
+    // let Second = StopIOT_Seconds / 1000; //เดินหาร่ม 10 วิ
+    let Second = 1000;
     try {
       const message = new Paho.Message("2," + Second); //ต้องกำหนดเวลาให้มาก มาก
 
@@ -366,8 +423,6 @@ const DashBoard_Screen = () => {
   };
 
   ///-----------------------------------------------------------------------------------///
-
-
 
   /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -743,19 +798,26 @@ const DashBoard_Screen = () => {
                   if (ConnectedMosquitto == "OffLine") {
                     alert("การเชื่อมต่อขาดหายไม่สามารถเริ่มการทำงานได้");
                   } else {
-                    const ProC_obj = {
-                      Milliseconds: Milliseconds,
-                      DateNow: Date.now(),
-                    };
-                    AsyncStorage.setItem(
-                      "@ProcessClock",
-                      JSON.stringify(ProC_obj)
-                    );
-                    await schedulePushNotification(StartTime);
-                    setStatusButton("...กำลังดำเนินการ");
+                    // const SB = StatusBoard
+                    await StartIOT();
+                    // console.log("StatusBoard", StatusBoard);
 
-                    StartIOT();
-                    setCountTime(true);
+                    // if (StatusBoard != null) {
+                    //   if (StatusBoard.substring(0, 3) == "1,") {
+                    //     const ProC_obj = {
+                    //       Milliseconds: Milliseconds,
+                    //       DateNow: Date.now(),
+                    //     };
+                    //     AsyncStorage.setItem(
+                    //       "@ProcessClock",
+                    //       JSON.stringify(ProC_obj)
+                    //     );
+                    //     await schedulePushNotification(StartTime);
+                    //     setStatusButton("...กำลังดำเนินการ");
+
+                    //     setCountTime(true);
+                    //   }
+                    // }
                   }
                 }
               }
