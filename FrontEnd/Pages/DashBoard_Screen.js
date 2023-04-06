@@ -328,11 +328,28 @@ const DashBoard_Screen = () => {
     client.subscribe("TESTKEY@@");
   }
 
-  function onConnectionLost(responseObject) {
+  // function onConnectionLost(responseObject) {
+  //   if (responseObject.errorCode !== 0) {
+  //     console.log("onConnectionLost:" + responseObject.errorMessage);
+  //   }
+  // }
+
+  function onConnectionLost(responseObject){
+    // console.log('Connection lost: ', responseObject);
     if (responseObject.errorCode !== 0) {
-      console.log("onConnectionLost:" + responseObject.errorMessage);
+      console.log('Attempting to reconnect in 3 seconds');
+      setTimeout(() => {
+        client.connect({
+          onSuccess: () => {
+            console.log('Reconnected');
+          },
+          onFailure: (e) => {
+            console.log('Reconnection failed: ', e);
+          }
+        });
+      }, 3000);
     }
-  }
+  };
 
   const [StatusBoard, setStatusBoard] = React.useState(null);
   async function onMessageArrived(message) {
