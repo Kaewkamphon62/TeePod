@@ -16,8 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: false }));
 
-const baseUrl = "mongodb+srv://TeePoT:34190@cluster0.39vukvx.mongodb.net/test";
-// const baseUrl = "mongodb://localhost:27017/";
+// const baseUrl = "mongodb+srv://TeePoT:34190@cluster0.39vukvx.mongodb.net/test";
+const baseUrl = "mongodb://localhost:27017/";
 
 const config = {
   connectTimeoutMS: 5000,
@@ -29,7 +29,6 @@ const accessTokenSecret = "TokenSecret";
 
 const storage = new GridFsStorage({ url: baseUrl });
 const upload = multer({ storage });
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 

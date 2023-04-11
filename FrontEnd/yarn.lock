@@ -2125,19 +2125,12 @@
   "resolved" "https://registry.npmjs.org/@ide/backoff/-/backoff-1.0.0.tgz"
   "version" "1.0.0"
 
-"@jest/create-cache-key-function@^29.0.3":
-  "integrity" "sha512-4i+E+E40gK13K78ffD/8cy4lSSqeWwyXeTZoq16tndiCP12hC8uQsPJdIu5C6Kf22fD8UbBk71so7s/6VwpUOQ=="
-  "resolved" "https://registry.npmjs.org/@jest/create-cache-key-function/-/create-cache-key-function-29.3.1.tgz"
-  "version" "29.3.1"
+"@jest/create-cache-key-function@^27.0.1":
+  "integrity" "sha512-dmH1yW+makpTSURTy8VzdUwFnfQh1G8R+DxO2Ho2FFmBbKFEVm+3jWdvFhE2VqB/LATCTokkP0dotjyQyw5/AQ=="
+  "resolved" "https://registry.npmjs.org/@jest/create-cache-key-function/-/create-cache-key-function-27.5.1.tgz"
+  "version" "27.5.1"
   dependencies:
-    "@jest/types" "^29.3.1"
-
-"@jest/schemas@^29.0.0":
-  "integrity" "sha512-3Ab5HgYIIAnS0HjqJHQYZS+zXc4tUmTmBH3z83ajI6afXp8X3ZtdLX+nXx+I7LNkJD7uN9LAVhgnjDgZa2z0kA=="
-  "resolved" "https://registry.npmjs.org/@jest/schemas/-/schemas-29.0.0.tgz"
-  "version" "29.0.0"
-  dependencies:
-    "@sinclair/typebox" "^0.24.1"
+    "@jest/types" "^27.5.1"
 
 "@jest/types@^26.6.2":
   "integrity" "sha512-fC6QCp7Sc5sX6g8Tvbmj4XUTbyrik0akgRy03yjXbQaBWWNWGE7SGtJk98m0N8nzegD/7SggrUlivxo5ax4KWQ=="
@@ -2159,18 +2152,6 @@
     "@types/istanbul-reports" "^3.0.0"
     "@types/node" "*"
     "@types/yargs" "^16.0.0"
-    "chalk" "^4.0.0"
-
-"@jest/types@^29.3.1":
-  "integrity" "sha512-d0S0jmmTpjnhCmNpApgX3jrUZgZ22ivKJRvL2lli5hpCRoNnp1f85r2/wpKfXuYu8E7Jjh1hGfhPyup1NM5AmA=="
-  "resolved" "https://registry.npmjs.org/@jest/types/-/types-29.3.1.tgz"
-  "version" "29.3.1"
-  dependencies:
-    "@jest/schemas" "^29.0.0"
-    "@types/istanbul-lib-coverage" "^2.0.0"
-    "@types/istanbul-reports" "^3.0.0"
-    "@types/node" "*"
-    "@types/yargs" "^17.0.8"
     "chalk" "^4.0.0"
 
 "@jridgewell/gen-mapping@^0.1.0":
@@ -2285,7 +2266,7 @@
   dependencies:
     "serve-static" "^1.13.1"
 
-"@react-native-community/cli-doctor@^9.2.1":
+"@react-native-community/cli-doctor@^9.3.0":
   "integrity" "sha512-/fiuG2eDGC2/OrXMOWI5ifq4X1gdYTQhvW2m0TT5Lk1LuFiZsbTCp1lR+XILKekuTvmYNjEGdVpeDpdIWlXdEA=="
   "resolved" "https://registry.npmjs.org/@react-native-community/cli-doctor/-/cli-doctor-9.3.0.tgz"
   "version" "9.3.0"
@@ -2307,7 +2288,7 @@
     "sudo-prompt" "^9.0.0"
     "wcwidth" "^1.0.1"
 
-"@react-native-community/cli-hermes@^9.2.1":
+"@react-native-community/cli-hermes@^9.3.1":
   "integrity" "sha512-Mq4PK8m5YqIdaVq5IdRfp4qK09aVO+aiCtd6vjzjNUgk1+1X5cgUqV6L65h4N+TFJYJHcp2AnB+ik1FAYXvYPQ=="
   "resolved" "https://registry.npmjs.org/@react-native-community/cli-hermes/-/cli-hermes-9.3.1.tgz"
   "version" "9.3.1"
@@ -2318,7 +2299,7 @@
     "hermes-profile-transformer" "^0.0.6"
     "ip" "^1.1.5"
 
-"@react-native-community/cli-platform-android@^9.3.1":
+"@react-native-community/cli-platform-android@^9.3.1", "@react-native-community/cli-platform-android@9.3.1":
   "integrity" "sha512-m0bQ6Twewl7OEZoVf79I2GZmsDqh+Gh0bxfxWgwxobsKDxLx8/RNItAo1lVtTCgzuCR75cX4EEO8idIF9jYhew=="
   "resolved" "https://registry.npmjs.org/@react-native-community/cli-platform-android/-/cli-platform-android-9.3.1.tgz"
   "version" "9.3.1"
@@ -2331,34 +2312,10 @@
     "logkitty" "^0.7.1"
     "slash" "^3.0.0"
 
-"@react-native-community/cli-platform-android@9.2.1":
-  "integrity" "sha512-VamCZ8nido3Q3Orhj6pBIx48itORNPLJ7iTfy3nucD1qISEDih3DOzCaQCtmqdEBgUkNkNl0O+cKgq5A3th3Zg=="
-  "resolved" "https://registry.npmjs.org/@react-native-community/cli-platform-android/-/cli-platform-android-9.2.1.tgz"
-  "version" "9.2.1"
-  dependencies:
-    "@react-native-community/cli-tools" "^9.2.1"
-    "chalk" "^4.1.2"
-    "execa" "^1.0.0"
-    "fs-extra" "^8.1.0"
-    "glob" "^7.1.3"
-    "logkitty" "^0.7.1"
-    "slash" "^3.0.0"
-
-"@react-native-community/cli-platform-ios@^9.3.0":
+"@react-native-community/cli-platform-ios@^9.3.0", "@react-native-community/cli-platform-ios@9.3.0":
   "integrity" "sha512-nihTX53BhF2Q8p4B67oG3RGe1XwggoGBrMb6vXdcu2aN0WeXJOXdBLgR900DAA1O8g7oy1Sudu6we+JsVTKnjw=="
   "resolved" "https://registry.npmjs.org/@react-native-community/cli-platform-ios/-/cli-platform-ios-9.3.0.tgz"
   "version" "9.3.0"
-  dependencies:
-    "@react-native-community/cli-tools" "^9.2.1"
-    "chalk" "^4.1.2"
-    "execa" "^1.0.0"
-    "glob" "^7.1.3"
-    "ora" "^5.4.1"
-
-"@react-native-community/cli-platform-ios@9.2.1":
-  "integrity" "sha512-dEgvkI6CFgPk3vs8IOR0toKVUjIFwe4AsXFvWWJL5qhrIzW9E5Owi0zPkSvzXsMlfYMbVX0COfVIK539ZxguSg=="
-  "resolved" "https://registry.npmjs.org/@react-native-community/cli-platform-ios/-/cli-platform-ios-9.2.1.tgz"
-  "version" "9.2.1"
   dependencies:
     "@react-native-community/cli-tools" "^9.2.1"
     "chalk" "^4.1.2"
@@ -2419,16 +2376,16 @@
   dependencies:
     "joi" "^17.2.1"
 
-"@react-native-community/cli@9.2.1":
-  "integrity" "sha512-feMYS5WXXKF4TSWnCXozHxtWq36smyhGaENXlkiRESfYZ1mnCUlPfOanNCAvNvBqdyh9d4o0HxhYKX1g9l6DCQ=="
-  "resolved" "https://registry.npmjs.org/@react-native-community/cli/-/cli-9.2.1.tgz"
-  "version" "9.2.1"
+"@react-native-community/cli@9.3.2":
+  "integrity" "sha512-IAW4X0vmX/xozNpp/JVZaX7MrC85KV0OP2DF4o7lNGOfpUhzJAEWqTfkxFYS+VsRjZHDve4wSTiGIuXwE7FG1w=="
+  "resolved" "https://registry.npmjs.org/@react-native-community/cli/-/cli-9.3.2.tgz"
+  "version" "9.3.2"
   dependencies:
     "@react-native-community/cli-clean" "^9.2.1"
     "@react-native-community/cli-config" "^9.2.1"
     "@react-native-community/cli-debugger-ui" "^9.0.0"
-    "@react-native-community/cli-doctor" "^9.2.1"
-    "@react-native-community/cli-hermes" "^9.2.1"
+    "@react-native-community/cli-doctor" "^9.3.0"
+    "@react-native-community/cli-hermes" "^9.3.1"
     "@react-native-community/cli-plugin-metro" "^9.2.1"
     "@react-native-community/cli-server-api" "^9.2.1"
     "@react-native-community/cli-tools" "^9.2.1"
@@ -2535,20 +2492,15 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@sideway/formula@^3.0.0":
-  "integrity" "sha512-vHe7wZ4NOXVfkoRb8T5otiENVlT7a3IAiw7H5M2+GO+9CDgcVUUsX1zalAztCmwyOr2RUTGJdgB+ZvSVqmdHmg=="
-  "resolved" "https://registry.npmjs.org/@sideway/formula/-/formula-3.0.0.tgz"
-  "version" "3.0.0"
+"@sideway/formula@^3.0.1":
+  "integrity" "sha512-/poHZJJVjx3L+zVD6g9KgHfYnb443oi7wLu/XKojDviHy6HOEOA6z1Trk5aR1dGcmPenJEgb2sK2I80LeS3MIg=="
+  "resolved" "https://registry.npmjs.org/@sideway/formula/-/formula-3.0.1.tgz"
+  "version" "3.0.1"
 
 "@sideway/pinpoint@^2.0.0":
   "integrity" "sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ=="
   "resolved" "https://registry.npmjs.org/@sideway/pinpoint/-/pinpoint-2.0.0.tgz"
   "version" "2.0.0"
-
-"@sinclair/typebox@^0.24.1":
-  "integrity" "sha512-1P1OROm/rdubP5aFDSZQILU0vrLCJ4fvHt6EoqHEM+2D/G5MK3bIaymUKLit8Js9gbns5UyJnkP/TZROLw4tUA=="
-  "resolved" "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.24.51.tgz"
-  "version" "0.24.51"
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   "integrity" "sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g=="
@@ -2600,16 +2552,9 @@
     "@types/yargs-parser" "*"
 
 "@types/yargs@^16.0.0":
-  "integrity" "sha512-T8Yc9wt/5LbJyCaLiHPReJa0kApcIgJ7Bn735GjItUfh08Z1pJvu8QZqb9s+mMvKV6WUQRV7K2R46YbjMXTTJw=="
-  "resolved" "https://registry.npmjs.org/@types/yargs/-/yargs-16.0.4.tgz"
-  "version" "16.0.4"
-  dependencies:
-    "@types/yargs-parser" "*"
-
-"@types/yargs@^17.0.8":
-  "integrity" "sha512-9sWaruZk2JGxIQU+IhI1fhPYRcQ0UuTNuKuCW9bR5fp7qi2Llf7WDzNa17Cy7TKnh3cdxDOiyTu6gaLS0eDatg=="
-  "resolved" "https://registry.npmjs.org/@types/yargs/-/yargs-17.0.13.tgz"
-  "version" "17.0.13"
+  "integrity" "sha512-AxO/ADJOBFJScHbWhq2xAhlWP24rY4aCEG/NFaMvbT3X2MgRsLjhjQwsn0Zi5zn0LG9jUhCCZMeX9Dkuw6k+vQ=="
+  "resolved" "https://registry.npmjs.org/@types/yargs/-/yargs-16.0.5.tgz"
+  "version" "16.0.5"
   dependencies:
     "@types/yargs-parser" "*"
 
@@ -3451,9 +3396,9 @@
   "version" "7.2.0"
 
 "commander@^9.4.0":
-  "integrity" "sha512-5EEkTNyHNGFPD2H+c/dXXfQZYa/scCKasxWcXJaWnNJ99pnQN9Vnmqow+p+PlFPE63Q6mThaZws1T+HxfpgtPw=="
-  "resolved" "https://registry.npmjs.org/commander/-/commander-9.4.1.tgz"
-  "version" "9.4.1"
+  "integrity" "sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ=="
+  "resolved" "https://registry.npmjs.org/commander/-/commander-9.5.0.tgz"
+  "version" "9.5.0"
 
 "commander@~2.13.0":
   "integrity" "sha512-MVuS359B+YzaWqjCL/c+22gfryv+mCBPHAv3zyVI2GN8EY6IRP8VwtasXn8jyyhvvq84R4ImN1OKRtcbIasjYA=="
@@ -3624,9 +3569,9 @@
   "version" "1.0.2"
 
 "dayjs@^1.8.15":
-  "integrity" "sha512-zZbY5giJAinCG+7AGaw0wIhNZ6J8AhWuSXKvuc1KAyMiRsvGQWqh4L+MomvhdAYjN+lqvVCMq1I41e3YHvXkyQ=="
-  "resolved" "https://registry.npmjs.org/dayjs/-/dayjs-1.11.6.tgz"
-  "version" "1.11.6"
+  "integrity" "sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ=="
+  "resolved" "https://registry.npmjs.org/dayjs/-/dayjs-1.11.7.tgz"
+  "version" "1.11.7"
 
 "debug@^2.2.0", "debug@^2.3.3", "debug@2.6.9":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
@@ -5113,14 +5058,14 @@
   "version" "0.16.1"
 
 "joi@^17.2.1":
-  "integrity" "sha512-1/ugc8djfn93rTE3WRKdCzGGt/EtiYKxITMO4Wiv6q5JL1gl9ePt4kBsl1S499nbosspfctIQTpYIhSmHA3WAg=="
-  "resolved" "https://registry.npmjs.org/joi/-/joi-17.7.0.tgz"
-  "version" "17.7.0"
+  "integrity" "sha512-FariIi9j6QODKATGBrEX7HZcja8Bsh3rfdGYy/Sb65sGlZWK/QWesU1ghk7aJWDj95knjXlQfSmzFSPPkLVsfw=="
+  "resolved" "https://registry.npmjs.org/joi/-/joi-17.9.1.tgz"
+  "version" "17.9.1"
   dependencies:
     "@hapi/hoek" "^9.0.0"
     "@hapi/topo" "^5.0.0"
     "@sideway/address" "^4.1.3"
-    "@sideway/formula" "^3.0.0"
+    "@sideway/formula" "^3.0.1"
     "@sideway/pinpoint" "^2.0.0"
 
 "join-component@^1.1.0":
@@ -6464,7 +6409,7 @@
   dependencies:
     "asap" "~2.0.3"
 
-"promise@^8.0.3":
+"promise@^8.3.0":
   "integrity" "sha512-rZPNPKTOYVNEEKFaq1HqTgOwZD+4/YHS5ukLzQCypkj+OkYx7iv0mA91lJlpPPZ8vMau3IIGj5Qlwrx+8iiSmg=="
   "resolved" "https://registry.npmjs.org/promise/-/promise-8.3.0.tgz"
   "version" "8.3.0"
@@ -6660,15 +6605,15 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@0.70.5":
-  "integrity" "sha512-5NZM80LC3L+TIgQX/09yiyy48S73wMgpIgN5cCv3XTMR394+KpDI3rBZGH4aIgWWuwijz31YYVF5504+9n2Zfw=="
-  "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.70.5.tgz"
-  "version" "0.70.5"
+"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", "react-native@^0.70.8":
+  "integrity" "sha512-O3ONJed9W/VEEVWsbZcwyMDhnEvw7v9l9enqWqgbSGLzHfh6HeIGMCNmjz+kRsHnC7AiF47fupWfgYX7hNnhoQ=="
+  "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.70.8.tgz"
+  "version" "0.70.8"
   dependencies:
-    "@jest/create-cache-key-function" "^29.0.3"
-    "@react-native-community/cli" "9.2.1"
-    "@react-native-community/cli-platform-android" "9.2.1"
-    "@react-native-community/cli-platform-ios" "9.2.1"
+    "@jest/create-cache-key-function" "^27.0.1"
+    "@react-native-community/cli" "9.3.2"
+    "@react-native-community/cli-platform-android" "9.3.1"
+    "@react-native-community/cli-platform-ios" "9.3.0"
     "@react-native/assets" "1.0.0"
     "@react-native/normalize-color" "2.0.0"
     "@react-native/polyfills" "2.0.0"
@@ -6685,7 +6630,7 @@
     "mkdirp" "^0.5.1"
     "nullthrows" "^1.1.1"
     "pretty-format" "^26.5.2"
-    "promise" "^8.0.3"
+    "promise" "^8.3.0"
     "react-devtools-core" "4.24.0"
     "react-native-codegen" "^0.70.6"
     "react-native-gradle-plugin" "^0.70.3"
@@ -6719,18 +6664,18 @@
     "loose-envify" "^1.1.0"
 
 "readable-stream@^3.4.0":
-  "integrity" "sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA=="
-  "resolved" "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.0.tgz"
-  "version" "3.6.0"
+  "integrity" "sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA=="
+  "resolved" "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz"
+  "version" "3.6.2"
   dependencies:
     "inherits" "^2.0.3"
     "string_decoder" "^1.1.1"
     "util-deprecate" "^1.0.1"
 
 "readable-stream@~2.3.6":
-  "integrity" "sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw=="
-  "resolved" "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.7.tgz"
-  "version" "2.3.7"
+  "integrity" "sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA=="
+  "resolved" "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.8.tgz"
+  "version" "2.3.8"
   dependencies:
     "core-util-is" "~1.0.0"
     "inherits" "~2.0.3"
@@ -7445,12 +7390,7 @@
   "resolved" "https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-8.2.5.tgz"
   "version" "8.2.5"
 
-"sudo-prompt@^9.0.0":
-  "integrity" "sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw=="
-  "resolved" "https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-9.2.1.tgz"
-  "version" "9.2.1"
-
-"sudo-prompt@9.1.1":
+"sudo-prompt@^9.0.0", "sudo-prompt@9.1.1":
   "integrity" "sha512-es33J1g2HjMpyAhz8lOR+ICmXXAqTuKbuXuUWLhOLew20oN9oUCgCJx615U/v7aioZg7IX5lIh9x34vwneu4pA=="
   "resolved" "https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-9.1.1.tgz"
   "version" "9.1.1"

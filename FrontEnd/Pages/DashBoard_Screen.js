@@ -595,9 +595,10 @@ const DashBoard_Screen = () => {
             >
               {state.tempc != null ? (
                 <Progress.Bar
-                  style={{ width: "100%", height: "100%" }}
+                  style={{ width: "100%", height: "100%"}}
                   width={null}
                   height={20}
+                  color="orange"
                   progress={state.tempc * 0.01}
                 />
               ) : (
@@ -674,6 +675,7 @@ const DashBoard_Screen = () => {
                   style={{ width: "100%", height: "100%" }}
                   width={null}
                   height={20}
+                  color="brown"
                   progress={Moisture / 100}
                 />
               ) : (
@@ -765,6 +767,7 @@ const DashBoard_Screen = () => {
                   style={{ width: "100%", height: "100%" }}
                   width={null}
                   height={20}
+                  color=""
                   progress={state.humid / 100}
                 />
               ) : (
